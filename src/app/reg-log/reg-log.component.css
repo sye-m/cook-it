@@ -1,3 +1,20 @@
+#form-container{
+    width: 40%;
+    margin: 0 auto;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    border: 2px solid #8A959E;
+    border-radius: 10px;
+    padding: 30px;
+    text-align: center;
+}
+
+#site-name{
+    font-size:40px;
+    font-family:"Roboto",sans-serif;
+}
 .input-full-width{
     width:100%;
 }
