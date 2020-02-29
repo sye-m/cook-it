@@ -1,0 +1,89 @@
+<form [formGroup]="regFormData" (ngSubmit)="onReg()" name="reg-form" class="reg-form">
+  <mat-form-field class="input-full-width">
+    <mat-label>Name</mat-label>
+    <input type="string" name="name" matInput [formControl]="name" [errorStateMatcher]="matcher"
+           placeholder="Full Name">
+    <mat-error *ngIf="name.hasError('required')">
+      Name is <strong>required</strong>
+    </mat-error>
+  </mat-form-field>
+
+  <mat-form-field class="input-full-width">
+    <mat-label>User Name</mat-label>
+    <input type="string" name="user_name" matInput [formControl]="user_name" [errorStateMatcher]="matcher"
+           placeholder="Full Name">
+    <mat-error *ngIf="user_name.hasError('required')">
+      User Name is <strong>required</strong>
+    </mat-error>
+  </mat-form-field>
+  
+  <mat-form-field class="input-full-width">
+    <mat-label>Email</mat-label>
+    <input type="email" name="email" matInput [formControl]="email" [errorStateMatcher]="matcher"
+           placeholder="Ex. pat@example.com">
+    <mat-hint>Errors appear instantly!</mat-hint>
+    <mat-error *ngIf="email.hasError('email') && !email.hasError('required')">
+      Please enter a valid email address
+    </mat-error>
+    <mat-error *ngIf="email.hasError('required')">
+      Email is <strong>required</strong>
+    </mat-error>
+  </mat-form-field>
+ 
+  <mat-form-field class="input-full-width">
+    <mat-label>Password</mat-label>
+    <input type="password" name="password" matInput [formControl]="password" [errorStateMatcher]="matcher"
+           >
+    <mat-error *ngIf="password.hasError('required')">
+      Password is <strong>required</strong>
+    </mat-error>
+    <mat-error *ngIf="password.hasError('minLength')">
+      Password is <strong>too short</strong>
+    </mat-error>
+  </mat-form-field>
+
+  <mat-form-field class="input-full-width">
+    <mat-label>Confirm Password</mat-label>
+    <input type="password" name="password2" matInput [formControl]="password2" [errorStateMatcher]="matcher"
+          >
+    <mat-error *ngIf="password2.hasError('required')">
+      Password2 is <strong>required</strong>
+    </mat-error>
+
+    <mat-error *ngIf="password2.hasError('passNotMatch')">
+      Password does <strong>not match</strong>
+    </mat-error>
+
+  </mat-form-field>
+  <input type="submit" value="Submit">
+ </form> 
+ <hr>
+ <h1>Login</h1>
+ <form [formGroup]="logFormData" (ngSubmit)="onLogin()" name="log-form" class="">
+  
+  <mat-form-field class="input-full-width">
+    <mat-label>Email</mat-label>
+    <input type="email" name="email" matInput [formControl]="email" [errorStateMatcher]="matcher"
+           placeholder="Ex. pat@example.com">
+    <mat-hint>Errors appear instantly!</mat-hint>
+    <mat-error *ngIf="email.hasError('email') && !email.hasError('required')">
+      Please enter a valid email address
+    </mat-error>
+    <mat-error *ngIf="email.hasError('required')">
+      Email is <strong>required</strong>
+    </mat-error>
+  </mat-form-field>
+
+  <mat-form-field class="input-full-width">
+    <mat-label>Password</mat-label>
+    <input type="password" name="password" matInput [formControl]="password" [errorStateMatcher]="matcher"
+           >
+    <mat-error *ngIf="password.hasError('required')">
+      Password is <strong>required</strong>
+    </mat-error>
+    <mat-error *ngIf="password.hasError('minLength')">
+      Password is <strong>too short</strong>
+    </mat-error>
+  </mat-form-field>
+  <input type="submit" value="Submit">
+ </form> 

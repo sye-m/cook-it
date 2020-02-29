@@ -1,0 +1,8 @@
+.input-full-width{
+    width:100%;
+}
+.reg-form {
+    min-width: 150px;
+    max-width: 500px;
+    width: 100%;
+  }
