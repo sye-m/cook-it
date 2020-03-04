@@ -1,0 +1,21 @@
+mat-sidenav{
+    height:100%;
+    width:15%;
+    box-shadow: none;
+    position: absolute;
+    top:10%;
+    display:flex;
+}
+mat-sidenav-container{
+    height:100%;
+    top:10%;
+    position: absolute;
+    width: 100%;
+}
+mat-toolbar{
+    position:fixed;
+    height: 10%;
+    top:0;
+    left:0;
+    right:0;
+}

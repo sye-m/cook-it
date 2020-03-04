@@ -24,7 +24,7 @@ router.post('/', function (req, res, next) {
         user_name:req.body.user_name,
         password:bcrypt.hashSync(req.body.password, 10),
         email: req.body.email,
-        userProfile:[],
+        userProfile:{},
         followers:[],
         following:[],
         follow_req:[],

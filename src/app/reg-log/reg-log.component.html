@@ -7,7 +7,7 @@
   <mat-form-field appearance="outline" class="input-full-width">
     <mat-label>Name</mat-label>
     <input type="string" name="name" matInput [formControl]="name" [errorStateMatcher]="matcher"
-           placeholder="Full Name">
+           [value]="name.value" placeholder="Full Name">
     <mat-error *ngIf="name.hasError('required')">
       Name is <strong>required</strong>
     </mat-error>
@@ -16,7 +16,7 @@
   <mat-form-field appearance="outline" class="input-full-width">
     <mat-label>User Name</mat-label>
     <input type="string" name="user_name" matInput [formControl]="user_name" [errorStateMatcher]="matcher"
-           placeholder="Full Name">
+           [value]="user_name.value" placeholder="Full Name">
     <mat-error *ngIf="user_name.hasError('required')">
       User Name is <strong>required</strong>
     </mat-error>
@@ -25,7 +25,7 @@
   <mat-form-field appearance="outline" class="input-full-width">
     <mat-label>Email</mat-label>
     <input type="email" name="email" matInput [formControl]="email" [errorStateMatcher]="matcher"
-           placeholder="Ex. pat@example.com">
+           [value]="email.value" placeholder="Ex. pat@example.com">
     <mat-hint>Errors appear instantly!</mat-hint>
     <mat-error *ngIf="email.hasError('email') && !email.hasError('required')">
       Please enter a valid email address
@@ -53,11 +53,9 @@
       Password2 is <strong>required</strong>
     </mat-error>
 
-    <mat-error *ngIf="password2.hasError('passNotMatch')">
-      Password does <strong>not match</strong>
-    </mat-error>
+    
   </mat-form-field>
-  <button type="submit" mat-raised-button class="input-full-width" color="primary" [disabled]="!regFormData.valid">Sign Up</button>
+  <button type="submit" mat-raised-button class="input-full-width" color="primary" [disabled]="!regFormData.valid || !password2.valid">Sign Up</button>
  </form> 
  <a (click)="show=!show">Or Login</a>
  </div>
@@ -68,7 +66,7 @@
   <mat-form-field appearance="outline" class="input-full-width">
     <mat-label>Email</mat-label>
     <input type="email" name="email" matInput [formControl]="logEmail" [errorStateMatcher]="matcher"
-           placeholder="Ex. pat@example.com">
+    [value]="logEmail.value" placeholder="Ex. pat@example.com">
     <mat-hint>Errors appear instantly!</mat-hint>
     <mat-error *ngIf="logEmail.hasError('email') && !logEmail.hasError('required')">
       Please enter a valid email address

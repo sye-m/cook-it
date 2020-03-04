@@ -10,13 +10,13 @@ import { Component, OnInit } from '@angular/core';
 export class HomeComponent implements OnInit {
 
   constructor(private auth:AuthService,private router:Router) { 
-    this.auth.isLoggedIn().subscribe(data=>console.log(data.auth));
   }
-
-  ngOnInit() {
+    openSidenav:boolean =false;
+ 
+   ngOnInit() {
   }
-  logout(){
-    this.auth.logout().subscribe(data=>console.log(data));
+   async logout(){
+     await this.auth.logout().toPromise().then(data=>console.log(data));
     this.router.navigate(['/user']);
   }
 

@@ -9,6 +9,8 @@ const session = require('express-session');
 const initpassport = require('./config/passport');
 var appRoutes = require('./routes/app');
 var userRoutes = require('./routes/user');
+var postRoutes = require('./routes/post');
+
 const MongoStore = require('connect-mongo')(session);
 
 var app = express();
@@ -38,11 +40,12 @@ app.use(
 require('./config/passport');
 app.use(passport.initialize());
 app.use(passport.session());
+app.use(bodyParser({limit: '50mb'}));
 // uncomment after placing your favicon in /public
 //app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: false}));
-app.use(express.static(path.join(__dirname, 'public')));
+app.use(express.static('public'));
 
 app.use(function (req, res, next) {
   res.setHeader('Access-Control-Allow-Credentials', true);
@@ -60,6 +63,8 @@ app.use(function (req, res, next) {
   
   
 app.use('/user', userRoutes);
+app.use('/post', postRoutes);
+
 app.use('/', appRoutes);
 
 // catch 404 and forward to error handler

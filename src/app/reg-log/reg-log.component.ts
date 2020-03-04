@@ -29,20 +29,21 @@ name:FormControl;
 user_name:FormControl;
 password:FormControl;
 password2:FormControl;
-
+pic:String;
 logEmail:FormControl;
 logPassword:FormControl;
 
    constructor(private router:Router, private auth:AuthService,private flash:FlashMessagesService) {
-   this.checkUser();
+  this.checkUser();
   }
+
   ngOnInit() {
-    
+    this.checkUser();
     this.email = new FormControl('',[Validators.required,Validators.email]);
     this.name = new FormControl('',[Validators.required,Validators.minLength(3)]);
     this.user_name = new FormControl('',[Validators.required,Validators.minLength(3),Validators.maxLength(25)]);
     this.password = new FormControl('',[Validators.required,Validators.minLength(3)]);
-    this.password2 = new FormControl('',[Validators.required,this.passwordCheck.bind(this)]);
+    this.password2 = new FormControl('',[Validators.required,Validators.minLength(3)]);;
     this.logEmail = new FormControl('',[Validators.required,Validators.email]);
     this.logPassword = new FormControl('',[Validators.required,Validators.minLength(3)]);
     
@@ -60,24 +61,32 @@ logPassword:FormControl;
   }
 
   passwordCheck(control:FormControl):{[s:string]:boolean}{
-if(this.password.value === control.value){
-  console.log(control.value)
+if(this.password.value == control.value){
+  console.log("Password  1"+this.password.value+"Password 2 value"+control.value);
+  console.log({'passNotMatch':false})
   return {'passNotMatch':false}
 }
 else{
+  console.log("Password  1"+this.password.value+"Password 2 value"+control.value);
+
+  console.log({'passNotMatch':true})
+
   return {'passNotMatch':true}
 }
   }
 
-  async checkUser(){
-    await this.auth.isLoggedIn().subscribe(data => this.user = data.auth);
+  
+   async checkUser(){
+  await  this.auth.isLoggedIn().toPromise().then(data => this.user = data.auth).catch(err=>{});
   if(this.user){
-   await this.router.navigate(['/home']);
+    this.router.navigate(['/home']);
   }
   else{
-  await  this.router.navigate(['/user']);
+    this.router.navigate(['/user']);
     }
   }
+
+
   onReg(){
     const user = new User(
       this.regFormData.value.name,
@@ -95,15 +104,15 @@ else{
   this.password2.reset();
   }
 
-   async onLogin(){
+    onLogin(){
     const user = new RegUser(
       this.logFormData.value.email,
       this.logFormData.value.password
     )
-    await this.auth.login(user)
+     this.auth.login(user)
       .subscribe(data => {
         console.log(data);
-
+        this.auth.auth = true;
       }, error => {
         
         var obj = JSON.parse(error._body);

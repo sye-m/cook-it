@@ -1,4 +1,29 @@
-<p>
-  home works!
-</p>
-<button (click)="logout()">Log Out</button>
+<mat-toolbar>
+  <button (click)="openSidenav = !openSidenav">Open Side Nav</button>
+&nbsp;
+ <span>Cook It</span>
+</mat-toolbar>
+<mat-sidenav-container hasBackdrop="false">
+  <mat-sidenav fixedInViewport="true" mode="push" [opened]="openSidenav">
+   
+   
+   <div>
+    <a [routerLink]="[{ outlets: {navnav: ['explore'] } }]">Explore</a>
+    <hr>
+   </div>
+
+   <div>
+    <a [routerLink]="[{ outlets:{navnav: ['profile'] } }]">Profile</a>
+    <hr>
+   </div>
+   <div>
+    <a [routerLink]="[{ outlets: {navnav: ['post'] } }]">Post</a>
+    <hr>
+   </div>
+<button  mat-raised-button color="primary"(click)="logout()">Log Out</button>
+  </mat-sidenav>
+  <mat-sidenav-content>
+    <router-outlet name="navnav"></router-outlet>
+
+  </mat-sidenav-content>
+</mat-sidenav-container>

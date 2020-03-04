@@ -4,7 +4,7 @@ var Schema = mongoose.Schema;
 var mongooseUniqueValidator = require('mongoose-unique-validator');
 var userProfileSchema = new Schema({
     bio:{type:String,default:"Edit your profile and enter your bio"},
-    profile_pic:{type:String, default:"../assets/profile_pic/default_profile_pic.jpg"},
+    profile_pic:{type:String, default:"../public/assets/profile_pic/default_profile_pic.jpg"},
     location:{type:String, default:"None"}
 })
 var user = new Schema({

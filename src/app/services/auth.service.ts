@@ -9,7 +9,8 @@ import { Observable } from "rxjs/";
 export class AuthService {
 
   constructor(private http:Http) { }
-  
+  auth:boolean=false;
+  userData;
   signup(user) {
     const body = JSON.stringify(user);
     const headers = new Headers({'Content-Type': 'application/json'});
@@ -28,7 +29,10 @@ login(user) {
 isLoggedIn(){
   const headers = new Headers({'Content-Type': 'application/json'});
   return this.http.get('http://localhost:3000/user/isLoggedIn', {withCredentials:true,headers: headers})
-      .pipe(map((response: Response) => response.json()));
+      .pipe(map((response: Response) => {
+        this.userData = response.json();
+        
+       return response.json()}));
 }
 
 logout(){
