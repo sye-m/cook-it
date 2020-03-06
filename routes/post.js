@@ -22,7 +22,7 @@ var post = new Post({
     likes_by:[{}],
     likes_count:0,
     comments:[{}],
-    image:"public/assets/post_uploads/"+by+"/"+post_image
+    image:"assets/post_uploads/"+by+"/"+post_image
 })
 fs.writeFile("public/assets/post_uploads/"+by+"/"+post_image, new Buffer(post_pic.image_data,"base64"),function(err){
     if(!err){
@@ -48,5 +48,25 @@ fs.writeFile("public/assets/post_uploads/"+by+"/"+post_image, new Buffer(post_pi
         });
     }
 })
+ })
+
+ router.get('/explore',function(req,res,next){
+     
+     Post.find({},function(err,result){
+         console.log(result);
+         if(!err){
+            return res.status(201).json({
+                message: 'Post created',
+                result:result
+            });
+         }
+         else{
+            return res.status(500).json({
+                title: 'oops',
+                error: req.body.title
+            }); 
+         }
+
+     })
  })
 module.exports = router;

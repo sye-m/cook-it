@@ -1,0 +1,14 @@
+<div>
+  User Name: {{user.user_name}}
+  <div [routerLink]="['/home',{ outlets:{navnav: ['user-view'] } }]">
+  User Id: {{user.user_id}}
+
+  </div>
+  User Pic:<img src = "http://localhost:3000/{{user.profile_pic}}" width="200px" height="100px">
+  <div *ngIf="following">
+<button> Unfollow</button> 
+</div>
+<div *ngIf="!following">
+  <button>Follow</button> 
+  </div>
+</div>

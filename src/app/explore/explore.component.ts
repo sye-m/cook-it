@@ -1,3 +1,4 @@
+import { PostService } from './../services/post.service';
 import { Component, OnInit } from '@angular/core';
 
 @Component({
@@ -7,9 +8,10 @@ import { Component, OnInit } from '@angular/core';
 })
 export class ExploreComponent implements OnInit {
 
-  constructor() { }
-
+  constructor(private post:PostService) { }
+posts:Array<Object>;
   ngOnInit() {
+    this.post.explore().subscribe(data=>{console.log(data.result);this.posts = data.result});
   }
 
 }

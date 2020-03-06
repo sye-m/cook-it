@@ -2,11 +2,19 @@
   <button (click)="openSidenav = !openSidenav">Open Side Nav</button>
 &nbsp;
  <span>Cook It</span>
+ <form (ngSubmit)="search()" method="POST">
+<input type="text" [formControl]="searchTerm" name="searchTerm">
+<button type="submit" >Search</button>
+</form>
 </mat-toolbar>
 <mat-sidenav-container hasBackdrop="false">
-  <mat-sidenav fixedInViewport="true" mode="push" [opened]="openSidenav">
+  <mat-sidenav fixedInViewport="true" mode="push" opened="true">
    
-   
+<div> 
+  <a href="/home">Home</a>
+</div> 
+
+<hr>
    <div>
     <a [routerLink]="[{ outlets: {navnav: ['explore'] } }]">Explore</a>
     <hr>

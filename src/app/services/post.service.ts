@@ -15,4 +15,9 @@ export class PostService {
     return this.http.post('http://localhost:3000/post', body, {headers: headers})
         .pipe(map((response: Response) => response.json()));
   }
+  explore(){
+    const headers = new Headers({'Content-Type': 'application/json'});
+    return this.http.get('http://localhost:3000/post/explore', {headers: headers})
+        .pipe(map((response: Response) => response.json()));
+  }
 }

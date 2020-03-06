@@ -1,4 +1,5 @@
 var express = require('express');
+var uniqid = require('uniqid');
 var router = express.Router();
 var bcrypt = require('bcryptjs');
 var passport = require('passport');
@@ -7,6 +8,7 @@ var User = require('../models/User');
 router.post('/', function (req, res, next) {
     const { name,user_name, email, password } = req.body;
     let errors = [];
+    var user_id = uniqid(user_name);
   
     if (!name || !user_name || !email || !password  ) {
       errors.push({ msg: 'Please enter all fields' });
@@ -19,8 +21,10 @@ router.post('/', function (req, res, next) {
       errors.push({ msg: 'Password must be at least 6 characters' });
     }
     console.log(req.body.name);
+    
     var user = new User({
         name:req.body.name,
+        user_id:user_id,
         user_name:req.body.user_name,
         password:bcrypt.hashSync(req.body.password, 10),
         email: req.body.email,
@@ -68,9 +72,31 @@ router.post('/login', (req, res, next) => {
     if(req.isAuthenticated())
     return res.status(200).json({auth:true,user:req.user});
     else return res.status(401).json({message:'Bad Request'});
-     
-
   } )
+  router.post('/getUsers',function(req,res,next){
+  var user_id, profile_pic,user_name;
+  var followers = [],following=[];
+  var users = [];
+    const searchTerm = req.body.searchTerm.replace(/[-[\]{}()*+?.,\\^$|#\s'"]/g, "\\$&");
+    console.log(searchTerm)
+User.find({user_name:{$regex:searchTerm}},function(err,result){
+  if(!err){
+
+    result.forEach(element =>{
+      user_id = element.user_id;
+      user_name=element.user_name;
+      profile_pic = element.userProfile[0].profile_pic;
+      followers = element.followers;
+      following = element.following
+      users.push({user_id:user_id,user_name:user_name,profile_pic:profile_pic,followers:followers,following:following});
+    } )
+    return res.status(200).json({result:users});
+  }
+  else{
+    return  res.status(401).json({result:result});
+  }
+})
+  })
 
   router.get('/logout',isValidUser, function(req,res,next){
     req.logout();

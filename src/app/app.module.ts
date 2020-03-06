@@ -1,3 +1,6 @@
+import { UserService } from './services/user.service';
+import { PostService } from './services/post.service';
+import { AuthService } from './services/auth.service';
 import { LoggedInGuard } from './services/logged-in-guard.guard';
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
@@ -17,6 +20,11 @@ import { FlashMessagesModule } from 'angular2-flash-messages';
 import { ProfileComponent } from './profile/profile.component';
 import { ExploreComponent } from './explore/explore.component';
 import { PostComponent } from './post/post.component';
+import { InfiniteScrollComponent } from './infinite-scroll/infinite-scroll.component';
+import { SinglePostComponent } from './single-post/single-post.component';
+import { SearchComponent } from './search/search.component';
+import { UserSearchComponent } from './user-search/user-search.component';
+import { UserViewComponent } from './user-view/user-view.component';
 const routes: Routes = [
   {
     path:'',
@@ -49,10 +57,21 @@ const routes: Routes = [
         component:PostComponent,
         outlet:'navnav',
 
+      },
+      {
+        path:'search/:searchTerm',
+        component:SearchComponent,
+        outlet:'navnav'
+      },
+      {
+        path:'user-view',
+        component:UserViewComponent,
+        outlet:'navnav'
       }
       
-    ]
-  }
+    ]}
+    
+  
   
    ];
   
@@ -64,7 +83,12 @@ const routes: Routes = [
     HomeComponent,
     ProfileComponent,
     ExploreComponent,
-    PostComponent
+    PostComponent,
+    InfiniteScrollComponent,
+    SinglePostComponent,
+    SearchComponent,
+    UserSearchComponent,
+    UserViewComponent
   ],
   imports: [
     MatButtonModule,
@@ -80,7 +104,7 @@ const routes: Routes = [
     FlashMessagesModule.forRoot()
   ],
   exports: [RouterModule],
-  providers: [],
+  providers: [AuthService,PostService,UserService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
