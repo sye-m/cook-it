@@ -113,12 +113,13 @@ else{
       .subscribe(data => {
         console.log(data);
         this.auth.auth = true;
+      this.router.navigate(['/home']);
+
       }, error => {
         
         var obj = JSON.parse(error._body);
         this.flash.show(obj.info.message,{cssClass:"alert alert-danger",timeout:2000})
       });
-      this.router.navigate(['/home']);
 
     
 

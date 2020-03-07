@@ -5,10 +5,6 @@
 
   </div>
   User Pic:<img src = "http://localhost:3000/{{user.profile_pic}}" width="200px" height="100px">
-  <div *ngIf="following">
-<button> Unfollow</button> 
-</div>
-<div *ngIf="!following">
-  <button>Follow</button> 
+  
+  <button (click)="followOrUnfollow()">{{buttonValue}}</button> 
   </div>
-</div>

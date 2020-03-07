@@ -9,11 +9,19 @@ import { FormGroup, FormControl } from '@angular/forms';
   styleUrls: ['./home.component.css']
 })
 export class HomeComponent implements OnInit {
-
-  constructor(private auth:AuthService,private router:Router,private route:ActivatedRoute) { 
-  }
   openSidenav:boolean =false;
   searchTerm:FormControl;
+  userData;
+  notifications=0;
+  constructor(private auth:AuthService,private router:Router,private route:ActivatedRoute) { 
+  this.userData = this.auth.userData;
+  this.userData.user.notifications.forEach(elem=>{
+    if(elem.read == false){
+this.notifications= this.notifications+1;
+    }
+  })
+  }
+  
    ngOnInit() {
      this.searchTerm = new FormControl('');     
   }

@@ -31,7 +31,6 @@ router.post('/', function (req, res, next) {
         userProfile:{},
         followers:[],
         following:[],
-        follow_req:[],
         messages: []
     });
 
@@ -98,11 +97,42 @@ User.find({user_name:{$regex:searchTerm}},function(err,result){
 })
   })
 
+  router.post('/followUser',function(req,res,next){
+    console.log(req.body.followUser);
+    console.log(req.body.user);
+
+    User.find({user_id:req.body.user.user.user_id},function(err,user){
+      User.find({user_id:req.body.followUser.user_id}, function(err, possibleFriend){
+        console.log('Possible Friend'+possibleFriend);
+        console.log('User is'+user)
+        possibleFriend[0].update({$push:{'followers':{'user_id':user[0].user_id,'user_name':user[0].user_name,'profile_pic':user[0].userProfile[0].profile_pic},'notifications':{'user_id':user[0].user_id,'user_name':user[0].user_name,'profile_pic':user[0].userProfile[0].profile_pic,'message':user[0].user_name+" just followed you",'read':false}}},function(err){})
+        user[0].update({$push:{'following':{'user_id':possibleFriend[0].user_id,'user_name':possibleFriend[0].user_name,'profile_pic':possibleFriend[0].userProfile[0].profile_pic}}},function(err){}) 
+      
+      })
+    })
+  })
+
+  
+  router.post('/unfollowUser',function(req,res,next){
+  
+    
+    User.find({user_id:req.body.user.user.user_id},function(err,user){
+      User.find({user_id:req.body.unfollowUser.user_id}, function(err, possibleFriend){
+        console.log('Possible Friend'+possibleFriend);
+        console.log('User is'+user)
+        possibleFriend[0].update({$pull:{'followers':{'user_id':user[0].user_id,'user_name':user[0].user_name,'profile_pic':user[0].userProfile[0].profile_pic}}},function(err){})
+        user[0].update({$pull:{'following':{'user_id':possibleFriend[0].user_id,'user_name':possibleFriend[0].user_name,'profile_pic':possibleFriend[0].userProfile[0].profile_pic}}},function(err){}) 
+      
+      })
+    })
+  
+  })
+
   router.get('/logout',isValidUser, function(req,res,next){
     req.logout();
     return res.status(200).json({message:'Logout Success'});
   })
-  
+
 
   function isValidUser(req,res,next){
       console.log(req.isAuthenticated());

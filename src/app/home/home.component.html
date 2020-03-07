@@ -19,7 +19,11 @@
     <a [routerLink]="[{ outlets: {navnav: ['explore'] } }]">Explore</a>
     <hr>
    </div>
-
+   <div>
+     <span>{{notifications}}</span>
+    <a [routerLink]="[{ outlets: {navnav: ['notifications']}}]">Notification</a>
+    <hr>
+   </div>
    <div>
     <a [routerLink]="[{ outlets:{navnav: ['profile'] } }]">Profile</a>
     <hr>

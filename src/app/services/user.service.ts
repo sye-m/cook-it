@@ -16,5 +16,20 @@ export class UserService {
         .pipe(map((response: Response) => response.json()));
         
   }
+
+  follow(user,userData){
+    const body = JSON.stringify({followUser:user,user:userData});
+    console.log(user,userData)
+    const headers = new Headers({'Content-Type': 'application/json'});
+    return this.http.post('http://localhost:3000/user/followUser', body, {withCredentials:true,headers: headers})
+    .pipe(map((response: Response) => response.json()));
+  }
   
+  unfollow(user,userData){
+    const body = JSON.stringify({unfollowUser:user,user:userData});
+    console.log(user,userData)
+    const headers = new Headers({'Content-Type': 'application/json'});
+    return this.http.post('http://localhost:3000/user/unfollowUser', body, {withCredentials:true,headers: headers})
+    .pipe(map((response: Response) => response.json()));
+  }
 }

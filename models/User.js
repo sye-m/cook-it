@@ -17,8 +17,8 @@ var user = new Schema({
     userProfile:[userProfileSchema],
     followers:[{"user_id":String,"user_name":String,"profile_pic":String}],
     following:[{"user_id":String,"user_name":String,"profile_pic":String}],
-    follow_req:[{"user_id":String,"user_name":String,"profile_pic":String}],
-    messages: [{type: Schema.Types.ObjectId, ref: 'Message'}]
+    messages: [{type: Schema.Types.ObjectId, ref: 'Message'}],
+    notifications:[{"user_id":String,"user_name":String,"profile_pic":String,message:String,read:Boolean}]
 });
 
 

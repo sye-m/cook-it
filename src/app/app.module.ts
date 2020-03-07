@@ -25,6 +25,7 @@ import { SinglePostComponent } from './single-post/single-post.component';
 import { SearchComponent } from './search/search.component';
 import { UserSearchComponent } from './user-search/user-search.component';
 import { UserViewComponent } from './user-view/user-view.component';
+import { NotificationsComponent } from './notifications/notifications.component';
 const routes: Routes = [
   {
     path:'',
@@ -67,6 +68,11 @@ const routes: Routes = [
         path:'user-view',
         component:UserViewComponent,
         outlet:'navnav'
+      },
+      {
+        path:'notifications',
+        component:NotificationsComponent,
+        outlet:'navnav'
       }
       
     ]}
@@ -88,7 +94,8 @@ const routes: Routes = [
     SinglePostComponent,
     SearchComponent,
     UserSearchComponent,
-    UserViewComponent
+    UserViewComponent,
+    NotificationsComponent
   ],
   imports: [
     MatButtonModule,

@@ -1,3 +1,4 @@
+import { AuthService } from './../services/auth.service';
 import { Component, OnInit, Input } from '@angular/core';
 
 @Component({
@@ -6,10 +7,20 @@ import { Component, OnInit, Input } from '@angular/core';
   styleUrls: ['./single-post.component.css']
 })
 export class SinglePostComponent implements OnInit {
-@Input('post')post:Object;
-  constructor() { }
+@Input('post')post;
+buttonValue:String = "Like";
+userData;
+  constructor(private auth:AuthService) { 
+    this.userData = this.auth.userData.user;
+  }
 
   ngOnInit() {
+   this.post.likes_by.forEach(elem=>{
+     if(elem.user_id == this.userData.user_id){
+       this.buttonValue = "Unlike";
+     }
+   })
+
   }
 
 }

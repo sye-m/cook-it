@@ -7,9 +7,8 @@ var post = new Schema({
     by:{type:String},
     content:{"story":String,"recipe":String,"ingredients":String},
     date:{type:String,required:true},
-    likes_by:[{"by":String}],
-    likes_count:{type:Number},
-    comments:[{"by":String,"comment":String}],
+    likes_by:[{"user_id":String,"user_name":String,"profile_pic":String}],
+    comments:[{"by":String,"comment":String,"commented_on":{type:String,default:Date.now()}}],
     image:{type:String}
 });
 

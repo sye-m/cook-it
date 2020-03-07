@@ -19,9 +19,9 @@ var post = new Post({
     by:by,
     content:{"story":story,"recipe":recipe,"ingredients":ingredients},
     date:Date.now(),
-    likes_by:[{}],
+    likes_by:[],
     likes_count:0,
-    comments:[{}],
+    comments:[],
     image:"assets/post_uploads/"+by+"/"+post_image
 })
 fs.writeFile("public/assets/post_uploads/"+by+"/"+post_image, new Buffer(post_pic.image_data,"base64"),function(err){
@@ -69,4 +69,5 @@ fs.writeFile("public/assets/post_uploads/"+by+"/"+post_image, new Buffer(post_pi
 
      })
  })
+
 module.exports = router;
