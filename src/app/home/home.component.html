@@ -1,17 +1,25 @@
-<mat-toolbar>
-  <button (click)="openSidenav = !openSidenav">Open Side Nav</button>
-&nbsp;
- <span>Cook It</span>
+<div class="container">
+<div class="top-bar">
+  
+ <div class="site-name">Cook It</div>
+ <div class="search-bar">
  <form (ngSubmit)="search()" method="POST">
-<input type="text" [formControl]="searchTerm" name="searchTerm">
-<button type="submit" >Search</button>
+<input type="text" [formControl]="searchTerm" name="searchTerm" placeholder="Search Posts or Users">
+<button mat-stroked-button type="submit" >
+  <mat-icon aria-hidden="false">search</mat-icon>
+</button>
 </form>
-</mat-toolbar>
-<mat-sidenav-container hasBackdrop="false">
-  <mat-sidenav fixedInViewport="true" mode="push" opened="true">
-   
+</div>
+</div>
+<div class="content-container">
+
+<div class="side-nav">
+   <div class="navLinks">
+     <img src="../../assets/logo/onlyLogo.png" alt="logo">
+   </div>
+   <hr>
 <div> 
-  <a href="/home">Home</a>
+  <a [routerLink]="['/home',{ outlets: {navnav: ['homeFeed'] } }]">Home</a>
 </div> 
 
 <hr>
@@ -20,8 +28,7 @@
     <hr>
    </div>
    <div>
-     <span>{{notifications}}</span>
-    <a [routerLink]="[{ outlets: {navnav: ['notifications']}}]">Notification</a>
+    <a matBadge={{notifications}} matBadgeOverlap="false" matBadgeColor="warn" [routerLink]="[{ outlets: {navnav: ['notifications']}}]">Notification</a>
     <hr>
    </div>
    <div>
@@ -33,9 +40,12 @@
     <hr>
    </div>
 <button  mat-raised-button color="primary"(click)="logout()">Log Out</button>
-  </mat-sidenav>
-  <mat-sidenav-content>
-    <router-outlet name="navnav"></router-outlet>
+  </div>
 
-  </mat-sidenav-content>
-</mat-sidenav-container>
+<div class="main-content">
+    <div>
+    <router-outlet name="navnav"></router-outlet>
+</div>
+</div>
+</div>
+</div>

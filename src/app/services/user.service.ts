@@ -32,4 +32,11 @@ export class UserService {
     return this.http.post('http://localhost:3000/user/unfollowUser', body, {withCredentials:true,headers: headers})
     .pipe(map((response: Response) => response.json()));
   }
+
+  readAll(userData){
+    const body = JSON.stringify({user:userData});
+    const headers = new Headers({'Content-Type': 'application/json'});
+    return this.http.post('http://localhost:3000/user/readAll', body,{withCredentials:true,headers: headers})
+    .pipe(map((response: Response) => response.json()));
+  }
 }

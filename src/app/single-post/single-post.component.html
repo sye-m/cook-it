@@ -1,15 +1,21 @@
-<div>
-  Story is:
-  {{post.content.story}}
-  <br>
-
-  Recipe is:
-  {{post.content.recipe}}
-  <br>
-
-  Ingredients is:
-  {{post.content.ingredients}}
-  <br>
+<div class="post-card" [routerLink]="['/home',{ outlets: {navnav: ['p',post.post_id] } }]">
+<mat-card>
+  <mat-card-header>
+  
+    <mat-card-title>
+      
+        <img mat-card-avatar src="http://localhost:3000/{{post.by.profile_pic}}">
+      
+      {{post.by.user_name}}</mat-card-title>
+  </mat-card-header>
+  <img class="post-image" mat-card-image src="http://localhost:3000/{{post.image}}" alt="Photo of a Shiba Inu">
+  <mat-card-content>
+    {{post.content.ingredients[0]}},{{post.content.ingredients[1]}},{{post.content.ingredients[2]}}
+    
+  </mat-card-content>
+ <div>
+   Total Likes:
+   {{post.likes_by.length}}
+ </div>
+</mat-card>
 </div>
-<img src="http://localhost:3000/{{post.image}}" alt="" width="400px" height="400px">
-<button (click)="likeUnlike">{{buttonValue}}</button>

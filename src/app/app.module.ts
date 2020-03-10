@@ -6,9 +6,10 @@ import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import {MatInputModule} from '@angular/material/input';
 import {MatButtonModule} from '@angular/material/button';
+import {MatBadgeModule} from '@angular/material/badge';
+import {MatIconModule} from '@angular/material/icon';
 import {MatSidenavModule} from '@angular/material/sidenav';
 import {MatToolbarModule} from '@angular/material/toolbar';
-
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { Routes, RouterModule } from '@angular/router';
 import { AppComponent } from './app.component';
@@ -23,9 +24,12 @@ import { PostComponent } from './post/post.component';
 import { InfiniteScrollComponent } from './infinite-scroll/infinite-scroll.component';
 import { SinglePostComponent } from './single-post/single-post.component';
 import { SearchComponent } from './search/search.component';
+import {MatCardModule} from '@angular/material/card';
 import { UserSearchComponent } from './user-search/user-search.component';
 import { UserViewComponent } from './user-view/user-view.component';
 import { NotificationsComponent } from './notifications/notifications.component';
+import { HomeFeedPostsComponent } from './home-feed-posts/home-feed-posts.component';
+import { PostViewComponent } from './post-view/post-view.component';
 const routes: Routes = [
   {
     path:'',
@@ -73,7 +77,18 @@ const routes: Routes = [
         path:'notifications',
         component:NotificationsComponent,
         outlet:'navnav'
+      },
+      {
+        path:'homeFeed',
+        component:HomeFeedPostsComponent,
+        outlet:'navnav'
+      },
+      {
+        path:'p/:post_id',
+        component:PostViewComponent,
+        outlet:'navnav'
       }
+      
       
     ]}
     
@@ -95,10 +110,15 @@ const routes: Routes = [
     SearchComponent,
     UserSearchComponent,
     UserViewComponent,
-    NotificationsComponent
+    NotificationsComponent,
+    HomeFeedPostsComponent,
+    PostViewComponent
   ],
   imports: [
     MatButtonModule,
+    MatBadgeModule,
+    MatCardModule,
+    MatIconModule,
     MatInputModule,
     MatSidenavModule,
     MatToolbarModule,

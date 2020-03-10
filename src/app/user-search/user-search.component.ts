@@ -27,6 +27,7 @@ buttonValue:String = "Follow";
      
      this.userData.user.followers.forEach(elem => {
       if(elem.user_id == this.user.user_id){
+        if(this.buttonValue !="Following")
         this.buttonValue="Follow Back"
       }
      })

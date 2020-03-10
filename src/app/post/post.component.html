@@ -1,18 +1,49 @@
-<form enctype="multipart/form-data"[formGroup]="postFormData" (ngSubmit)="onPost()">
-  Image
-  <input id="post_pic" type="file" (change)="getImage()">
-  <br>
-  Title:
-  <input type="text" name="title" [formControl]="title">
-  <br>
-  Story:
-  <textarea name="story" id="" cols="30" rows="10" [formControl]="story">
-  </textarea>
-  <br>
-  Recipe:
-  <textarea name="recipe" id="" cols="30" rows="10" [formControl]="recipe"></textarea>
-  <br>
-  Ingredients
-  <textarea name="ingredients" id="" cols="30" rows="10" [formControl]="ingredients"></textarea><br>
-  <button type="submit">Post</button>
-</form>
+<div class="post-container">
+  <div id="post-title">Post</div>
+  <hr>
+  <form enctype="multipart/form-data"[formGroup]="postFormData" (ngSubmit)="onPost()">
+    <input id="post_pic" #post_pic type="file" (change)="getImage()" style="display: none;">  
+    <div class="post-pic">
+    <img src="{{upload_pic}}" class="post-pic" alt="" width="200px" height="200px">
+    </div>
+    <label for="post_pic" id="upload-button">
+      <button type="button" (click)="post_pic.click()" mat-raised-button color="primary">
+      <mat-icon>image</mat-icon>
+      </button>
+    </label>
+    <br>
+
+    <mat-form-field appearance="outline">
+      <mat-label>Title</mat-label>
+      <input type="text" class="input-field" matInput name="title" [formControl]="title">
+    </mat-form-field>
+    <br>
+
+    <mat-form-field appearance="outline">
+      <mat-label>Story</mat-label>
+      <textarea  name="story" class="input-field" matInput [formControl]="story"></textarea>
+    </mat-form-field>
+    <br>
+    
+    <span>Recipe</span>
+    <div *ngFor="let rs of recipeSteps; let indexValue=index;">
+      <mat-form-field appearance="outline">
+        <mat-label>Step {{indexValue+1}}</mat-label>
+        <input matInput type="text" class="input-field" name="recipe"  #recipeStep{{indexValue}} id="recipeStep#{{indexValue}}">
+      </mat-form-field>
+    </div>
+    <button type="button" mat-raised-button (click)="addRecipeSteps()">Add Step</button>
+<br><br>
+    <span>Ingredients</span>
+    <div *ngFor="let nOI of noOfIngredients; let indexValue=index;">
+      <mat-form-field appearance="outline">
+      <mat-label>Ingredient No {{indexValue+1}}</mat-label>
+      <input class="input-field" matInput type="text" #ingredient{{indexValue}} id="ingredient#{{indexValue}}">
+      </mat-form-field>
+    </div>
+    <button type="button" mat-raised-button  (click)="addIngredient()">Add Ingredient</button>
+    <br>
+    <br>
+    <button mat-raised-button color="primary" type="submit">Post</button>
+  </form>
+</div>

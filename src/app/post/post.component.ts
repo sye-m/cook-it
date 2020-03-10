@@ -13,23 +13,21 @@ export class PostComponent implements OnInit {
 postFormData:FormGroup;
 title:FormControl;
 story:FormControl;
-recipe:FormControl;
-ingredients:FormControl;
-post_pic:Object;
+recipe:Array<String>=[];
+ingredients:Array<String>=[];
+post_pic;
+upload_pic;
+recipeSteps:Array<Number>=[0];
 reader = new FileReader();
-imgPath:String="fsdfsd";
+noOfIngredients:Array<Number>=[0];
   constructor(private post:PostService, private auth:AuthService ) { }
 
   ngOnInit() {
     this.title = new FormControl();
     this.story = new FormControl();
-    this.recipe = new FormControl();
-    this.ingredients = new FormControl();
     this.postFormData = new FormGroup({
       title:this.title,
       story:this.story,
-      recipe:this.recipe,
-      ingredients:this.ingredients,
     })
   }
   getImageData(e,image){
@@ -41,27 +39,46 @@ imgPath:String="fsdfsd";
    getImage(){
      //@ts-ignore
  var image = document.getElementById('post_pic').files[0];
-
     this.reader.readAsDataURL(image);
-    this.reader.addEventListener('load',(event) => this.getImageData(event, image));
-     
+    this.reader.addEventListener('load',(event) =>{ this.upload_pic = this.reader.result;this.getImageData(event, image)});
+    console.log(this.upload_pic)
   }
 
+  addIngredient(){
+    this.noOfIngredients.push(this.noOfIngredients.length);
+  }
+
+  addRecipeSteps(){
+    this.recipeSteps.push(this.recipeSteps.length);
+    
+  }
   
   async onPost(event){
+    for(var i =0;i<this.noOfIngredients.length;i++){
+      var ingredientInput = (<HTMLInputElement>document.getElementById("ingredient#"+i));
+      if(ingredientInput){
+       var ingredient = ingredientInput.value;
+      }
+      this.ingredients.push(ingredient);
+    }
+    for(var i =0;i<this.recipeSteps.length;i++){
+      var recipeStep = (<HTMLInputElement>document.getElementById("recipeStep#"+i));
+      if(recipeStep){
+       var recipeS = recipeStep.value;
+      }
+      this.recipe.push(recipeS);
+    }
     console.log();
     const post = new Post(
       this.post_pic,
       this.postFormData.value.title,
       this.postFormData.value.story,
-      this.postFormData.value.recipe,
-      this.postFormData.value.ingredients,
+      this.recipe,
+      this.ingredients,
       this.auth.userData.user.user_id
     )
- await   this.post.post(post).toPromise().then(data =>{ 
-      console.log(data);
-      this.imgPath = data.path});
-console.log(post);
+ await   this.post.post(post,this.auth.userData.user).subscribe(data=> console.log(data));
+    
   }
   getPostImage(data){
     return 'data:image/jpeg;base64,' + data;

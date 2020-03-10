@@ -1,3 +1,4 @@
+import { UserService } from './../services/user.service';
 import { ActivatedRoute } from '@angular/router';
 import { Component, OnInit } from '@angular/core';
 import { AuthService } from '../services/auth.service';
@@ -9,13 +10,12 @@ import { AuthService } from '../services/auth.service';
 })
 export class NotificationsComponent implements OnInit {
   users:Array<Object>;
-  constructor(private auth:AuthService) {
+  constructor(private auth:AuthService,private user:UserService) {
   this.users = this.auth.userData.user.notifications;
-  console.log(this.users)
    }
 
   ngOnInit() {
-    
+    this.user.readAll(this.auth.userData.user).subscribe(data=>console.log(data));
   }
 
 }

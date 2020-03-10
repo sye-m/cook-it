@@ -1,0 +1,23 @@
+<app-infinite-scroll *ngFor="let post of posts">
+  <div class="post-card">
+    <mat-card>
+      <mat-card-header>
+      
+        <mat-card-title>
+          
+            <img mat-card-avatar src="http://localhost:3000/{{post.by.profile_pic}}">
+          
+          {{post.by.user_name}}</mat-card-title>
+      </mat-card-header>
+      <img class="post-image" mat-card-image src="http://localhost:3000/{{post.image}}" alt="Photo of a Shiba Inu">
+      <mat-card-content>
+        
+        {{post.content.ingredients[0]}},{{post.content.ingredients[1]}},{{post.content.ingredients[2]}}
+      </mat-card-content>
+     <div>
+       Total Likes:
+       {{post.likes_by.length}}
+     </div>
+    </mat-card>
+    </div>
+</app-infinite-scroll>

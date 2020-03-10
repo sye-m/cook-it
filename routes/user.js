@@ -6,52 +6,66 @@ var passport = require('passport');
 var User = require('../models/User');
 
 router.post('/', function (req, res, next) {
-    const { name,user_name, email, password } = req.body;
-    let errors = [];
-    var user_id = uniqid(user_name);
-  
-    if (!name || !user_name || !email || !password  ) {
-      errors.push({ msg: 'Please enter all fields' });
+    User.findOne({'email':req.body.email},function(err,userExists){
       
-    }
-  
-    
-  
-    if (password.length < 6) {
-      errors.push({ msg: 'Password must be at least 6 characters' });
-    }
-    console.log(req.body.name);
-    
-    var user = new User({
-        name:req.body.name,
-        user_id:user_id,
-        user_name:req.body.user_name,
-        password:bcrypt.hashSync(req.body.password, 10),
-        email: req.body.email,
-        userProfile:{},
-        followers:[],
-        following:[],
-        messages: []
-    });
+      if(userExists){
+        return res.status(500).json({
+          message: 'user already exists',
+         user :req.body 
+      });
+      }
 
-    user.save(function(err, result) {
-        if (err) {
-            return res.status(500).json({
-                title: 'oops',
-                error: req.body
-            });
+      else {
+        const { name,user_name, email, password } = req.body;
+        let errors = [];
+        var user_id = uniqid(user_name);
+      
+        if (!name || !user_name || !email || !password  ) {
+          errors.push({ msg: 'Please enter all fields' });
+          
         }
-        res.status(201).json({
-            message: 'User created',
-            obj: result
-        });
-    });
-
-if(errors.length > 0){
-    res.status(400).json({
-        errors:errors
+        if (password.length < 6) {
+          errors.push({ message: 'Password must be at least 6 characters' });
+        }
+        console.log(req.body.name);
+        
+        
+    
+    if(errors.length > 0){
+        res.status(400).json({
+            errors:errors
+        })
+    }
+        var user = new User({
+          name:req.body.name,
+          user_id:user_id,
+          user_name:req.body.user_name,
+          password:bcrypt.hashSync(req.body.password, 10),
+          email: req.body.email,
+          userProfile:{},
+          followers:[],
+          following:[],
+          messages: [],
+          saved:[]
+      });
+  
+        
+    user.save(function(err, result) {
+      if (err) {
+          return res.status(500).json({
+              title: 'oops',
+              error: req.body
+          });
+      }
+      res.status(201).json({
+          message: 'User created',
+          obj: result
+      });
+  });
+      }
     })
-}
+  
+    
 });
 
 router.post('/login', (req, res, next) => {
@@ -112,6 +126,7 @@ User.find({user_name:{$regex:searchTerm}},function(err,result){
     })
   })
 
+
   
   router.post('/unfollowUser',function(req,res,next){
   
@@ -128,6 +143,20 @@ User.find({user_name:{$regex:searchTerm}},function(err,result){
   
   })
 
+  router.post('/readAll',function(req,res,next){
+    User.find({user_id:req.body.user.user_id},function(err, user){
+      user[0].update({'notifications.$[].read':true},function(err){
+        if(err){
+          return res.status(500).json({message:err});
+            }
+            else {
+          return res.status(200).json({message:'Read all'});
+      
+            }
+      });
+     
+    })
+  })
   router.get('/logout',isValidUser, function(req,res,next){
     req.logout();
     return res.status(200).json({message:'Logout Success'});
