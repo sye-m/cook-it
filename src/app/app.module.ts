@@ -4,6 +4,7 @@ import { AuthService } from './services/auth.service';
 import { LoggedInGuard } from './services/logged-in-guard.guard';
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
+import {MatExpansionModule} from '@angular/material/expansion';
 import {MatInputModule} from '@angular/material/input';
 import {MatButtonModule} from '@angular/material/button';
 import {MatBadgeModule} from '@angular/material/badge';
@@ -30,6 +31,7 @@ import { UserViewComponent } from './user-view/user-view.component';
 import { NotificationsComponent } from './notifications/notifications.component';
 import { HomeFeedPostsComponent } from './home-feed-posts/home-feed-posts.component';
 import { PostViewComponent } from './post-view/post-view.component';
+import { HomeFeedPostsViewComponent } from './home-feed-posts-view/home-feed-posts-view.component';
 const routes: Routes = [
   {
     path:'',
@@ -112,12 +114,14 @@ const routes: Routes = [
     UserViewComponent,
     NotificationsComponent,
     HomeFeedPostsComponent,
-    PostViewComponent
+    PostViewComponent,
+    HomeFeedPostsViewComponent
   ],
   imports: [
     MatButtonModule,
     MatBadgeModule,
     MatCardModule,
+    MatExpansionModule,
     MatIconModule,
     MatInputModule,
     MatSidenavModule,

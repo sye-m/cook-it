@@ -6,5 +6,5 @@
   </div>
   User Pic:<img src = "http://localhost:3000/{{user.profile_pic}}" width="200px" height="100px">
   
-  <button (click)="followOrUnfollow()">{{buttonValue}}</button> 
+  <button (click)="followOrUnfollow()" *ngIf="userData.user.user_id!=user.user_id">{{buttonValue}}</button> 
   </div>

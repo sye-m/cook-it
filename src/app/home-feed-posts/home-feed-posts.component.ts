@@ -1,6 +1,8 @@
 import { AuthService } from './../services/auth.service';
 import { PostService } from './../services/post.service';
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, OnChanges, ChangeDetectorRef } from '@angular/core';
+import { BehaviorSubject } from 'rxjs';
+import { NavigationEnd, Router } from '@angular/router';
 
 @Component({
   selector: 'app-home-feed-posts',
@@ -8,15 +10,17 @@ import { Component, OnInit, Input } from '@angular/core';
   styleUrls: ['./home-feed-posts.component.css']
 })
 export class HomeFeedPostsComponent implements OnInit {
-  posts:Array<Object>;
-  
-  constructor(private post:PostService,private auth:AuthService) {
+posts; 
+postSub;
+  constructor(private post:PostService,private auth:AuthService,private ref:ChangeDetectorRef,private router:Router) {
     
    }
 
-  ngOnInit() {
-    this.post.homeFeed(this.auth.userData.user).subscribe(data=>{console.log(data);this.posts = data.result});
-
+   ngOnInit() {
+  this.post.homeFeed(this.auth.userData.user).toPromise().then(data=>{console.log(data);this.posts = data.result;});
   }
+  
+  
+
 
 }

@@ -1,6 +1,90 @@
-<div class="post-container">   
+<div class="post-container" *ngIf="post">   
 <div class="post-by">
 <span><img src="http://localhost:3000/{{post.by.profile_pic}}" alt=""></span>
-{{post.by.user_name}}
+<span id="user-name">{{post.by.user_name}}</span>
+<button (click)="followOrUnfollow(post.by)" mat-raised-button color="{{colorValue}}" *ngIf="userData.user_id!=post.by.user_id">{{followValue}}</button> 
+
 </div>
+<hr>
+<div class="post-image">
+    <img src="http://localhost:3000/{{post.image}}" alt="">
 </div>
+<div class="flex-container">
+<button type="button" mat-icon-button color="accent"(click)="likeOrUnlike()" *ngIf="buttonValue=='Unlike'">
+    <mat-icon class="action-button" >favorite</mat-icon>
+</button>
+<button type="button" mat-icon-button color="accent" (click)="likeOrUnlike()" *ngIf="buttonValue=='Like'">
+    <mat-icon class="action-button" >favorite_border</mat-icon>
+</button>
+
+<button type="button" mat-icon-button (click)="saveOrUnSave()" *ngIf="saveValue=='UnSave'">
+    <mat-icon class="action-button" >bookmark</mat-icon>
+</button>
+<button type="button" mat-icon-button (click)="saveOrUnSave()" *ngIf="saveValue=='Save'">
+    <mat-icon class="action-button" >bookmark_border</mat-icon>
+</button>
+<span class="post-date">
+    {{post.date|date:'MMMM d,y'}}
+</span>
+</div>
+<hr>
+
+<div id="post-title">
+{{post.title}}
+</div>
+<hr>
+
+
+<mat-accordion multi="true">
+    <mat-expansion-panel>
+        <mat-expansion-panel-header>
+            <mat-panel-title>
+                <div>
+                    Story
+                </div>    
+            </mat-panel-title>
+                   
+            <mat-panel-description>
+                Tap to view the whole story
+            </mat-panel-description>
+          
+        </mat-expansion-panel-header>
+        <div>
+            {{post.content.story}}
+        </div>
+    </mat-expansion-panel>
+
+    <mat-expansion-panel>
+        <mat-expansion-panel-header>
+            <mat-panel-title>
+                <div>
+                    Recipe
+                </div>    
+            </mat-panel-title>
+                       
+            <mat-panel-description>
+                Tap to view the recipe
+            </mat-panel-description>     
+        </mat-expansion-panel-header>
+        <div *ngFor="let step of post.content.recipe;let i=index;">
+            {{i+1}}. {{step}}
+            </div>
+            <hr>
+    </mat-expansion-panel>
+
+    <mat-expansion-panel>
+        <mat-expansion-panel-header>
+            <mat-panel-title>
+                <div>
+                    Ingredients
+                </div>    
+            </mat-panel-title>           
+            <mat-panel-description>
+                Tap to view the Ingredients
+            </mat-panel-description>
+        </mat-expansion-panel-header>
+        <div *ngFor="let ingredient of post.content.ingredients;let indexValue=index">
+           {{indexValue + 1}}. {{ingredient}}
+        </div>
+    </mat-expansion-panel>
+</mat-accordion>

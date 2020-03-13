@@ -1,0 +1,30 @@
+.post-card{
+    max-width: 50%;
+    margin: 30px 20px;
+    
+}
+.follow-button{
+    margin-bottom: 14px; 
+    font-size: 15px;
+    height: fit-content;
+}
+
+.flex-container{
+    display:flex;
+    flex-flow:row wrap;
+    width: 100%;
+}
+
+
+.action-button{
+    font-size:30px;
+    }
+
+.post-date{
+    margin-left: auto;
+    align-self: flex-end;
+}
+#post-title{
+    font-weight: bold;
+    font-size:15px;
+}

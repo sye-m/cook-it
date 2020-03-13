@@ -10,31 +10,14 @@ import { Component, OnInit, Input } from '@angular/core';
 })
 export class SinglePostComponent implements OnInit {
 @Input('post')post;
-buttonValue:String = "Like";
-userData;
-  constructor(private auth:AuthService, private postService:PostService) { 
-    this.userData = this.auth.userData.user;
+  constructor() { 
   }
 
   ngOnInit() {
-   this.post.likes_by.forEach(elem=>{
-     if(elem.user_id == this.userData.user_id){
-       this.buttonValue = "Unlike";
-     }
-   })
+    
+   
   }
 
-   likeOrUnlike(){
-     if(this.buttonValue == "Like"){
-      this.buttonValue = "Unlike";
-     }
-     else {
-       this.buttonValue = "Like"
-     }
-    this.postService.likeOrUnlike(this.post.post_id,this.userData,this.buttonValue).subscribe(result=>{
-    console.log(result);
-    });
-   }
   
   
 

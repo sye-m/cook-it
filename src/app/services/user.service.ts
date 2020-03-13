@@ -39,4 +39,12 @@ export class UserService {
     return this.http.post('http://localhost:3000/user/readAll', body,{withCredentials:true,headers: headers})
     .pipe(map((response: Response) => response.json()));
   }
+
+  saveOrUnSave(post_id,user_id,saveType){
+    const body = JSON.stringify({'post_id':post_id,'user_id':user_id,'saveType':saveType});
+    const headers = new Headers({'Content-Type': 'application/json'});
+    return this.http.post('http://localhost:3000/user/saveOrUnSave', body,{withCredentials:true,headers: headers})
+    .pipe(map((response: Response) => response.json()));
+  
+  }
 }

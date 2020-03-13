@@ -157,6 +157,47 @@ User.find({user_name:{$regex:searchTerm}},function(err,result){
      
     })
   })
+  
+  router.post('/saveOrUnSave',function(req,res,next){
+    User.find({user_id:req.body.user_id},function(err,user){
+      if(err){
+         return res.status(500).json({
+             title: 'oops',
+         });
+      }
+      if(req.body.saveType == "Save"){
+      user[0].update({$push:{'saved':{'post_id':req.body.post_id}}},function(err){
+          if(err){
+             return res.status(500).json({
+                 title: 'oops',
+             }); 
+          }
+          else {
+             return res.status(201).json({
+                 message: 'Post created',
+             }); 
+          }
+
+      })
+     }
+     else {
+      user[0].update({$pull:{'saved':{'post_id':req.body.post_id}}},function(err){
+        if(err){
+           return res.status(500).json({
+               title: 'oops',
+           }); 
+        }
+        else {
+           return res.status(201).json({
+               message: 'Post created',
+           }); 
+        }
+
+    })
+     }
+  })
+
+  })
   router.get('/logout',isValidUser, function(req,res,next){
     req.logout();
     return res.status(200).json({message:'Logout Success'});

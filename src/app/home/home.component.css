@@ -20,15 +20,19 @@
 
 .top-bar{
     left: 15%;
-    position: absolute;
+    position: fixed;
+    background: white;
+    z-index: 4;
     height: 10%;
     min-height: 70px;
     width:85%;
-    border:1px solid black;
+    border-bottom:1px solid grey;
     display:flex;
     justify-content: flex-start;
     padding:15px;
+    
 }
+
 .navLinks{
 padding: 2px;
 }
@@ -39,7 +43,7 @@ padding: 2px;
 .main-content{
     left: 15%;
     position: absolute;
-    top: 15%;
+    top: 10.5%;
     width:85%;
 }
 

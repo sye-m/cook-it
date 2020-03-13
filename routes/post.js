@@ -1,6 +1,7 @@
 var express = require('express');
 var router = express.Router();
 var uniqid = require('uniqid');
+var User = require('../models/User');
 
 const fs = require('fs');
 
@@ -53,9 +54,15 @@ fs.writeFile("public/assets/post_uploads/"+by+"/"+post_image, new Buffer(post_pi
  })
 
  router.post('/explore',function(req,res,next){
+    User.find({'user_id':req.body.userData.user_id},function(err,user){
+        if(err){
+            return res.status(500).json({
+                title: 'oops',
+            }); 
+        }
      var user_ids =[];
-     req.body.userData.following.forEach(data=>user_ids.push(data.user_id));
-     Post.find({'by.user_id':{$nin:[req.body.userData.user_id]}},function(err,result){
+     user[0].following.forEach(data=>user_ids.push(data.user_id));
+     Post.find({'by.user_id':{$nin:user_ids}},function(err,result){
          console.log(result);
          if(!err){
             return res.status(201).json({
@@ -71,6 +78,7 @@ fs.writeFile("public/assets/post_uploads/"+by+"/"+post_image, new Buffer(post_pi
          }
 
      })
+    })
  })
 
  router.post('/likeOrUnlike',function(req,res,next){
@@ -116,22 +124,28 @@ fs.writeFile("public/assets/post_uploads/"+by+"/"+post_image, new Buffer(post_pi
  })
 
  router.post('/homeFeed',function(req,res,next){
-     var following_id = [];
-     req.body.userData.following.forEach(data => following_id.push(data.user_id));
-     Post.find({'by.user_id':{$in:following_id}},function(err,result){
+     User.find({'user_id':req.body.userData.user_id},function(err,user){
          if(err){
-            return res.status(500).json({
-                title: 'oops',
-            }); 
-         }
-         else {
-            return res.status(201).json({
-                result:result
-            }); 
-         }
-
+        return res.status(500).json({
+            title: 'oops',
+        }); 
+     }
+     var following_id = [];
+     user[0].following.forEach(data => following_id.push(data.user_id))
+     Post.find({'by.user_id':{$in:following_id}},function(err,result){
+        if(err){
+           return res.status(500).json({
+               title: 'oops',
+           }); 
+        }
+        else {
+           return res.status(201).json({
+               result:result
+           }); 
+        }
+    })
      })
- })
+      })
 
  router.post('/singlePost',function(req,res,next){
      Post.find({'post_id':req.body.postId},function(err, post){
