@@ -37,7 +37,7 @@
    <div style="font-weight: bold;">
      {{likes}} likes
    </div>
-   <mat-card-content>
+   <mat-card-content [routerLink]="['/home',{ outlets: {navnav: ['p',post.post_id] } }]">
      <p id="post-title">{{post.title}}</p>
     {{post.content.ingredients[0]}},{{post.content.ingredients[1]}},{{post.content.ingredients[2]}}
   </mat-card-content>
