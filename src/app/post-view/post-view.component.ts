@@ -89,22 +89,25 @@ saveValue:String="Save";
     if(this.followValue == "Follow" || this.followValue == "Follow Back"){
     this.followValue = "Following";
     this.userService.follow(this.post.by,this.auth.userData).subscribe(data=>console.log(data));
-    console.log('test');
     this.auth.userData.user.following.push(postObj);
     
   }
     else if(this.followValue == "Following"){
       this.followValue = "Follow";
     this.userService.unfollow(this.post.by,this.auth.userData).subscribe(data=>console.log(data));
-    console.log('test');
     this.auth.userData.user.following = this.auth.userData.user.following.filter((val)=>{
-      if(val==postObj){
+      if(val.user_id!=postObj.user_id){
         return true
       }
     })
-
+    
   }
-  
+  if(this.followValue=="Follow"){
+    this.colorValue="primary";
+  }
+  else{
+    this.colorValue="warn"
+  }
     }
     
 

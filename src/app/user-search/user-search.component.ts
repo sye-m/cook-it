@@ -16,6 +16,7 @@ buttonValue:String = "Follow";
    }
 
   ngOnInit() {
+    console.log(this.user)
     
      this.userData.user.following.forEach(elem => {
       if(elem.user_id == this.user.user_id){
@@ -37,12 +38,23 @@ followOrUnfollow(){
 if(this.buttonValue == "Follow" || this.buttonValue == "Follow Back"){
 this.buttonValue = "Following";
 this.userService.follow(this.user,this.userData).subscribe(data=>console.log(data));
-console.log('test');
+var followUser = {
+  user_id:this.user.user_id,
+  user_name:this.user.user_name,
+  profile_pic:this.user.profile_pic
+}
+console.log(followUser);
+this.auth.userData.user.following.push(followUser);
+
 }
 else if(this.buttonValue == "Following"){
   this.buttonValue = "Follow";
 this.userService.unfollow(this.user,this.userData).subscribe(data=>console.log(data));
-console.log('test');
+this.auth.userData.user.following = this.auth.userData.user.following.filter((val)=>{
+  if(val.user_id!=this.user.user_id){
+    return true
+  }
+})
 }
 }
 }

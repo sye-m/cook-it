@@ -7,7 +7,6 @@ const fs = require('fs');
 
 var Post = require('../models/Post');
  router.post('/',function(req,res,next){
-     console.log(req.body.userData.userProfile)
      var post_id = uniqid(Date.now());
 const {post_pic, title, story, recipe, ingredients,by} = req.body.post;
 try {
@@ -60,10 +59,10 @@ fs.writeFile("public/assets/post_uploads/"+by+"/"+post_image, new Buffer(post_pi
                 title: 'oops',
             }); 
         }
-     var user_ids =[];
+     var user_ids =[req.body.userData.user_id];
+     
      user[0].following.forEach(data=>user_ids.push(data.user_id));
      Post.find({'by.user_id':{$nin:user_ids}},function(err,result){
-         console.log(result);
          if(!err){
             return res.status(201).json({
                 message: 'Post created',
@@ -82,7 +81,6 @@ fs.writeFile("public/assets/post_uploads/"+by+"/"+post_image, new Buffer(post_pi
  })
 
  router.post('/likeOrUnlike',function(req,res,next){
-    console.log(req.body.post_id,req.body.userData,req.body.likeType);
 
      Post.find({post_id:req.body.post_id},function(err,post){
          if(err){
@@ -147,6 +145,8 @@ fs.writeFile("public/assets/post_uploads/"+by+"/"+post_image, new Buffer(post_pi
      })
       })
 
+
+
  router.post('/singlePost',function(req,res,next){
      Post.find({'post_id':req.body.postId},function(err, post){
         if(err){
@@ -161,4 +161,50 @@ fs.writeFile("public/assets/post_uploads/"+by+"/"+post_image, new Buffer(post_pi
          }
      })
  })
+
+ router.post('/getUsersPost',function(req,res,next){
+     userPosts = [];
+     savedPosts = [];
+     User.find({'user_id':req.body.user_id},function(err,user){
+        if(err){
+            return res.status(500).json({
+                title: 'oops',
+            }); 
+         }
+         userData={'user_id':user[0].user_id,'user_name':user[0].user_name,'name':user[0].name,'userProfile':user[0].userProfile,'followers':user[0].followers,'following':user[0].following}
+         var savedPostsId=[];
+         user[0].saved.forEach((val)=>{savedPostsId.push(val.post_id)});
+
+        Post.find({'by.user_id':req.body.user_id},function(err, posts){
+       if(err){
+           return res.status(500).json({
+               title: 'oops',
+           }); 
+        }
+        
+        else {
+         userPosts = posts; 
+         ("userPosts"+posts); 
+        }
+    })
+    Post.find({'post_id':{$in:savedPostsId}},function(err,posts){
+        if(err){
+            return res.status(500).json({
+                title: 'error getting saved Posts',
+            }); 
+         }
+         else{
+         savedPosts = posts;
+         return res.status(201).json({
+            savedPosts:savedPosts,
+            userPosts:userPosts,
+            userData:userData
+        }); 
+         }
+         
+    })
+  
+})
+})
+
 module.exports = router;

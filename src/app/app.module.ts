@@ -10,6 +10,7 @@ import {MatButtonModule} from '@angular/material/button';
 import {MatBadgeModule} from '@angular/material/badge';
 import {MatIconModule} from '@angular/material/icon';
 import {MatSidenavModule} from '@angular/material/sidenav';
+import {MatTabsModule} from '@angular/material/tabs';
 import {MatToolbarModule} from '@angular/material/toolbar';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { Routes, RouterModule } from '@angular/router';
@@ -54,7 +55,7 @@ const routes: Routes = [
       },
       
       {
-        path:'profile',
+        path:'profile/:user_id',
         component:ProfileComponent,
         outlet:'navnav',
 
@@ -125,6 +126,7 @@ const routes: Routes = [
     MatIconModule,
     MatInputModule,
     MatSidenavModule,
+    MatTabsModule,
     MatToolbarModule,
     FormsModule,
     ReactiveFormsModule,

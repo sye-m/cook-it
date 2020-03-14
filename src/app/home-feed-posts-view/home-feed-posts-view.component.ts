@@ -99,16 +99,15 @@ mySubscription;
       }
       else if(this.followValue == "Following"){
         this.followValue = "Follow";
-      this.userService.unfollow(this.post.by,this.auth.userData).
-      subscribe(data=>{
-        console.log(data)
-      });
+      this.userService.unfollow(this.post.by,this.auth.userData).subscribe(data=>console.log(data));
+      //updating the static user data 
       this.auth.userData.user.following = this.auth.userData.user.following.filter((val)=>{
         if(val.user_id!=postObj.user_id){
           return true
         }
       })
-      console.log(this.auth.userData.user.following);
+
+      //updating the static posts data
       this.homeFeed.posts = this.homeFeed.posts.filter(function(val){
         if(val.by.user_id!= postObj.user_id){
           return true;

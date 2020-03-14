@@ -1,0 +1,68 @@
+.flex-container{
+    display:flex;
+    flex-flow: row wrap;
+}
+#profile-pic > img{
+    width:100%;
+    border-radius: 50%;
+    border:1px solid;
+}
+#profile-pic {
+    width:25%;
+}
+
+#user_name{
+    font-size: 20px;
+    font-weight: bold;
+}
+
+#name{
+    font-size:15px;
+    font-weight: 100;
+}
+
+#posts-count{
+    height: 15%;
+    width:25%;
+    text-align: center;
+    padding: 50px;
+    font-size:20px;
+    font-weight: bold;
+    border-right: 1px solid #c9c1c1;
+
+}
+
+#follower-count{
+    height: 15%;
+    width:25%;
+    padding: 50px;
+    font-size:20px;
+    font-weight: bold;
+    border-right: 1px solid #c9c1c1;
+
+}
+
+#following-count{
+    height: 15%; 
+    width:25%;
+    padding: 50px;
+    font-size:20px;
+    font-weight: bold;
+
+}
+
+#profile-container{
+    padding: 10px;
+    padding: 50px;
+    font-size:20px;
+    font-weight: bold;
+}
+.post-pic > img{
+    width:100%;
+    height:100%;
+}
+.post-pic{
+    width:30%;
+    margin:10px;
+
+}

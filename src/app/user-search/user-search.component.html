@@ -1,6 +1,6 @@
 <div>
   User Name: {{user.user_name}}
-  <div [routerLink]="['/home',{ outlets:{navnav: ['user-view'] } }]">
+  <div [routerLink]="['/home',{ outlets:{navnav: ['profile',user.user_id] } }]">
   User Id: {{user.user_id}}
 
   </div>

@@ -1,6 +1,6 @@
 .side-nav{
     width: 15%;
-    border: 1px solid black;
+    border-right:1px solid black;
     height: 100%;
     position: fixed;
     text-align: center;

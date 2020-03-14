@@ -42,4 +42,11 @@ export class PostService {
     return this.http.post('http://localhost:3000/post/singlePost',body, {headers: headers})
         .pipe(map((response: Response) => response.json()));
   }
+
+  getUsersPost(userId){
+    const body = JSON.stringify({user_id:userId});
+    const headers = new Headers({'Content-Type': 'application/json'});
+    return this.http.post('http://localhost:3000/post/getUsersPost',body, {headers: headers})
+        .pipe(map((response: Response) => response.json()));
+  }
 }
