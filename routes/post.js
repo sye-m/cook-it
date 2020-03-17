@@ -130,6 +130,7 @@ fs.writeFile("public/assets/post_uploads/"+by+"/"+post_image, new Buffer(post_pi
      }
      var following_id = [];
      user[0].following.forEach(data => following_id.push(data.user_id))
+     console.log(following_id);
      Post.find({'by.user_id':{$in:following_id}},function(err,result){
         if(err){
            return res.status(500).json({

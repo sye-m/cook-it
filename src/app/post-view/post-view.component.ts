@@ -17,6 +17,7 @@ colorValue="primary";
 buttonValue:String = "Like";
 userData;
 saveValue:String="Save";
+isLoading:boolean = false;
   constructor(private auth:AuthService, private postService:PostService,private userService:UserService,private route:ActivatedRoute) { 
     this.post_id = this.route.snapshot.paramMap.get('post_id');
     this.userData = this.auth.userData.user;
@@ -50,7 +51,7 @@ saveValue:String="Save";
       }
     })
 
-    if(this.followValue=="Follow"){
+    if(this.followValue=="Follow" || this.followValue=="Follow Back"){
       this.colorValue="primary";
     }
     else{
@@ -75,6 +76,7 @@ saveValue:String="Save";
 
   async saveOrUnSave(){
     await this.userService.saveOrUnSave(this.post.post_id,this.userData.user_id,this.saveValue).toPromise().then(result=>{
+      
       console.log(result);
       });
       if(this.saveValue == "Save"){
@@ -83,26 +85,35 @@ saveValue:String="Save";
       else {
         this.saveValue = "Save"
       }
+      
   }
 
-  followOrUnfollow(postObj){
+  async followOrUnfollow(postObj){
+    this.isLoading = true;
+    var button = document.getElementById('follow-button');
+    button.setAttribute("disabled","disabled");
+
     if(this.followValue == "Follow" || this.followValue == "Follow Back"){
-    this.followValue = "Following";
-    this.userService.follow(this.post.by,this.auth.userData).subscribe(data=>console.log(data));
-    this.auth.userData.user.following.push(postObj);
+    
+      this.followValue = "Following";
+    this.userService.follow(this.post.by,this.auth.userData).subscribe(data=>{console.log(data);this.isLoading = false;});
+     this.auth.userData.user.following.push(postObj);
+    button.removeAttribute("disabled");
     
   }
     else if(this.followValue == "Following"){
+
       this.followValue = "Follow";
-    this.userService.unfollow(this.post.by,this.auth.userData).subscribe(data=>console.log(data));
-    this.auth.userData.user.following = this.auth.userData.user.following.filter((val)=>{
+    this.userService.unfollow(this.post.by,this.auth.userData).subscribe(data=>{console.log(data);this.isLoading = false;});
+    this.auth.userData.user.following =  this.auth.userData.user.following.filter((val)=>{
       if(val.user_id!=postObj.user_id){
         return true
       }
     })
-    
+    button.removeAttribute("disabled");
+
   }
-  if(this.followValue=="Follow"){
+  if(this.followValue=="Follow" || this.followValue=="Follow Back"){
     this.colorValue="primary";
   }
   else{

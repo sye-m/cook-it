@@ -9,6 +9,7 @@ import { Component, OnInit, Input } from '@angular/core';
 })
 export class UserSearchComponent implements OnInit {
 @Input('user')user;
+colorValue="primary"
 userData;
 buttonValue:String = "Follow";
   constructor(private auth:AuthService,private userService:UserService) {
@@ -32,6 +33,12 @@ buttonValue:String = "Follow";
         this.buttonValue="Follow Back"
       }
      })
+     if(this.buttonValue=="Follow" || this.buttonValue =="Follow Back"){
+      this.colorValue="primary";
+    }
+    else{
+      this.colorValue="warn"
+    }
     
 }
 followOrUnfollow(){
@@ -56,5 +63,12 @@ this.auth.userData.user.following = this.auth.userData.user.following.filter((va
   }
 })
 }
+if(this.buttonValue=="Follow" || this.buttonValue=="Follow Back"){
+  this.colorValue="primary";
+}
+else{
+  this.colorValue="warn"
+}
+
 }
 }

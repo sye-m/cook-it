@@ -16,8 +16,8 @@ postSub;
     
    }
 
-   ngOnInit() {
-  this.post.homeFeed(this.auth.userData.user).toPromise().then(data=>{console.log(data);this.posts = data.result;});
+  async ngOnInit() {
+  await this.post.homeFeed(this.auth.userData.user).toPromise().then(data=>{this.posts = data.result;});
   }
   
   

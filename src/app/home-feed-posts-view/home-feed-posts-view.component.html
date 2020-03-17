@@ -10,7 +10,7 @@
 <button mat-stroked-button color="{{colorValue}}" class="follow-button" (click)="followOrUnfollow(post.by)" *ngIf="userData.user_id!=post.by.user_id">{{followValue}}</button> 
 
     </mat-card-header>
-    <div>
+    <div [routerLink]="['/home',{ outlets: {navnav: ['p',post.post_id] } }]">
     <img class="post-image" mat-card-image src="http://localhost:3000/{{post.image}}" alt="Photo of a Shiba Inu">
     </div>
     <div class="flex-container">

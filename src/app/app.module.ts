@@ -9,6 +9,7 @@ import {MatInputModule} from '@angular/material/input';
 import {MatButtonModule} from '@angular/material/button';
 import {MatBadgeModule} from '@angular/material/badge';
 import {MatIconModule} from '@angular/material/icon';
+import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
 import {MatSidenavModule} from '@angular/material/sidenav';
 import {MatTabsModule} from '@angular/material/tabs';
 import {MatToolbarModule} from '@angular/material/toolbar';
@@ -126,6 +127,7 @@ const routes: Routes = [
     MatIconModule,
     MatInputModule,
     MatSidenavModule,
+    MatProgressSpinnerModule,
     MatTabsModule,
     MatToolbarModule,
     FormsModule,

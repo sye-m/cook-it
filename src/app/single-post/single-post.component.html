@@ -10,12 +10,12 @@
   </mat-card-header>
   <img class="post-image" mat-card-image src="http://localhost:3000/{{post.image}}" alt="Photo of a Shiba Inu">
   <mat-card-content>
+    <p id="post-title">{{post.title}}</p>
     {{post.content.ingredients[0]}},{{post.content.ingredients[1]}},{{post.content.ingredients[2]}}
     
   </mat-card-content>
  <div>
-   Total Likes:
-   {{post.likes_by.length}}
+   {{post.likes_by.length}} likes
  </div>
 </mat-card>
 </div>

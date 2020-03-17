@@ -24,6 +24,14 @@
     {{user.following.length}}
   </div>
   </div>
+  <button (click)="followOrUnfollow(user)" id="follow-button" mat-raised-button color="{{colorValue}}" *ngIf="!isUsersProfile">
+    <div *ngIf="isLoading"  color="white" class="follow-button-text">
+        <mat-spinner color="accent" diameter=25></mat-spinner>
+    </div>
+    <div *ngIf="!isLoading" class="follow-button-text">
+    {{followValue}}
+    </div>
+</button> 
   <hr>
   <mat-tab-group mat-align-tabs="center">
     <mat-tab label="Posts">

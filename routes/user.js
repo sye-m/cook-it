@@ -4,7 +4,7 @@ var router = express.Router();
 var bcrypt = require('bcryptjs');
 var passport = require('passport');
 var User = require('../models/User');
-
+var Post = require('../models/Post')
 router.post('/', function (req, res, next) {
     User.findOne({'email':req.body.email},function(err,userExists){
       
@@ -27,7 +27,6 @@ router.post('/', function (req, res, next) {
         if (password.length < 6) {
           errors.push({ message: 'Password must be at least 6 characters' });
         }
-        console.log(req.body.name);
         
         
     
@@ -86,13 +85,13 @@ router.post('/login', (req, res, next) => {
     return res.status(200).json({auth:true,user:req.user});
     else return res.status(401).json({message:'Bad Request'});
   } )
-  router.post('/getUsers',function(req,res,next){
+  router.post('/getUsersandPosts',function(req,res,next){
   var user_id, profile_pic,user_name;
   var followers = [],following=[];
   var users = [];
-    const searchTerm = req.body.searchTerm.replace(/[-[\]{}()*+?.,\\^$|#\s'"]/g, "\\$&");
-    console.log(searchTerm)
-User.find({user_name:{$regex:searchTerm}},function(err,result){
+  var posts =[];
+  const searchTerm = req.body.searchTerm.replace(/[-[\]{}()*+?.,\\^$|#\s'"]/g, "\\$&");
+User.find({user_name:{$regex:searchTerm,$options:'i'}},function(err,result){
   if(!err){
 
     result.forEach(element =>{
@@ -103,26 +102,35 @@ User.find({user_name:{$regex:searchTerm}},function(err,result){
       following = element.following
       users.push({user_id:user_id,user_name:user_name,profile_pic:profile_pic,followers:followers,following:following});
     } )
-    return res.status(200).json({result:users});
   }
-  else{
-    return  res.status(401).json({result:result});
-  }
+  
+  Post.find({title:{$regex:searchTerm,$options:'i'}},function(err,posts){
+    if(!err){
+      return res.status(200).json({
+        users:users,
+        posts:posts
+      })
+    }
+    else{
+      return  res.status(401).json({result:result});
+    }
+    })
+ 
 })
+
+
   })
 
   router.post('/followUser',function(req,res,next){
-    console.log(req.body.followUser);
-    console.log(req.body.user);
 
     User.find({user_id:req.body.user.user.user_id},function(err,user){
       User.find({user_id:req.body.followUser.user_id}, function(err, possibleFriend){
-        console.log('Possible Friend'+possibleFriend);
-        console.log('User is'+user)
         possibleFriend[0].update({$push:{'followers':{'user_id':user[0].user_id,'user_name':user[0].user_name,'profile_pic':user[0].userProfile[0].profile_pic},'notifications':{'user_id':user[0].user_id,'user_name':user[0].user_name,'profile_pic':user[0].userProfile[0].profile_pic,'message':user[0].user_name+" just followed you",'read':false}}},function(err){})
         user[0].update({$push:{'following':{'user_id':possibleFriend[0].user_id,'user_name':possibleFriend[0].user_name,'profile_pic':possibleFriend[0].userProfile[0].profile_pic}}},function(err){}) 
       
       })
+      return res.status(200).json({message:'Read all'});
+
     })
   })
 
@@ -133,14 +141,16 @@ User.find({user_name:{$regex:searchTerm}},function(err,result){
     
     User.find({user_id:req.body.user.user.user_id},function(err,user){
       User.find({user_id:req.body.unfollowUser.user_id}, function(err, possibleFriend){
-        console.log('Possible Friend'+possibleFriend);
-        console.log('User is'+user)
         possibleFriend[0].update({$pull:{'followers':{'user_id':user[0].user_id,'user_name':user[0].user_name,'profile_pic':user[0].userProfile[0].profile_pic}}},function(err){})
         user[0].update({$pull:{'following':{'user_id':possibleFriend[0].user_id,'user_name':possibleFriend[0].user_name,'profile_pic':possibleFriend[0].userProfile[0].profile_pic}}},function(err){}) 
       
       })
+      return res.status(200).json({message:'Read all'});
+
     })
   
+      
+            
   })
 
   router.post('/readAll',function(req,res,next){
@@ -205,7 +215,6 @@ User.find({user_name:{$regex:searchTerm}},function(err,result){
 
 
   function isValidUser(req,res,next){
-      console.log(req.isAuthenticated());
     if(req.isAuthenticated())
     {
 next();

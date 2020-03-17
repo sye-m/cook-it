@@ -1,10 +1,14 @@
-<div>
-  User Name: {{user.user_name}}
+<div class="searched-users"> 
   <div [routerLink]="['/home',{ outlets:{navnav: ['profile',user.user_id] } }]">
-  User Id: {{user.user_id}}
-
+    <div class="profile-pic">
+      <img src = "http://localhost:3000/{{user.profile_pic}}" width="200px" height="100px">
+    </div>
+    <div class="user-name">
+      {{user.user_name}}
+    </div>
   </div>
-  User Pic:<img src = "http://localhost:3000/{{user.profile_pic}}" width="200px" height="100px">
-  
-  <button (click)="followOrUnfollow()" *ngIf="userData.user.user_id!=user.user_id">{{buttonValue}}</button> 
+  <div>
+    <button class="action-button" mat-raised-button color="{{colorValue}}" (click)="followOrUnfollow()" *ngIf="userData.user.user_id!=user.user_id">{{buttonValue}}</button> 
   </div>
+</div>  
+<hr>

@@ -41,3 +41,17 @@ font-size:35px;
     font-size:20px;
     text-align: center;
 }
+.follow-button-text{
+    width:60px;
+    height:40px;
+    display: inline-block;
+}
+#follow-button{
+    width:100px;
+    height:36px;
+
+}
+mat-spinner{
+    left:16px;
+    top:6px;
+}

@@ -3,6 +3,10 @@
     margin:15px;
 }
 .post-image{
-    height: 200px;
-    max-width:317px;
+    height: 240px;
+    max-width:350px;
+}
+#post-title{
+    font-weight: bold;
+    font-size:15px;
 }
