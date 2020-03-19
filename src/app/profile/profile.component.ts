@@ -15,6 +15,9 @@ export class ProfileComponent implements OnInit {
   followValue:String = "Follow";
   colorValue="primary";
   isLoading:boolean =false;
+  post_pic;
+
+
 
   isUsersProfile:boolean = false;
   posts:Array<Object>=[];
@@ -22,7 +25,7 @@ export class ProfileComponent implements OnInit {
   constructor(private auth:AuthService,private userService:UserService,private postServie:PostService,private route:ActivatedRoute) {
     this.user_id = this.route.snapshot.paramMap.get('user_id');
     this.user = this.auth.userData.user;
-
+    
    }
 
   ngOnInit() {
@@ -40,6 +43,7 @@ export class ProfileComponent implements OnInit {
       if(this.isUsersProfile==true){
       this.savedPosts = data.savedPosts;
       }
+
       this.auth.userData.user.following.forEach(elem => {
         if(elem.user_id == this.user.user_id){
           this.followValue="Following"
@@ -70,7 +74,7 @@ export class ProfileComponent implements OnInit {
     
       this.followValue = "Following";
     this.userService.follow(user,this.auth.userData).subscribe(data=>{console.log(data);this.isLoading = false;});
-     this.auth.userData.user.following.push({user_id:user.user_id,user_name:user.user_name,profile_pic:user.userProfile[0].profile_pic});
+     this.auth.userData.user.following.push({user_id:user.user_id});
     button.removeAttribute("disabled");
     
   }
@@ -93,6 +97,8 @@ export class ProfileComponent implements OnInit {
     this.colorValue="warn"
   }
     }
+
+    
 
 
 }

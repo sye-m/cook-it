@@ -21,12 +21,19 @@ export class HomeFeedPostsViewComponent implements OnInit,OnChanges {
   saveValue:String="Save";
 likes=0;
 mySubscription;
+byUser={
+  user_id:'',
+  user_name:'',
+  profile_pic:''
+};
   constructor(private homeFeed:HomeFeedPostsComponent,private auth:AuthService, private postService:PostService,private userService:UserService,private router:Router) {
     this.userData = this.auth.userData.user;
     
    }
 
    ngOnInit() {
+    this.userService.getUsers(this.post.by.user_id).subscribe(data => {this.byUser = data.users[0];console.log(this.byUser)})
+
      this.likes = this.post.likes_by.length;
     this.post.likes_by.forEach(elem=>{
       if(elem.user_id == this.userData.user_id){

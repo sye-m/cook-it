@@ -4,9 +4,9 @@
     
       <mat-card-title>
         
-          <img mat-card-avatar src="http://localhost:3000/{{post.by.profile_pic}}">
+          <img mat-card-avatar  src="http://localhost:3000/{{byUser.profile_pic}}">
         
-        {{post.by.user_name}}</mat-card-title>
+        {{byUser.user_name}}</mat-card-title>
 <button mat-stroked-button color="{{colorValue}}" class="follow-button" (click)="followOrUnfollow(post.by)" *ngIf="userData.user_id!=post.by.user_id">{{followValue}}</button> 
 
     </mat-card-header>

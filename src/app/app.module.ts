@@ -34,6 +34,7 @@ import { NotificationsComponent } from './notifications/notifications.component'
 import { HomeFeedPostsComponent } from './home-feed-posts/home-feed-posts.component';
 import { PostViewComponent } from './post-view/post-view.component';
 import { HomeFeedPostsViewComponent } from './home-feed-posts-view/home-feed-posts-view.component';
+import { EditProfileComponent } from './edit-profile/edit-profile.component';
 const routes: Routes = [
   {
     path:'',
@@ -60,6 +61,11 @@ const routes: Routes = [
         component:ProfileComponent,
         outlet:'navnav',
 
+      },
+      {
+        path:'editProfile',
+        component:EditProfileComponent,
+        outlet:'navnav'
       },
       {
         path:'post',
@@ -117,7 +123,8 @@ const routes: Routes = [
     NotificationsComponent,
     HomeFeedPostsComponent,
     PostViewComponent,
-    HomeFeedPostsViewComponent
+    HomeFeedPostsViewComponent,
+    EditProfileComponent
   ],
   imports: [
     MatButtonModule,

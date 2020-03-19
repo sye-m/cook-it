@@ -1,3 +1,4 @@
+import { UserService } from './../services/user.service';
 import { Router } from '@angular/router';
 import { PostService } from './../services/post.service';
 import { AuthService } from './../services/auth.service';
@@ -10,12 +11,19 @@ import { Component, OnInit, Input } from '@angular/core';
 })
 export class SinglePostComponent implements OnInit {
 @Input('post')post;
-  constructor() { 
-  }
+byUser={
+  user_id:'',
+  user_name:'',
+  profile_pic:''
+};
+  constructor(private userService:UserService) {
 
-  ngOnInit() {
-    
-   
+  }   
+
+   ngOnInit() {
+    this.userService.getUsers(this.post.by.user_id).subscribe(data=>{this.byUser = data.users[0];console.log("by Users"+this.byUser)});
+
+
   }
 
   

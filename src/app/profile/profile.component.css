@@ -3,11 +3,18 @@
     flex-flow: row wrap;
 }
 #profile-pic > img{
-    width:100%;
+    width:auto;
+    height:100%;
+    margin-left:-24px;
+}
+#profile-pic {
+    width:200px;
+    height:200px;
+    overflow:hidden;
     border-radius: 50%;
     border:1px solid;
 }
-#profile-pic {
+#profile{
     width:25%;
 }
 

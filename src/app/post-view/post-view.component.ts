@@ -16,6 +16,11 @@ followValue:String = "Follow";
 colorValue="primary";
 buttonValue:String = "Like";
 userData;
+byUser={
+  user_id:'',
+  user_name:'',
+  profile_pic:''
+};
 saveValue:String="Save";
 isLoading:boolean = false;
   constructor(private auth:AuthService, private postService:PostService,private userService:UserService,private route:ActivatedRoute) { 
@@ -32,6 +37,8 @@ isLoading:boolean = false;
         this.buttonValue = "Unlike";
       }
     })
+    this.userService.getUsers(this.post.by.user_id).subscribe(data=>this.byUser = data.users[0]);
+
     this.userData.following.forEach(elem => {
       if(elem.user_id == this.post.by.user_id){
         this.followValue="Following"

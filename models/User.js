@@ -15,8 +15,8 @@ var user = new Schema({
     email: {type: String, required: true, unique: true},
     date_joined:{type:Date,required:true,default:Date.now()},
     userProfile:[userProfileSchema],
-    followers:[{"user_id":String,"user_name":String,"profile_pic":String}],
-    following:[{"user_id":String,"user_name":String,"profile_pic":String}],
+    followers:[{"user_id":String}],
+    following:[{"user_id":String}],
     messages: [{type: Schema.Types.ObjectId, ref: 'Message'}],
     notifications:[{"user_id":String,"user_name":String,"profile_pic":String,message:String,read:Boolean}],
     saved:[{"post_id":String}]

@@ -18,7 +18,7 @@ var post_image = "user_"+by+"_"+post_id+"."+post_pic.image_type;
 var post = new Post({
     title: title,
     post_id:post_id,
-    by:{'user_id':req.body.userData.user_id,'user_name':req.body.userData.user_name,'profile_pic':req.body.userData.userProfile[0].profile_pic},
+    by:{'user_id':by},
     content:{"story":story,"recipe":recipe,"ingredients":ingredients},
     date:Date.now(),
     likes_by:[],
@@ -60,10 +60,12 @@ fs.writeFile("public/assets/post_uploads/"+by+"/"+post_image, new Buffer(post_pi
             }); 
         }
      var user_ids =[req.body.userData.user_id];
-     
      user[0].following.forEach(data=>user_ids.push(data.user_id));
+     console.log(user_ids);
+
      Post.find({'by.user_id':{$nin:user_ids}},function(err,result){
          if(!err){
+             console.log(result)
             return res.status(201).json({
                 message: 'Post created',
                 result:result
@@ -89,7 +91,7 @@ fs.writeFile("public/assets/post_uploads/"+by+"/"+post_image, new Buffer(post_pi
             });
          }
          if(req.body.likeType == "Like"){
-         post[0].update({$push:{'likes_by':{'user_id':req.body.userData.user_id,'user_name':req.body.userData.user_name,'profile_pic':req.body.userData.userProfile.profile_pic}}},function(err){
+         post[0].update({$push:{'likes_by':{'user_id':req.body.userData.user_id}}},function(err){
              if(err){
                 return res.status(500).json({
                     title: 'oops',
@@ -162,6 +164,8 @@ fs.writeFile("public/assets/post_uploads/"+by+"/"+post_image, new Buffer(post_pi
          }
      })
  })
+
+ 
 
  router.post('/getUsersPost',function(req,res,next){
      userPosts = [];

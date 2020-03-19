@@ -9,6 +9,12 @@ export class UserService {
 
   constructor(private http:Http) { }
   
+  getUsers(userId){
+    const body = JSON.stringify({'user_ids':userId});
+    const headers = new Headers({'Content-Type': 'application/json'});
+    return this.http.post('http://localhost:3000/user/getUsers', body, {withCredentials:true,headers: headers})
+        .pipe(map((response: Response) => response.json()));
+  }
   getUsersandPosts(searchTerm) {
     const body = JSON.stringify({searchTerm:searchTerm});
     const headers = new Headers({'Content-Type': 'application/json'});
@@ -40,11 +46,20 @@ export class UserService {
     .pipe(map((response: Response) => response.json()));
   }
 
+
   saveOrUnSave(post_id,user_id,saveType){
     const body = JSON.stringify({'post_id':post_id,'user_id':user_id,'saveType':saveType});
     const headers = new Headers({'Content-Type': 'application/json'});
     return this.http.post('http://localhost:3000/user/saveOrUnSave', body,{withCredentials:true,headers: headers})
     .pipe(map((response: Response) => response.json()));
+  }
+
+  editProfile(userData,newUserData){
+    const body = JSON.stringify({'userData':userData,'newUserData':newUserData});
+    const headers = new Headers({'Content-Type': 'application/json'});
+    return this.http.post('http://localhost:3000/user/editProfile', body,{withCredentials:true,headers: headers})
+    .pipe(map((response: Response) => response.json()));
   
   }
+
 }

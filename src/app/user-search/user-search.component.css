@@ -3,7 +3,8 @@
     margin: 20px;
 }
 .user-name{
-    display: inline;
+    display: inline-block;
+    width: 110px;
     font-size: 21px;
     margin-left: 20px;
 }

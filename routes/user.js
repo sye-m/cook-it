@@ -4,7 +4,9 @@ var router = express.Router();
 var bcrypt = require('bcryptjs');
 var passport = require('passport');
 var User = require('../models/User');
-var Post = require('../models/Post')
+var Post = require('../models/Post');
+const fs = require('fs');
+
 router.post('/', function (req, res, next) {
     User.findOne({'email':req.body.email},function(err,userExists){
       
@@ -85,6 +87,30 @@ router.post('/login', (req, res, next) => {
     return res.status(200).json({auth:true,user:req.user});
     else return res.status(401).json({message:'Bad Request'});
   } )
+
+  router.post('/getUsers',function(req,res,next){
+    var user_ids = req.body.user_ids;
+    console.log("user_ids are"+user_ids);
+    var users=[];
+    User.find({'user_id':{$in:user_ids}},function(err,result){  
+      if(!err){
+
+        result.forEach(element =>{
+          user_id = element.user_id;
+          user_name=element.user_name;
+          profile_pic = element.userProfile[0].profile_pic;
+          users.push({user_id:user_id,user_name:user_name,profile_pic:profile_pic});
+        } )
+        console.log("user.js users"+users);
+        return res.status(200).json({
+          users:users,
+        })
+      }
+    else{
+      return  res.status(401).json({result:result});
+    }
+    })
+  })
   router.post('/getUsersandPosts',function(req,res,next){
   var user_id, profile_pic,user_name;
   var followers = [],following=[];
@@ -125,8 +151,8 @@ User.find({user_name:{$regex:searchTerm,$options:'i'}},function(err,result){
 
     User.find({user_id:req.body.user.user.user_id},function(err,user){
       User.find({user_id:req.body.followUser.user_id}, function(err, possibleFriend){
-        possibleFriend[0].update({$push:{'followers':{'user_id':user[0].user_id,'user_name':user[0].user_name,'profile_pic':user[0].userProfile[0].profile_pic},'notifications':{'user_id':user[0].user_id,'user_name':user[0].user_name,'profile_pic':user[0].userProfile[0].profile_pic,'message':user[0].user_name+" just followed you",'read':false}}},function(err){})
-        user[0].update({$push:{'following':{'user_id':possibleFriend[0].user_id,'user_name':possibleFriend[0].user_name,'profile_pic':possibleFriend[0].userProfile[0].profile_pic}}},function(err){}) 
+        possibleFriend[0].update({$push:{'followers':{'user_id':user[0].user_id},'notifications':{'user_id':user[0].user_id,'message':"just followed you",'read':false}}},function(err){})
+        user[0].update({$push:{'following':{'user_id':possibleFriend[0].user_id}}},function(err){}) 
       
       })
       return res.status(200).json({message:'Read all'});
@@ -141,8 +167,8 @@ User.find({user_name:{$regex:searchTerm,$options:'i'}},function(err,result){
     
     User.find({user_id:req.body.user.user.user_id},function(err,user){
       User.find({user_id:req.body.unfollowUser.user_id}, function(err, possibleFriend){
-        possibleFriend[0].update({$pull:{'followers':{'user_id':user[0].user_id,'user_name':user[0].user_name,'profile_pic':user[0].userProfile[0].profile_pic}}},function(err){})
-        user[0].update({$pull:{'following':{'user_id':possibleFriend[0].user_id,'user_name':possibleFriend[0].user_name,'profile_pic':possibleFriend[0].userProfile[0].profile_pic}}},function(err){}) 
+        possibleFriend[0].update({$pull:{'followers':{'user_id':user[0].user_id}}},function(err){})
+        user[0].update({$pull:{'following':{'user_id':possibleFriend[0].user_id}}},function(err){}) 
       
       })
       return res.status(200).json({message:'Read all'});
@@ -207,6 +233,39 @@ User.find({user_name:{$regex:searchTerm,$options:'i'}},function(err,result){
      }
   })
 
+  })
+
+  router.post('/editProfile',function(req,res,next){
+    try {
+      fs.mkdirSync('public/assets/profile_pics/'+req.body.userData.user_id);
+   } catch (err) {
+     if (err.code !== 'EEXIST') throw err
+   }
+var profile_pic = "user_"+req.body.userData.user_id+"."+req.body.newUserData.profile_pic.image_type;
+fs.unlink("public/assets/profile_pics"+req.body.userData.user_id+"/"+req.body.userData.userProfile[0].profile_pic,function(err){});
+fs.writeFile("public/assets/profile_pics/"+req.body.userData.user_id+"/"+profile_pic, new Buffer(req.body.newUserData.profile_pic.image_data,"base64"),function(err){})
+
+    User.updateOne({'user_id':req.body.userData.user_id},{$set:{
+      name:req.body.newUserData.name,
+      user_name:req.body.newUserData.user_name,
+      email:req.body.newUserData.email,
+      'userProfile.$[].bio':req.body.newUserData.bio,
+      password:bcrypt.hashSync(req.body.newUserData.password, 10),
+      'userProfile.$[].profile_pic':"assets/profile_pics/"+req.body.userData.user_id+"/"+profile_pic
+    }},function(err){
+
+      if(err){
+        return res.status(500).json({
+            title: 'something is wrong',
+        }); 
+     }
+     else {
+        return res.status(201).json({
+            message: 'User added',
+        }); 
+     }
+
+    })
   })
   router.get('/logout',isValidUser, function(req,res,next){
     req.logout();

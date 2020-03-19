@@ -1,0 +1,54 @@
+<div class="profile-container">
+  <div id="profile-title">Edit Profile</div>
+  <hr>
+  <form enctype="multipart/form-data" [formGroup]="profileFormData" (ngSubmit)="onProfileSubmit()">
+    <input id="profile_pic" #profile_pic type="file" (change)="getImage()" style="display: none;">  
+    <div class="profile-pic">
+    <img src="{{upload_pic}}" class="profile-pic" alt="" width="200px" height="200px">
+    </div>
+    <label for="profile_pic" id="upload-button">
+      <button type="button" (click)="profile_pic.click()" mat-raised-button color="primary">
+      <mat-icon>image</mat-icon>
+      </button>
+    </label>
+    <br>
+
+    <mat-form-field appearance="outline">
+      <mat-label>Name</mat-label>
+      <input type="text" class="input-field" matInput name="name" [formControl]="name" value="{{user.name}}">
+    </mat-form-field>
+    <br>
+
+    <mat-form-field appearance="outline">
+      <mat-label>User Name</mat-label>
+      <input type="text" name="user_name" class="input-field" matInput [formControl]="user_name" value="{{user.user_name}}">
+    </mat-form-field>
+    <br>
+
+    <mat-form-field appearance="outline">
+      <mat-label>Email</mat-label>
+      <input type="text"  name="email" class="input-field" matInput [formControl]="email" value="{{user.email}}">
+    </mat-form-field>
+    <br>
+    
+    <mat-form-field appearance="outline">
+      <mat-label>Bio</mat-label>
+      <input type="text"  name="bio" class="input-field" matInput [formControl]="bio" value="{{user.userProfile[0].bio}}">
+    </mat-form-field>
+    <br>
+
+    <mat-form-field appearance="outline">
+      <mat-label>Password</mat-label>
+      <input type="password"  name="password" class="input-field" matInput [formControl]="password">
+    </mat-form-field>
+    <br>
+   
+    <mat-form-field appearance="outline">
+      <mat-label>Confirm Password</mat-label>
+      <input type="password"  name="password2" class="input-field" matInput [formControl]="password2">
+    </mat-form-field>
+    <br>
+   
+    <button mat-raised-button color="primary" type="submit">Post</button>
+  </form>
+</div>

@@ -47,8 +47,6 @@ this.buttonValue = "Following";
 this.userService.follow(this.user,this.userData).subscribe(data=>console.log(data));
 var followUser = {
   user_id:this.user.user_id,
-  user_name:this.user.user_name,
-  profile_pic:this.user.profile_pic
 }
 console.log(followUser);
 this.auth.userData.user.following.push(followUser);

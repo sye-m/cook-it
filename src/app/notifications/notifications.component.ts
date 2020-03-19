@@ -10,12 +10,17 @@ import { AuthService } from '../services/auth.service';
 })
 export class NotificationsComponent implements OnInit {
   users:Array<Object>;
-  constructor(private auth:AuthService,private user:UserService) {
-  this.users = this.auth.userData.user.notifications;
+  user_ids=[];
+  constructor(private auth:AuthService,private userService:UserService) {
+  this.auth.userData.user.notifications.forEach(element => {
+    this.user_ids.push(element.user_id)
+  });
+  this.userService.getUsers(this.user_ids).subscribe(data=> this.users = data.users);
    }
 
+
   ngOnInit() {
-    this.user.readAll(this.auth.userData.user).subscribe(data=>console.log(data));
+  this.userService.readAll(this.auth.userData.user).subscribe(data=>console.log(data));
   }
 
 }

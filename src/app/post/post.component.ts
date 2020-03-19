@@ -77,7 +77,7 @@ noOfIngredients:Array<Number>=[0];
       this.ingredients,
       this.auth.userData.user.user_id
     )
- await   this.post.post(post,this.auth.userData.user).subscribe(data=> console.log(data));
+ await   this.post.post(post).subscribe(data=> console.log(data));
     
   }
   getPostImage(data){
