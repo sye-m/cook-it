@@ -2,6 +2,11 @@
     display:flex;
     flex-flow: row wrap;
 }
+.follow-button-text{
+    width:60px;
+    height:40px;
+    display: inline-block;
+}
 #profile-pic > img{
     width:auto;
     height:100%;
@@ -37,6 +42,10 @@
     font-weight: bold;
     border-right: 1px solid #c9c1c1;
 
+}
+#follow-button{
+    width: 100px;
+    height: 36px;
 }
 
 #follower-count{

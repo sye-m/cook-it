@@ -2,20 +2,27 @@
     display: flex;
     margin: 20px;
 }
+.user-info{
+    display:flex;
+}
 .user-name{
     display: inline-block;
     width: 110px;
     font-size: 21px;
-    margin-left: 20px;
+    padding:35px 20px 35px 20px;
 }
 .profile-pic > img{
-    border-radius: 50%;
-    height: 85px;
-    width: 106px;
-    border: 1px solid;
+    height: 100%;
+    width: auto;
+    margin-left: -12px;
 }
 .profile-pic{
-    display:inline
+    display:inline-block;
+    border:1px solid;
+    overflow: hidden;
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
 }
 .action-button{
     height: 50px;

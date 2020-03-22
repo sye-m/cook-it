@@ -22,7 +22,8 @@ export class NotificationsComponent implements OnInit {
    }
 
 
-  ngOnInit() {
+  async ngOnInit() {
+    await this.auth.isLoggedIn().toPromise();
     //get followers activity user ids
     this.auth.userData.user.notifications.forEach(element => {
       if(element.activityType == "Account Activity"){

@@ -22,6 +22,7 @@
 
 #user-name{
     font-size:20px;
+    margin-left:15px;
 }
 
 .action-button{
@@ -49,7 +50,7 @@ font-size:35px;
 #follow-button{
     width:100px;
     height:36px;
-
+    margin-left:15px;
 }
 mat-spinner{
     left:16px;

@@ -83,9 +83,11 @@ fs.writeFile("public/assets/post_uploads/"+by+"/"+post_image, new Buffer(post_pi
  })
 
  router.post('/likeOrUnlike',function(req,res,next){
-
+     var isUsersPost=false;
      Post.find({post_id:req.body.post_id},function(err,post){
          //find the user to whom the post belongs
+         if(req.body.userData.user_id==post[0].by.user_id){isUsersPost = true;}
+
          User.find({user_id:post[0].by.user_id},function(err,user){
          if(err){
             return res.status(500).json({
@@ -96,7 +98,10 @@ fs.writeFile("public/assets/post_uploads/"+by+"/"+post_image, new Buffer(post_pi
              
             //add a notification for post's reator
             //acvtId is the Id which will be used to redirect the user to the activity like the post which was liked
-        user[0].update({$push:{'notifications':{'acvtId':req.body.post_id,'by_user_id':req.body.userData.user_id,'message':"just liked your post",'read':false,'activityType':'Post Activity'}}},function(err){console.log("donedone");});
+            if(isUsersPost == false){
+                //user can like their own post but will not recieve a notification for it
+            user[0].update({$push:{'notifications':{'acvtId':req.body.post_id,'by_user_id':req.body.userData.user_id,'message':"just liked your post",'read':false,'activityType':'Post Activity'}}},function(err){console.log("donedone");});
+            }
          post[0].update({$push:{'likes_by':{'user_id':req.body.userData.user_id}}},function(err){
              if(err){
                 return res.status(500).json({
@@ -110,7 +115,10 @@ fs.writeFile("public/assets/post_uploads/"+by+"/"+post_image, new Buffer(post_pi
              }
 
          })
+        
         }
+        
+        
         else {
         user[0].update({$pull:{'notifications':{'acvtId':req.body.post_id,'by_user_id':req.body.userData.user_id,'activityType':'Post Activity'}}},function(err){})
 
@@ -129,6 +137,7 @@ fs.writeFile("public/assets/post_uploads/"+by+"/"+post_image, new Buffer(post_pi
             })
         }
      })
+    
     })
  })
 
@@ -234,5 +243,57 @@ fs.writeFile("public/assets/post_uploads/"+by+"/"+post_image, new Buffer(post_pi
   
 })
 })
+
+router.post('/editPost',function(req,res,next){
+    console.log('editPost')
+    var by = req.body.userData.user_id;
+var post_image = "user_"+by+"_"+req.body.postId+"."+req.body.editedPost.post_pic.image_type;
+
+Post.find({'post_id':req.body.postId},function(err,post){
+    fs.unlink("public/"+post[0].image,function(err){});
+    
+console.log("tHIS IS THE POST IMAGE DATA"+post_image)
+fs.writeFile("public/assets/post_uploads/"+by+"/"+post_image, new Buffer(req.body.editedPost.post_pic.image_data,"base64"),function(err){})
+
+})
+    Post.update({'post_id':req.body.postId},{$set:{
+        title:req.body.editedPost.title,
+        'content.story':req.body.editedPost.story,
+        'content.recipe':req.body.editedPost.recipe,
+        'content.ingredients':req.body.editedPost.ingredients,
+        'image':"assets/post_uploads/"+by+"/"+post_image
+
+    }},function(err){
+        if(err){
+            return res.status(500).json({
+                title: 'oops',
+            }); 
+         }
+         else {
+            return res.status(201).json({
+                msg:"edited Post"
+            }); 
+         }
+})
+})
+
+router.post('/deletePost',function(req,res,next){
+    Post.remove({'post_id':req.body.postId},function(err){
+       if(err){
+           return res.status(500).json({
+               title: 'oops',
+           }); 
+        }
+        else {
+           return res.status(201).json({
+               msg:"deletedPost"
+           }); 
+        }
+    })
+    User.find({user_id:req.body.userData.user_id},function(err,user){
+        user[0].update({$pull:{notifications:{'acvtId':req.body.postId}}},function(err){})
+    })
+})
+
 
 module.exports = router;

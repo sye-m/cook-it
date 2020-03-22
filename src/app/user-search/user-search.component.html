@@ -1,5 +1,5 @@
 <div class="searched-users"> 
-  <div [routerLink]="['/home',{ outlets:{navnav: ['profile',user.user_id] } }]">
+  <div class="user-info" [routerLink]="['/home',{ outlets:{navnav: ['profile',user.user_id] } }]">
     <div class="profile-pic">
       <img src = "http://localhost:3000/{{user.profile_pic}}" width="200px" height="100px">
     </div>

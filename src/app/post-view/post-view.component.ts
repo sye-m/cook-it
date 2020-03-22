@@ -45,12 +45,7 @@ isLoading:boolean = false;
       }
     })
 
-    this.userData.followers.forEach(elem => {
-      if(elem.user_id == this.post.by.user_id){
-        if(this.followValue !="Following")
-        this.followValue="Follow Back"
-      }
-    })
+    
 
     this.userData.saved.forEach(elem=>{
       if(elem.post_id == this.post.post_id){
@@ -132,6 +127,10 @@ isLoading:boolean = false;
   else{
     this.colorValue="warn"
   }
+    }
+
+    deletePost(postId){
+      this.postService.deletePost(postId,this.userData).subscribe((data)=>{console.log(data)});
     }
     
 

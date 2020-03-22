@@ -11,6 +11,19 @@
     </div>
 </button> 
 
+<button (click)="deletePost(post.post_id)" id="delete-post" mat-raised-button color="warn" *ngIf="userData.user_id==post.by.user_id">
+    
+    <div>
+    Delete Post
+    </div>
+</button>
+
+<button [routerLink]="['/home',{ outlets: {navnav: ['editPost',post.post_id] } }]" id="edit-post" mat-raised-button color="accent" *ngIf="userData.user_id==post.by.user_id">
+    
+    <div>
+    Edit Post
+    </div>
+</button>  
 </div>
 <hr>
 <div class="post-image">

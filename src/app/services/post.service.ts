@@ -57,4 +57,18 @@ export class PostService {
     return this.http.post('http://localhost:3000/post/getUsersPost',body, {headers: headers})
         .pipe(map((response: Response) => response.json()));
   }
+
+  editPost(postId,editedPost,userData){
+    const body = JSON.stringify({postId:postId,editedPost:editedPost,userData:userData});
+    const headers = new Headers({'Content-Type': 'application/json'});
+    return this.http.post('http://localhost:3000/post/editPost',body, {headers: headers})
+        .pipe(map((response: Response) => response.json()));
+  }
+
+  deletePost(postId,userData){
+    const body = JSON.stringify({postId:postId,userData:userData});
+    const headers = new Headers({'Content-Type': 'application/json'});
+    return this.http.post('http://localhost:3000/post/deletePost',body, {headers: headers})
+        .pipe(map((response: Response) => response.json()));
+  }
 }

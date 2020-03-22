@@ -1,0 +1,30 @@
+.searched-users{
+    display: flex;
+    margin: 20px;
+}
+.user-name{
+    display: inline-block;
+    width: 223px;
+    font-size: 15px;
+    padding: 35px 20px 0px 20px;
+
+}
+
+.user-info{
+    display:flex;
+}
+
+.profile-pic > img{
+    height: 100%;
+    width: auto;
+    margin-left: -12px;
+}
+
+.profile-pic{
+    display:inline-block;
+    border:1px solid;
+    border-radius: 50%;
+    overflow:hidden;
+    width:100px;
+    height:100px;
+}
