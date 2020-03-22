@@ -85,12 +85,18 @@ fs.writeFile("public/assets/post_uploads/"+by+"/"+post_image, new Buffer(post_pi
  router.post('/likeOrUnlike',function(req,res,next){
 
      Post.find({post_id:req.body.post_id},function(err,post){
+         //find the user to whom the post belongs
+         User.find({user_id:post[0].by.user_id},function(err,user){
          if(err){
             return res.status(500).json({
                 title: 'oops',
             });
          }
          if(req.body.likeType == "Like"){
+             
+            //add a notification for post's reator
+            //acvtId is the Id which will be used to redirect the user to the activity like the post which was liked
+        user[0].update({$push:{'notifications':{'acvtId':req.body.post_id,'by_user_id':req.body.userData.user_id,'message':"just liked your post",'read':false,'activityType':'Post Activity'}}},function(err){console.log("donedone");});
          post[0].update({$push:{'likes_by':{'user_id':req.body.userData.user_id}}},function(err){
              if(err){
                 return res.status(500).json({
@@ -106,7 +112,9 @@ fs.writeFile("public/assets/post_uploads/"+by+"/"+post_image, new Buffer(post_pi
          })
         }
         else {
-            post[0].update({$pull:{'likes_by':{'user_id':req.body.userData.user_id,'user_name':req.body.userData.user_name,'profile_pic':req.body.userData.userProfile.profile_pic}}},function(err){
+        user[0].update({$pull:{'notifications':{'acvtId':req.body.post_id,'by_user_id':req.body.userData.user_id,'activityType':'Post Activity'}}},function(err){})
+
+            post[0].update({$pull:{'likes_by':{'user_id':req.body.userData.user_id}}},function(err){
                 if(err){
                    return res.status(500).json({
                        title: 'oops',
@@ -121,6 +129,7 @@ fs.writeFile("public/assets/post_uploads/"+by+"/"+post_image, new Buffer(post_pi
             })
         }
      })
+    })
  })
 
  router.post('/homeFeed',function(req,res,next){
@@ -165,6 +174,20 @@ fs.writeFile("public/assets/post_uploads/"+by+"/"+post_image, new Buffer(post_pi
      })
  })
 
+ router.post('/notifPosts',function(req,res,next){
+    Post.find({'post_id':{$in:req.body.postIds}},function(err, posts){
+       if(err){
+           return res.status(500).json({
+               title: 'oops',
+           }); 
+        }
+        else {
+           return res.status(201).json({
+               posts:posts
+           }); 
+        }
+    })
+})
  
 
  router.post('/getUsersPost',function(req,res,next){

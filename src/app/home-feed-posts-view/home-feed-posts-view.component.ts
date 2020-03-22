@@ -92,10 +92,17 @@ byUser={
         });
         if(this.saveValue == "Save"){
          this.saveValue = "UnSave";
+         this.userData.saved.push({post_id:this.post.post_id});
         }
         else {
+          this.userData.saved = this.userData.saved.filter(elem =>{
+            if(elem.post_id != this.post.post_id){
+              return true;
+            }
+          })
           this.saveValue = "Save"
         }
+
     }
   
      followOrUnfollow(postObj){

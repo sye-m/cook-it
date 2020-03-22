@@ -48,7 +48,6 @@ this.userService.follow(this.user,this.userData).subscribe(data=>console.log(dat
 var followUser = {
   user_id:this.user.user_id,
 }
-console.log(followUser);
 this.auth.userData.user.following.push(followUser);
 
 }

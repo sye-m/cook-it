@@ -47,7 +47,8 @@ router.post('/', function (req, res, next) {
           followers:[],
           following:[],
           messages: [],
-          saved:[]
+          saved:[],
+          notifications:[]
       });
   
         
@@ -151,9 +152,8 @@ User.find({user_name:{$regex:searchTerm,$options:'i'}},function(err,result){
 
     User.find({user_id:req.body.user.user.user_id},function(err,user){
       User.find({user_id:req.body.followUser.user_id}, function(err, possibleFriend){
-        possibleFriend[0].update({$push:{'followers':{'user_id':user[0].user_id},'notifications':{'user_id':user[0].user_id,'message':"just followed you",'read':false}}},function(err){})
+        possibleFriend[0].update({$push:{'followers':{'user_id':user[0].user_id},'notifications':{'acvtId':possibleFriend[0].user_id,'by_user_id':user[0].user_id,'message':"just followed you",'read':false,'activityType':'Account Activity'}}},function(err){})
         user[0].update({$push:{'following':{'user_id':possibleFriend[0].user_id}}},function(err){}) 
-      
       })
       return res.status(200).json({message:'Read all'});
 
@@ -167,7 +167,7 @@ User.find({user_name:{$regex:searchTerm,$options:'i'}},function(err,result){
     
     User.find({user_id:req.body.user.user.user_id},function(err,user){
       User.find({user_id:req.body.unfollowUser.user_id}, function(err, possibleFriend){
-        possibleFriend[0].update({$pull:{'followers':{'user_id':user[0].user_id}}},function(err){})
+        possibleFriend[0].update({$pull:{'followers':{'user_id':user[0].user_id},'notifications':{'by_user_id':user[0].user_id,'activityType':'Account Activity'}}},function(err){})
         user[0].update({$pull:{'following':{'user_id':possibleFriend[0].user_id}}},function(err){}) 
       
       })
@@ -244,7 +244,7 @@ User.find({user_name:{$regex:searchTerm,$options:'i'}},function(err,result){
 var profile_pic = "user_"+req.body.userData.user_id+"."+req.body.newUserData.profile_pic.image_type;
 fs.unlink("public/assets/profile_pics"+req.body.userData.user_id+"/"+req.body.userData.userProfile[0].profile_pic,function(err){});
 fs.writeFile("public/assets/profile_pics/"+req.body.userData.user_id+"/"+profile_pic, new Buffer(req.body.newUserData.profile_pic.image_data,"base64"),function(err){})
-
+if(req.body.newUserData.password!=''){
     User.updateOne({'user_id':req.body.userData.user_id},{$set:{
       name:req.body.newUserData.name,
       user_name:req.body.newUserData.user_name,
@@ -266,6 +266,29 @@ fs.writeFile("public/assets/profile_pics/"+req.body.userData.user_id+"/"+profile
      }
 
     })
+  }
+  else{
+    User.updateOne({'user_id':req.body.userData.user_id},{$set:{
+      name:req.body.newUserData.name,
+      user_name:req.body.newUserData.user_name,
+      email:req.body.newUserData.email,
+      'userProfile.$[].bio':req.body.newUserData.bio,
+      'userProfile.$[].profile_pic':"assets/profile_pics/"+req.body.userData.user_id+"/"+profile_pic
+    }},function(err){
+
+      if(err){
+        return res.status(500).json({
+            title: 'something is wrong',
+        }); 
+     }
+     else {
+        return res.status(201).json({
+            message: 'User added',
+        }); 
+     }
+
+    })
+  }
   })
   router.get('/logout',isValidUser, function(req,res,next){
     req.logout();

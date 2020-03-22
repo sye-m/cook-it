@@ -88,9 +88,15 @@ isLoading:boolean = false;
       });
       if(this.saveValue == "Save"){
        this.saveValue = "UnSave";
+       this.userData.saved.push({post_id:this.post.post_id});
       }
       else {
-        this.saveValue = "Save"
+        this.saveValue = "Save";
+        this.userData.saved = this.userData.saved.filter(elem =>{
+          if(elem.post_id != this.post.post_id){
+            return true;
+          }
+        })
       }
       
   }

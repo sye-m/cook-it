@@ -43,6 +43,14 @@ export class PostService {
         .pipe(map((response: Response) => response.json()));
   }
 
+  
+  getNotifPosts(postIds){
+    const body = JSON.stringify({postIds:postIds});
+    const headers = new Headers({'Content-Type': 'application/json'});
+    return this.http.post('http://localhost:3000/post/notifPosts',body, {headers: headers})
+        .pipe(map((response: Response) => response.json()));
+  }
+
   getUsersPost(userId){
     const body = JSON.stringify({user_id:userId});
     const headers = new Headers({'Content-Type': 'application/json'});

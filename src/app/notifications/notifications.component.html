@@ -1,4 +1,24 @@
-<div>
+  <mat-tab-group mat-tab-align="center">
+    <mat-tab label="Followers activity">
   <app-infinite-scroll>
   <app-user-search *ngFor="let user of users" [user]="user"> </app-user-search>
 </app-infinite-scroll>
+</mat-tab>
+<mat-tab label="Posts Activity" >
+  <app-infinite-scroll *ngFor="let user of post_notif_users;let i = index">
+    <div class="searched-users"> 
+      <div [routerLink]="['/home',{ outlets:{navnav: ['profile',user.user_id] } }]">
+        <div class="profile-pic">
+          <img src = "http://localhost:3000/{{user.profile_pic}}" width="200px" height="100px">
+        </div>
+        <div class="user-name">
+          {{user.user_name}}
+        </div>
+      </div>
+      <img src = "http://localhost:3000/{{posts[i].image}}" width="200px" height="100px">
+
+    </div>  
+    <hr>
+  </app-infinite-scroll>
+</mat-tab>
+</mat-tab-group>
