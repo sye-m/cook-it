@@ -22,7 +22,7 @@ export class ProfileComponent implements OnInit {
   isUsersProfile:boolean = false;
   posts:Array<Object>=[];
   savedPosts=[];
-  constructor(private auth:AuthService,private userService:UserService,private postServie:PostService,private route:ActivatedRoute) {
+  constructor(private auth:AuthService,private userService:UserService,private postService:PostService,private route:ActivatedRoute) {
     this.user_id = this.route.snapshot.paramMap.get('user_id');
     this.user = this.auth.userData.user;
     
@@ -35,7 +35,7 @@ export class ProfileComponent implements OnInit {
       this.user = this.auth.userData.user;
       this.isUsersProfile = true;
     }
-    this.postServie.getUsersPost(this.user_id).subscribe((data)=>{
+    this.postService.getUsersPost(this.user_id).subscribe((data)=>{
       this.posts = data.userPosts;
       if(this.isUsersProfile==false){
         this.user = data.userData;

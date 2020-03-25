@@ -23,6 +23,11 @@
 #user-name{
     font-size:20px;
     margin-left:15px;
+    margin-right:15px;
+}
+
+#edit-post{
+    margin-right: 15px;
 }
 
 .action-button{
@@ -55,4 +60,8 @@ font-size:35px;
 mat-spinner{
     left:16px;
     top:6px;
+}
+
+#story{
+    overflow-wrap: break-word;
 }

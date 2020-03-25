@@ -3,6 +3,7 @@ import { PostService } from './../services/post.service';
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl } from '@angular/forms';
 import { Post } from './post.model';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-post',
@@ -20,7 +21,7 @@ upload_pic;
 recipeSteps:Array<Number>=[0];
 reader = new FileReader();
 noOfIngredients:Array<Number>=[0];
-  constructor(private post:PostService, private auth:AuthService ) { }
+  constructor(private post:PostService, private auth:AuthService, private router:Router ) { }
 
   ngOnInit() {
     this.title = new FormControl();
@@ -77,8 +78,11 @@ noOfIngredients:Array<Number>=[0];
       this.ingredients,
       this.auth.userData.user.user_id
     )
- await   this.post.post(post).subscribe(data=> console.log(data));
-    
+ await   this.post.post(post).subscribe(data=>{
+ this.router.navigate(['/home',{ outlets: {navnav: ['p',data.message.post_id] } }]);
+
+ });
+  
   }
   getPostImage(data){
     return 'data:image/jpeg;base64,' + data;

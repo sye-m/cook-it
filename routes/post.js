@@ -37,7 +37,7 @@ fs.writeFile("public/assets/post_uploads/"+by+"/"+post_image, new Buffer(post_pi
             }
             else{
             return res.status(201).json({
-                message: 'Post created',
+                message: result,
                 
             });
         }
@@ -278,6 +278,9 @@ fs.writeFile("public/assets/post_uploads/"+by+"/"+post_image, new Buffer(req.bod
 })
 
 router.post('/deletePost',function(req,res,next){
+    Post.find({'post_id':req.body.postId},function(err,post){
+        fs.unlink("public/"+post[0].image,function(err){})
+    })
     Post.remove({'post_id':req.body.postId},function(err){
        if(err){
            return res.status(500).json({

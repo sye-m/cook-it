@@ -1,4 +1,4 @@
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { PostService } from './../services/post.service';
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl } from '@angular/forms';
@@ -24,7 +24,7 @@ upload_pic;
 recipeSteps:Array<Number>=[];
 reader = new FileReader();
 noOfIngredients:Array<Number>=[];
-  constructor(private auth:AuthService,private postService:PostService,private route:ActivatedRoute) { 
+  constructor(private auth:AuthService,private postService:PostService,private route:ActivatedRoute,private router:Router) { 
     this.post_id = this.route.snapshot.paramMap.get('post_id');
     this.title = new FormControl();
     this.story = new FormControl();
@@ -119,8 +119,9 @@ noOfIngredients:Array<Number>=[];
       this.ingredients,
       this.auth.userData.user.user_id
     )
-    console.log(this.editedPost);
     this.postService.editPost(this.post_id,this.editedPost,this.auth.userData.user).subscribe((data)=>console.log(data));
+    this.router.navigate(['/home',{ outlets: {navnav: ['p',this.post_id] } }]);
+   
   }
 
 }

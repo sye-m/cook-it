@@ -48,7 +48,8 @@ padding: 2px;
 }
 
 .site-name{
-
+    font-size: 30px;
+    color: #FF931E;
 }
 .search-bar{
     margin:0 auto;

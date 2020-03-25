@@ -11,6 +11,13 @@
     </div>
 </button> 
 
+
+<button [routerLink]="['/home',{ outlets: {navnav: ['editPost',post.post_id] } }]" id="edit-post" mat-raised-button *ngIf="userData.user_id==post.by.user_id">
+    <div>
+    Edit Post
+    </div>
+</button>  
+
 <button (click)="deletePost(post.post_id)" id="delete-post" mat-raised-button color="warn" *ngIf="userData.user_id==post.by.user_id">
     
     <div>
@@ -18,12 +25,6 @@
     </div>
 </button>
 
-<button [routerLink]="['/home',{ outlets: {navnav: ['editPost',post.post_id] } }]" id="edit-post" mat-raised-button color="accent" *ngIf="userData.user_id==post.by.user_id">
-    
-    <div>
-    Edit Post
-    </div>
-</button>  
 </div>
 <hr>
 <div class="post-image">
@@ -56,7 +57,7 @@
 
 
 <mat-accordion multi="true">
-    <mat-expansion-panel  expandedHeight="300px">
+    <mat-expansion-panel  expandedHeight="300px" id="story">
         <mat-expansion-panel-header>
             <mat-panel-title>
                 <div>
@@ -68,8 +69,8 @@
                 Tap to view the whole story
             </mat-panel-description>
           
-        </mat-expansion-panel-header>
-        <p>
+        </mat-expansion-panel-header >
+        <p id="story">
             {{post.content.story}}
         </p>
     </mat-expansion-panel>

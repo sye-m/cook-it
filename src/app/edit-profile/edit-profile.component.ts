@@ -3,6 +3,7 @@ import { UserService } from './../services/user.service';
 import { AuthService } from './../services/auth.service';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-edit-profile',
@@ -22,12 +23,14 @@ export class EditProfileComponent implements OnInit {
   profile_pic;
 
   user;
-  constructor(private auth:AuthService,private userService:UserService) {
+  constructor(private auth:AuthService,private userService:UserService,private router:Router) {
     this.user = this.auth.userData.user;
 
    }
 
   async ngOnInit() {
+    this.user = this.auth.userData.user;
+
     this.upload_pic = "http://localhost:3000/"+this.user.userProfile[0].profile_pic;
 
     this.email = new FormControl(this.user.email,[Validators.required,Validators.email]);
@@ -67,6 +70,8 @@ export class EditProfileComponent implements OnInit {
       this.profile_pic
     )
     this.userService.editProfile(this.user,profile).subscribe(data=>console.log(data));
+    
+    this.router.navigate(['/home',{ outlets: {navnav: ['profile',this.user.user_id] } }]);
   }
 
   getImageData(e,image){
