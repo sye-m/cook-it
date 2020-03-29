@@ -5,6 +5,7 @@ var bcrypt = require('bcryptjs');
 var passport = require('passport');
 var User = require('../models/User');
 var Post = require('../models/Post');
+var Chat = require('../models/Chat');
 const fs = require('fs');
 
 router.post('/', function (req, res, next) {
@@ -46,7 +47,6 @@ router.post('/', function (req, res, next) {
           userProfile:{},
           followers:[],
           following:[],
-          messages: [],
           saved:[],
           notifications:[]
       });
@@ -290,6 +290,24 @@ if(req.body.newUserData.password!=''){
     })
   }
   })
+
+  router.post('/establishChat',function(req,res,next){
+    var chat = new Chat({
+      from:req.body.from_user_id,
+      to:req.body.to_user_id,
+      messages:[]
+    })
+    Chat.find({$and:[{from:req.body.from_user_id},{to:req.body.to_user_id}]} ,function(err,result){
+      if(result==''){
+        console.log("inside result")
+        chat.save(function(err,result){})
+     
+      }
+
+      })
+    return res.status(200).json({message:'Logout Success'});
+
+      })
   router.get('/logout',isValidUser, function(req,res,next){
     req.logout();
     return res.status(200).json({message:'Logout Success'});

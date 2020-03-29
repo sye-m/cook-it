@@ -17,9 +17,9 @@ var user = new Schema({
     userProfile:[userProfileSchema],
     followers:[{"user_id":String}],
     following:[{"user_id":String}],
-    messages: [{type: Schema.Types.ObjectId, ref: 'Message'}],
     notifications:[{"acvtId":String,"by_user_id":String,read:Boolean,'activityType':String}],
-    saved:[{"post_id":String}]
+    saved:[{"post_id":String}],
+    messaged_users:[{"user_id":String}]
 });
 
 

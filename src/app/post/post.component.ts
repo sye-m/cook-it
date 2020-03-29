@@ -57,6 +57,7 @@ noOfIngredients:Array<Number>=[0];
   async onPost(event){
     for(var i =0;i<this.noOfIngredients.length;i++){
       var ingredientInput = (<HTMLInputElement>document.getElementById("ingredient#"+i));
+
       if(ingredientInput){
        var ingredient = ingredientInput.value;
       }
@@ -78,7 +79,7 @@ noOfIngredients:Array<Number>=[0];
       this.ingredients,
       this.auth.userData.user.user_id
     )
- await   this.post.post(post).subscribe(data=>{
+ await this.post.post(post).subscribe(data=>{
  this.router.navigate(['/home',{ outlets: {navnav: ['p',data.message.post_id] } }]);
 
  });

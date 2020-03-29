@@ -1,0 +1,12 @@
+#message-container{
+    display: flex;
+    height: 100%;
+}
+#received-messages{
+    width: 50%;
+    height:80%;
+}
+#sent-messages{
+    width:50%;
+    height: 80%;
+}

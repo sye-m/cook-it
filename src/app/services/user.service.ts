@@ -62,4 +62,14 @@ export class UserService {
   
   }
 
+  establishChat(from_user_id,to_user_id){
+    const body = JSON.stringify({from_user_id:from_user_id,to_user_id:to_user_id});
+    const headers = new Headers({'Content-Type': 'application/json'});
+    console.log(from_user_id+"establish")
+    return this.http.post('http://localhost:3000/user/establishChat', body, {withCredentials:true,headers: headers})
+    .pipe(map((response: Response) => response.json()));
+  }
+
+  
+
 }

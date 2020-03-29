@@ -32,19 +32,26 @@ byUser={
    }
 
    ngOnInit() {
+     //get followed users information
     this.userService.getUsers(this.post.by.user_id).subscribe(data => {this.byUser = data.users[0];console.log(this.byUser)})
 
      this.likes = this.post.likes_by.length;
+     //if post is already liked by current user set button to unlike
     this.post.likes_by.forEach(elem=>{
       if(elem.user_id == this.userData.user_id){
         this.buttonValue = "Unlike";
       }
     })
+     
+    //if current user is already following the post's user set follow value to following
     this.userData.following.forEach(elem => {
       if(elem.user_id == this.post.by.user_id){
         this.followValue="Following"
       }
     })
+
+    //if current user is already following the post's user and
+    // they are following the currentset follow value to following
 
     this.userData.followers.forEach(elem => {
       if(elem.user_id == this.post.by.user_id){
@@ -53,6 +60,7 @@ byUser={
       }
     })
 
+     //if post is already saved by current user set button to save
     this.userData.saved.forEach(elem=>{
       if(elem.post_id == this.post.post_id){
         this.saveValue = "UnSave";
@@ -76,6 +84,7 @@ byUser={
     await this.postService.likeOrUnlike(this.post.post_id,this.userData,this.buttonValue).toPromise().then(result=>{
      console.log(result);
      });
+     
      if(this.buttonValue == "Like"){
       this.buttonValue = "Unlike";
       this.likes = this.likes+1;

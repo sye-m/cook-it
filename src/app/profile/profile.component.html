@@ -37,6 +37,8 @@
     {{followValue}}
     </div>
 </button> 
+<button mat-raised-button color="primary" (click)="establishChat()">Message</button>
+
 <button id="edit-profile" [routerLink]="['/home',{ outlets: {navnav: ['editProfile'] } }]" mat-raised-button *ngIf="isUsersProfile">
 Edit Profile
 </button>

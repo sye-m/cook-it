@@ -25,13 +25,13 @@ this.notifications= this.notifications+1;
     }
   })
   
-  }
+}
+
   
    ngOnInit() {
      this.searchTerm = new FormControl('');
     this.router.navigate(['/home',{ outlets: {navnav: ['homeFeed'] } }]);
-
-  }
+    }
 
   search(){
     if(this.searchTerm.value!=''){

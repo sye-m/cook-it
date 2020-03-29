@@ -1,8 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { AuthService } from '../services/auth.service';
 import { PostService } from '../services/post.service';
 import { UserService } from '../services/user.service';
+import { ChatService } from '../services/chat.service';
 
 @Component({
   selector: 'app-profile',
@@ -22,20 +23,20 @@ export class ProfileComponent implements OnInit {
   isUsersProfile:boolean = false;
   posts:Array<Object>=[];
   savedPosts=[];
-  constructor(private auth:AuthService,private userService:UserService,private postService:PostService,private route:ActivatedRoute) {
+  constructor(private chatService:ChatService,private auth:AuthService,private userService:UserService,private postService:PostService,private route:ActivatedRoute,private router:Router) {
     this.user_id = this.route.snapshot.paramMap.get('user_id');
     this.user = this.auth.userData.user;
     
    }
 
-  ngOnInit() {
+  async ngOnInit() {
     
 
     if(this.auth.userData.user.user_id == this.user_id){
       this.user = this.auth.userData.user;
       this.isUsersProfile = true;
     }
-    this.postService.getUsersPost(this.user_id).subscribe((data)=>{
+   await this.postService.getUsersPost(this.user_id).toPromise().then((data)=>{
       this.posts = data.userPosts;
       if(this.isUsersProfile==false){
         this.user = data.userData;
@@ -96,6 +97,12 @@ export class ProfileComponent implements OnInit {
   else{
     this.colorValue="warn"
   }
+    }
+
+    async establishChat(){
+     await this.userService.establishChat(this.auth.userData.user.user_id,this.user_id).toPromise().then(data=>{
+       this.router.navigate(['/home',{ outlets: {navnav: ['m',this.user_id] } }]);
+     })
     }
 
     

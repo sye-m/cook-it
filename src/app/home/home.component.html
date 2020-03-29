@@ -15,7 +15,7 @@
 
 <div class="side-nav">
    <div class="navLinks">
-     <img src="../../assets/logo/onlyLogo.png" alt="logo">
+     <img src="../../assets/logo/onlyLogo.jpg" alt="logo">
    </div>
    <hr>
 <div> 
@@ -39,11 +39,15 @@
     <a [routerLink]="[{ outlets: {navnav: ['post'] } }]">Post</a>
     <hr>
    </div>
+   <div>
+    <a [routerLink]="[{ outlets: {navnav: ['messages'] } }]">Messages</a>
+    <hr>
+   </div>
 <button  mat-raised-button color="primary"(click)="logout()">Log Out</button>
   </div>
 
 <div class="main-content">
-    <div>
+    <div style="height:100%">
     <router-outlet name="navnav"></router-outlet>
 </div>
 </div>

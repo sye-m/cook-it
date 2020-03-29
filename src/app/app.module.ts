@@ -1,5 +1,6 @@
 import { UserService } from './services/user.service';
 import { PostService } from './services/post.service';
+import { ChatService } from './services/chat.service';
 import { AuthService } from './services/auth.service';
 import { LoggedInGuard } from './services/logged-in-guard.guard';
 import { BrowserModule } from '@angular/platform-browser';
@@ -36,6 +37,8 @@ import { PostViewComponent } from './post-view/post-view.component';
 import { HomeFeedPostsViewComponent } from './home-feed-posts-view/home-feed-posts-view.component';
 import { EditProfileComponent } from './edit-profile/edit-profile.component';
 import { EditPostComponent } from './edit-post/edit-post.component';
+import { MessagesComponent } from './messages/messages.component';
+import { MessagesViewComponent } from './messages-view/messages-view.component';
 const routes: Routes = [
   {
     path:'',
@@ -95,6 +98,16 @@ const routes: Routes = [
         outlet:'navnav'
       },
       {
+        path:'messages',
+        component:MessagesComponent,
+        outlet:'navnav'
+      },
+      {
+        path:'m/:user_id',
+        component:MessagesViewComponent,
+        outlet:'navnav'
+      },
+      {
         path:'p/:post_id',
         component:PostViewComponent,
         outlet:'navnav'
@@ -131,7 +144,9 @@ const routes: Routes = [
     PostViewComponent,
     HomeFeedPostsViewComponent,
     EditProfileComponent,
-    EditPostComponent
+    EditPostComponent,
+    MessagesComponent,
+    MessagesViewComponent
   ],
   imports: [
     MatButtonModule,
