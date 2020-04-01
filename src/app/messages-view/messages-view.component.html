@@ -1,16 +1,21 @@
 <div id="message-container">
-<div id="received-messages">
-Received Messages
-<div *ngFor="let messages of received_messsages">
-  {{messages.msg}}
-</div>
-</div>
-<div id="sent-messages">
-Sent messages
-<div *ngFor="let messages of sent_messages">
-{{messages.msg}}
+  <div id="messages">
+<div *ngFor="let message of all_messages">
+  <div [ngClass]="whichClass(message.id)">
+  <div>
+{{message.msg}}
+  </div>
 </div>
 </div>
 </div>
-<textarea name="message" id="message" cols="30" rows="10" #message></textarea>
-<button type="submit" (click)="sendMessage(message)">Send</button>
+</div>
+<div id="send-container">
+<mat-form-field appearance="outline">
+  <textarea  placeholder="Type Something"name="message" class="input-field" id="message" matInput #message></textarea>
+</mat-form-field>
+<button type="submit"  id="message-send-button" (click)="sendMessage(message)" mat-icon-button>
+  <mat-icon>
+    send
+  </mat-icon>
+</button>
+</div>
