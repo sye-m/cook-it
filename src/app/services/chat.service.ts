@@ -18,19 +18,15 @@ export class ChatService {
    }
   
    initiateConnection(){
-    console.log("initiate connection")
     this.socket.emit('connected user id', {from_user_id:this.from_user_id});
-  this.userSocket = io.connect('http://localhost:4000/'+this.from_user_id);
-
+    this.userSocket = io.connect('http://localhost:4000/'+this.from_user_id);
     this.userSocket.on('connect',function(){
       console.log("user Socket connected");
     })
-    console.log("user Socket")
    }
  
 
   getAllMessages(to_user_id){
-     console.log("inside get All messages")
    this.userSocket.emit('get messages', {from_user_id:this.from_user_id,to_user_id:to_user_id});
    }
 
@@ -63,8 +59,8 @@ export class ChatService {
    }
 
   socketDisconnect(){
-    this.userSocket.disconnect();
     this.socket.disconnect();
+    this.userSocket.disconnect();
    }
    }
    

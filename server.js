@@ -69,58 +69,31 @@ server.listen(4000);
 io.on('connection',function(socket){
   socket.on('connected user id',function(data){
     //get user id of the user trying to initiate a conversation
-    console.log("socket connected")
-     from = data.from_user_id;
+    from = data.from_user_id;
+    io.of('/'+from).on('connection',function(socket){
   
+      socket.on('get messages',function(data){
 
-
-io.of('/'+from).on('connection',function(socket){
-  
-   console.log('connected to user')
-   socket.on('get messages',function(data){
- console.log(from+"from")
-
-    console.log("get messages")
      //get all the current and previous messsages for the user trying to start a conversation and the user with whom the current user is starting
- console.log("to user"+data.to_user_id)
-    Chat.find({$and:[{from:data.from_user_id},{to:data.to_user_id}]} ,function(err,res){
-      console.log("inside get messages ")
-       sent_messages = res;
-    console.log('get messages'+sent_messages+received_messages);
-
-    })
+      Chat.find({$and:[{from:data.from_user_id},{to:data.to_user_id}]} ,function(err,res){
+        sent_messages = res;
+       })
       Chat.find({$and:[{to:data.from_user_id},{from:data.to_user_id}]},function(err,res){
         received_messages = res
-    socket.emit('all messages',{sent_messages:sent_messages,received_messages:received_messages})
-
+      socket.emit('all messages',{sent_messages:sent_messages,received_messages:received_messages})
     })
-
-
    })
    socket.on('send message',function(data){
-    console.log("on send message")
+    Chat.find({$and:[{to:data.to_user_id},{from:data.from_user_id}]},function(err,result){
 
-     Chat.find({$and:[{to:data.to_user_id},{from:data.from_user_id}]},function(err,result){
-      console.log("Error"+err+"Result"+result);
-
-       var c = result[0].update({$push:{messages:{msg:data.message}}},function(err,res){
+      var c = result[0].update({$push:{messages:{msg:data.message}}},function(err,res){
 
        }).getUpdate()
-       io.of('/'+data.from_user_id).emit('new messages',{sent_messages:c,received_messages:received_messages});
-       console.log("result"+c)
-       io.of('/'+data.to_user_id).emit('new messages',{received_messages:c});
-
-     })
-         //this will show the current user their sent message
-
-         //this will show the current message to the user with whom the conversation has been started
-         
-        
-         
-       
+      io.of('/'+data.from_user_id).emit('new messages',{sent_messages:c,date:Date.now()});
+      io.of('/'+data.to_user_id).emit('new messages',{received_messages:c,date:Date.now()});
+        }) 
+      })
     })
-
-})
   })
 })
 

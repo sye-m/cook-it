@@ -1,17 +1,27 @@
+<div id="user">
+  <div class="user-info" [routerLink]="['/home',{ outlets:{navnav: ['profile',user.user_id] } }]">
+    <div class="profile-pic">
+      <img src = "http://localhost:3000/{{user.profile_pic}}" width="200px" height="100px">
+    </div>
+    <div class="user-name">
+      {{user.user_name}}
+    </div>
+  </div>
+</div>
 <div id="message-container">
   <div id="messages">
 <div *ngFor="let message of all_messages">
   <div [ngClass]="whichClass(message.id)">
-  <div>
+  <p>
 {{message.msg}}
-  </div>
+  </p>
 </div>
 </div>
 </div>
 </div>
 <div id="send-container">
 <mat-form-field appearance="outline">
-  <textarea  placeholder="Type Something"name="message" class="input-field" id="message" matInput #message></textarea>
+  <textarea  maxRows=5 placeholder="Type Something"name="message" class="input-field" id="message" matInput #message></textarea>
 </mat-form-field>
 <button type="submit"  id="message-send-button" (click)="sendMessage(message)" mat-icon-button>
   <mat-icon>

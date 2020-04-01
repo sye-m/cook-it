@@ -3,7 +3,7 @@
     width: 50%;
     border: 1px solid black;
     border-radius: 5px;
-    height: 100%;
+    height: auto;
     padding:1% 1.5% 1% 1.5%;
 }
 .post-pic{
