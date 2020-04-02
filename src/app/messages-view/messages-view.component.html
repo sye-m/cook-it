@@ -1,7 +1,7 @@
 <div id="user">
-  <div class="user-info" [routerLink]="['/home',{ outlets:{navnav: ['profile',user.user_id] } }]">
-    <div class="profile-pic">
-      <img src = "http://localhost:3000/{{user.profile_pic}}" width="200px" height="100px">
+  <div class="user-info" [routerLink]="['/home',{ outlets:{navnav: ['profile',to_user_id] } }]">
+    <div class="profile-pic" >
+      <img src = "http://localhost:3000/{{user.profile_pic}}" >
     </div>
     <div class="user-name">
       {{user.user_name}}

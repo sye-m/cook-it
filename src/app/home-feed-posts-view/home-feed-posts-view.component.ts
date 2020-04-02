@@ -33,7 +33,7 @@ byUser={
 
    ngOnInit() {
      //get followed users information
-    this.userService.getUsers(this.post.by.user_id).subscribe(data => {this.byUser = data.users[0];console.log(this.byUser)})
+    this.userService.getUsers(this.post.by.user_id).subscribe(data => {this.byUser = data.users[0];})
 
      this.likes = this.post.likes_by.length;
      //if post is already liked by current user set button to unlike
@@ -81,9 +81,7 @@ byUser={
   }
   async likeOrUnlike(){
   
-    await this.postService.likeOrUnlike(this.post.post_id,this.userData,this.buttonValue).toPromise().then(result=>{
-     console.log(result);
-     });
+    await this.postService.likeOrUnlike(this.post.post_id,this.userData,this.buttonValue).toPromise().then(result=>{});
      
      if(this.buttonValue == "Like"){
       this.buttonValue = "Unlike";
@@ -96,9 +94,7 @@ byUser={
     }
   
     async saveOrUnSave(){
-      await this.userService.saveOrUnSave(this.post.post_id,this.userData.user_id,this.saveValue).toPromise().then(result=>{
-        console.log(result);
-        });
+      await this.userService.saveOrUnSave(this.post.post_id,this.userData.user_id,this.saveValue).toPromise().then(result=>{});
         if(this.saveValue == "Save"){
          this.saveValue = "UnSave";
          this.userData.saved.push({post_id:this.post.post_id});
@@ -117,12 +113,12 @@ byUser={
      followOrUnfollow(postObj){
       if(this.followValue == "Follow" || this.followValue == "Follow Back"){
       this.followValue = "Following";
-       this.userService.follow(this.post.by,this.auth.userData).subscribe(data=>console.log(data));
+       this.userService.follow(this.post.by,this.auth.userData).subscribe(data=>{});
       this.auth.userData.user.following.push(postObj);
       }
       else if(this.followValue == "Following"){
         this.followValue = "Follow";
-      this.userService.unfollow(this.post.by,this.auth.userData).subscribe(data=>console.log(data));
+      this.userService.unfollow(this.post.by,this.auth.userData).subscribe(data=>{});
       //updating the static user data 
       this.auth.userData.user.following = this.auth.userData.user.following.filter((val)=>{
         if(val.user_id!=postObj.user_id){

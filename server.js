@@ -86,7 +86,7 @@ io.on('connection',function(socket){
    socket.on('send message',function(data){
     Chat.find({$and:[{to:data.to_user_id},{from:data.from_user_id}]},function(err,result){
 
-      var c = result[0].update({$push:{messages:{msg:data.message}}},function(err,res){
+      var c = result[0].update({$push:{messages:{msg:data.message,date:Date.now()}}},function(err,res){
 
        }).getUpdate()
       io.of('/'+data.from_user_id).emit('new messages',{sent_messages:c,date:Date.now()});

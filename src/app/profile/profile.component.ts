@@ -74,7 +74,7 @@ export class ProfileComponent implements OnInit {
     if(this.followValue == "Follow" || this.followValue == "Follow Back"){
     
       this.followValue = "Following";
-    this.userService.follow(user,this.auth.userData).subscribe(data=>{console.log(data);this.isLoading = false;});
+    this.userService.follow(user,this.auth.userData).subscribe(data=>{this.isLoading = false;});
      this.auth.userData.user.following.push({user_id:user.user_id});
     button.removeAttribute("disabled");
     
@@ -82,7 +82,7 @@ export class ProfileComponent implements OnInit {
     else if(this.followValue == "Following"){
 
       this.followValue = "Follow";
-    this.userService.unfollow(user,this.auth.userData).subscribe(data=>{console.log(data);this.isLoading = false;});
+    this.userService.unfollow(user,this.auth.userData).subscribe(data=>{this.isLoading = false;});
     this.auth.userData.user.following =  this.auth.userData.user.following.filter((val)=>{
       if(val.user_id!=user.user_id){
         return true

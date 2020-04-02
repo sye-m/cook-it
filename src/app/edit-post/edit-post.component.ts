@@ -77,7 +77,6 @@ noOfIngredients:Array<Number>=[];
 
   getImageData(e,image){
     var image_data = {"image_data":this.reader.result.toString().split(",")[1],"image_type":image.type.split("/")[1]}
-    console.log(image_data+"image")
     this.post_pic = image_data;
 
   }
@@ -86,7 +85,6 @@ noOfIngredients:Array<Number>=[];
  var image = document.getElementById('post_pic').files[0];
     this.reader.readAsDataURL(image);
     this.reader.addEventListener('load',(event) =>{ this.upload_pic = this.reader.result;this.getImageData(event, image)});
-    console.log(this.upload_pic)
   }
 
 
@@ -119,7 +117,7 @@ noOfIngredients:Array<Number>=[];
       this.ingredients,
       this.auth.userData.user.user_id
     )
-    this.postService.editPost(this.post_id,this.editedPost,this.auth.userData.user).subscribe((data)=>console.log(data));
+    this.postService.editPost(this.post_id,this.editedPost,this.auth.userData.user).subscribe((data)=>{});
     this.router.navigate(['/home',{ outlets: {navnav: ['p',this.post_id] } }]);
    
   }

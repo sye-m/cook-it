@@ -38,11 +38,11 @@ export class NotificationsComponent implements OnInit {
       this.post_notif_post_ids.push(element.acvtId)
       }
     });
-    this.postService.getNotifPosts(this.post_notif_post_ids).subscribe(data=>{this.posts = data.posts;console.log(this.posts)});
+    this.postService.getNotifPosts(this.post_notif_post_ids).subscribe(data=>{this.posts = data.posts;});
     this.userService.getUsers(this.post_notif_user_ids).subscribe(data=> this.post_notif_users = data.users);
     this.userService.getUsers(this.user_ids).subscribe(data=> this.users = data.users);
     
-  this.userService.readAll(this.auth.userData.user).subscribe(data=>console.log(data));
+  this.userService.readAll(this.auth.userData.user).subscribe(data=>{});
   }
 
 }

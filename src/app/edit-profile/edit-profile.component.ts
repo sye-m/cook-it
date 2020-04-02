@@ -69,14 +69,13 @@ export class EditProfileComponent implements OnInit {
       this.profileFormData.value.bio,
       this.profile_pic
     )
-    this.userService.editProfile(this.user,profile).subscribe(data=>console.log(data));
+    this.userService.editProfile(this.user,profile).subscribe(data=>{});
     
     this.router.navigate(['/home',{ outlets: {navnav: ['profile',this.user.user_id] } }]);
   }
 
   getImageData(e,image){
     var image_data = {"image_data":this.reader.result.toString().split(",")[1],"image_type":image.type.split("/")[1]}
-    console.log(image_data+"image")
     this.profile_pic = image_data;
 
   }
@@ -86,7 +85,6 @@ export class EditProfileComponent implements OnInit {
 
     this.reader.readAsDataURL(image);
     this.reader.addEventListener('load',(event) =>{ this.upload_pic = this.reader.result;this.getImageData(event, image)});
-    console.log(this.upload_pic)
   }
 
 

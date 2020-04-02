@@ -25,7 +25,6 @@ posts;
   search(){
     this.searchTerm = this.route.snapshot.paramMap.get('searchTerm')
     this.user.getUsersandPosts(this.searchTerm).subscribe(data=>{
-      console.log("This is the data"+data);
       this.posts = data.posts;
       this.users = data.users});
   }

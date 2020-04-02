@@ -13,7 +13,7 @@ import {sortBy} from 'underscore';
   styleUrls: ['./messages-view.component.css']
 })
 export class MessagesViewComponent implements OnInit,OnDestroy {
-  user_id;
+  ;
   user;
   from_user_id;
   to_user_id;
@@ -24,14 +24,20 @@ export class MessagesViewComponent implements OnInit,OnDestroy {
   sub2:Subscription;
   constructor(private userService:UserService,private route:ActivatedRoute,private chatService:ChatService,private auth:AuthService) {
     this.from_user_id = this.auth.userData.user.user_id;
+    this.user = this.auth.userData.user;
     this.to_user_id = this.route.snapshot.paramMap.get('user_id');
    }
 
    
    ngOnInit() {
-    this.userService.getUsers(this.to_user_id).subscribe(data=>this.user = data.users[0]);
+     //get the users data with whom the current user is chatting
+    this.userService.getUsers(this.to_user_id).toPromise().then(data=>this.user = data.users[0]);
+    //establish a socket with the server
     this.chatService.initiateConnection();
+    //get all the messages from and for this user
     this.chatService.getAllMessages(this.to_user_id);
+    //the messages received will be sorted into one big array
+    //this will help is displaying them properly
     this.sub = this.chatService.getMessages(this.to_user_id).subscribe(data=>{
       if(data.sent_messages.length>0){
       data.sent_messages[0].messages.forEach(elem=>{
@@ -48,15 +54,18 @@ export class MessagesViewComponent implements OnInit,OnDestroy {
     }
      this.all_messages = this.all_messages.sort(
       function(a,b){
-        // Turn your strings into dates, and then subtract them
         // to get a value that is either negative, positive, or zero.
         if (a.date > b.date) return 1;
-        if (a.date <b.date) return -1;
+        if (a.date< b.date) return -1;
       });
+      //automatically scroll to the bottom to get new message
       var objDiv = document.getElementById("messages");
       objDiv.scrollTop = objDiv.scrollHeight;
+
     })
-    this.sub2 = this.chatService.newMessage().subscribe((data)=>{
+
+    //if a new messages is either received or sent subscribe to the change and update the array
+    this.sub2 = this.chatService.newMessage().subscribe(data=>{
       
       //@ts-ignore
       if(data.sent_messages){
@@ -75,12 +84,15 @@ export class MessagesViewComponent implements OnInit,OnDestroy {
           if (a.date > b.date) return 1;
           if (a.date <b.date) return -1;
         });
+        //scroll to the bottom of chat window
+        var objDiv = document.getElementById("messages");
+        objDiv.scrollTop = objDiv.scrollHeight;
+
     });
    
 }
 
   sendMessage(message:HTMLTextAreaElement){
-    console.log('send Message')
     this.chatService.sendMessages(this.to_user_id,message.value);
     message.value="";
     var objDiv = document.getElementById("message-container");

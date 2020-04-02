@@ -65,9 +65,7 @@ isLoading:boolean = false;
   
   async likeOrUnlike(){
   
-  await this.postService.likeOrUnlike(this.post.post_id,this.userData,this.buttonValue).toPromise().then(result=>{
-   console.log(result);
-   });
+  await this.postService.likeOrUnlike(this.post.post_id,this.userData,this.buttonValue).toPromise().then(result=>{});
    if(this.buttonValue == "Like"){
     this.buttonValue = "Unlike";
    }
@@ -77,10 +75,7 @@ isLoading:boolean = false;
   }
 
   async saveOrUnSave(){
-    await this.userService.saveOrUnSave(this.post.post_id,this.userData.user_id,this.saveValue).toPromise().then(result=>{
-      
-      console.log(result);
-      });
+    await this.userService.saveOrUnSave(this.post.post_id,this.userData.user_id,this.saveValue).toPromise().then(result=>{});
       if(this.saveValue == "Save"){
        this.saveValue = "UnSave";
        this.userData.saved.push({post_id:this.post.post_id});
@@ -104,7 +99,7 @@ isLoading:boolean = false;
     if(this.followValue == "Follow" || this.followValue == "Follow Back"){
     
       this.followValue = "Following";
-    this.userService.follow(this.post.by,this.auth.userData).subscribe(data=>{console.log(data);this.isLoading = false;});
+    this.userService.follow(this.post.by,this.auth.userData).subscribe(data=>{this.isLoading = false;});
      this.auth.userData.user.following.push(postObj);
     button.removeAttribute("disabled");
     
@@ -112,7 +107,7 @@ isLoading:boolean = false;
     else if(this.followValue == "Following"){
 
       this.followValue = "Follow";
-    this.userService.unfollow(this.post.by,this.auth.userData).subscribe(data=>{console.log(data);this.isLoading = false;});
+    this.userService.unfollow(this.post.by,this.auth.userData).subscribe(data=>{this.isLoading = false;});
     this.auth.userData.user.following =  this.auth.userData.user.following.filter((val)=>{
       if(val.user_id!=postObj.user_id){
         return true
@@ -130,7 +125,7 @@ isLoading:boolean = false;
     }
 
     deletePost(postId){
-      this.postService.deletePost(postId,this.userData).subscribe((data)=>{console.log(data)});
+      this.postService.deletePost(postId,this.userData).subscribe((data)=>{});
     }
     
 

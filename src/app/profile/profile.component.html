@@ -16,13 +16,13 @@
     {{posts.length}}
   </div>
 
-  <div id="follower-count">
+  <div id="follower-count" [routerLink]="['/home',{ outlets: {navnav: ['followers'] } }]">
     Followers
     <br>
     {{user.followers.length}}
   </div>
 
-  <div id="following-count">
+  <div id="following-count" [routerLink]="['/home',{ outlets: {navnav: ['following'] } }]">
     Following
     <br>
     {{user.following.length}}
@@ -37,7 +37,7 @@
     {{followValue}}
     </div>
 </button> 
-<button mat-raised-button color="primary" (click)="establishChat()">Message</button>
+<button mat-raised-button color="primary" (click)="establishChat()"  *ngIf="!isUsersProfile">Message</button>
 
 <button id="edit-profile" [routerLink]="['/home',{ outlets: {navnav: ['editProfile'] } }]" mat-raised-button *ngIf="isUsersProfile">
 Edit Profile

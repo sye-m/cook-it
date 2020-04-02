@@ -14,8 +14,9 @@
 
 #messages{
     height:67%;
-    overflow:auto;
+    overflow-y: scroll;
     position: fixed;
+    width:85%;
 }
 
 .sent-message > p{
@@ -75,6 +76,7 @@ mat-form-field{
     position: fixed;
     border-bottom: 1px solid grey;
     width: 100%;
+    background:white;
 }
 .user-name{
     display: inline-block;

@@ -21,7 +21,6 @@ export class ChatService {
     this.socket.emit('connected user id', {from_user_id:this.from_user_id});
     this.userSocket = io.connect('http://localhost:4000/'+this.from_user_id);
     this.userSocket.on('connect',function(){
-      console.log("user Socket connected");
     })
    }
  
@@ -35,7 +34,6 @@ export class ChatService {
      observable = new Observable<Object>(observer=>{
       this.userSocket.on('all messages', (data)=>{
           observer.next(data);
-          console.log(data)
       });
       return () => {this.userSocket.disconnect();}
   });
@@ -43,7 +41,6 @@ export class ChatService {
    }
 
   sendMessages(to_user_id,message){
-     console.log(to_user_id,message)
     this.userSocket.emit('send message',{from_user_id:this.from_user_id,to_user_id:to_user_id,message:message});
    }
 
@@ -51,7 +48,6 @@ export class ChatService {
    var observable = new Observable(observer=>{
       this.userSocket.on('new messages', (data)=>{
           observer.next(data);
-          console.log(data)
       });
       return () => {this.userSocket.disconnect();}
   });

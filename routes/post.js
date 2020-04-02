@@ -61,11 +61,9 @@ fs.writeFile("public/assets/post_uploads/"+by+"/"+post_image, new Buffer(post_pi
         }
      var user_ids =[req.body.userData.user_id];
      user[0].following.forEach(data=>user_ids.push(data.user_id));
-     console.log(user_ids);
 
      Post.find({'by.user_id':{$nin:user_ids}},function(err,result){
          if(!err){
-             console.log(result)
             return res.status(201).json({
                 message: 'Post created',
                 result:result
@@ -100,7 +98,7 @@ fs.writeFile("public/assets/post_uploads/"+by+"/"+post_image, new Buffer(post_pi
             //acvtId is the Id which will be used to redirect the user to the activity like the post which was liked
             if(isUsersPost == false){
                 //user can like their own post but will not recieve a notification for it
-            user[0].update({$push:{'notifications':{'acvtId':req.body.post_id,'by_user_id':req.body.userData.user_id,'message':"just liked your post",'read':false,'activityType':'Post Activity'}}},function(err){console.log("donedone");});
+            user[0].update({$push:{'notifications':{'acvtId':req.body.post_id,'by_user_id':req.body.userData.user_id,'message':"just liked your post",'read':false,'activityType':'Post Activity'}}},function(err){});
             }
          post[0].update({$push:{'likes_by':{'user_id':req.body.userData.user_id}}},function(err){
              if(err){
@@ -150,7 +148,6 @@ fs.writeFile("public/assets/post_uploads/"+by+"/"+post_image, new Buffer(post_pi
      }
      var following_id = [];
      user[0].following.forEach(data => following_id.push(data.user_id))
-     console.log(following_id);
      Post.find({'by.user_id':{$in:following_id}},function(err,result){
         if(err){
            return res.status(500).json({
@@ -245,14 +242,12 @@ fs.writeFile("public/assets/post_uploads/"+by+"/"+post_image, new Buffer(post_pi
 })
 
 router.post('/editPost',function(req,res,next){
-    console.log('editPost')
     var by = req.body.userData.user_id;
 var post_image = "user_"+by+"_"+req.body.postId+"."+req.body.editedPost.post_pic.image_type;
 
 Post.find({'post_id':req.body.postId},function(err,post){
     fs.unlink("public/"+post[0].image,function(err){});
     
-console.log("tHIS IS THE POST IMAGE DATA"+post_image)
 fs.writeFile("public/assets/post_uploads/"+by+"/"+post_image, new Buffer(req.body.editedPost.post_pic.image_data,"base64"),function(err){})
 
 })

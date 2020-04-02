@@ -12,7 +12,7 @@ export class ExploreComponent implements OnInit {
   constructor(private post:PostService,private auth:AuthService) { }
 posts:Array<Object>;
   ngOnInit() {
-    this.post.explore(this.auth.userData.user).subscribe(data=>{console.log(data.result);this.posts = data.result});
+    this.post.explore(this.auth.userData.user).subscribe(data=>{this.posts = data.result});
   }
 
 }

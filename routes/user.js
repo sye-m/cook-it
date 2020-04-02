@@ -91,7 +91,6 @@ router.post('/login', (req, res, next) => {
 
   router.post('/getUsers',function(req,res,next){
     var user_ids = req.body.user_ids;
-    console.log("user_ids are"+user_ids);
     var users=[];
     User.find({'user_id':{$in:user_ids}},function(err,result){  
       if(!err){
@@ -102,7 +101,6 @@ router.post('/login', (req, res, next) => {
           profile_pic = element.userProfile[0].profile_pic;
           users.push({user_id:user_id,user_name:user_name,profile_pic:profile_pic});
         } )
-        console.log("user.js users"+users);
         return res.status(200).json({
           users:users,
         })
@@ -299,7 +297,6 @@ if(req.body.newUserData.password!=''){
     })
     Chat.find({$and:[{from:req.body.from_user_id},{to:req.body.to_user_id}]} ,function(err,result){
       if(result==''){
-        console.log("inside result")
         chat.save(function(err,result){})
      
       }
@@ -308,6 +305,24 @@ if(req.body.newUserData.password!=''){
     return res.status(200).json({message:'Logout Success'});
 
       })
+
+      router.post('/getMessages',function(req,res,next){
+        var chat = new Chat({
+          from:req.body.from_user_id,
+          to:req.body.to_user_id,
+          messages:[]
+        })
+        Chat.find({$or:[{from:req.body.from_user_id},{to:req.body.from_user_id}]} ,function(err,result){
+          
+    if(err){
+      console.log(err)
+    }
+    return res.status(200).json({users:result});
+
+          })
+    
+          }) 
+
   router.get('/logout',isValidUser, function(req,res,next){
     req.logout();
     return res.status(200).json({message:'Logout Success'});

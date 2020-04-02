@@ -21,7 +21,7 @@ byUser={
   }   
 
    ngOnInit() {
-    this.userService.getUsers(this.post.by.user_id).subscribe(data=>{this.byUser = data.users[0];console.log("by Users"+this.byUser)});
+    this.userService.getUsers(this.post.by.user_id).subscribe(data=>{this.byUser = data.users[0];});
 
 
   }

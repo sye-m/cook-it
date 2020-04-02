@@ -4,7 +4,7 @@ var Schema = mongoose.Schema;
 var chat = new Schema({
     from: {type:String},
     to: {type:String},
-    messages:[{msg:{type:String},date:{type:Date,required:true,default:Date.now()}}]
+    messages:[{msg:{type:String},date:{type:Number,required:true}}]
 });
 
 

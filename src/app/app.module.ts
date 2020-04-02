@@ -39,6 +39,8 @@ import { EditProfileComponent } from './edit-profile/edit-profile.component';
 import { EditPostComponent } from './edit-post/edit-post.component';
 import { MessagesComponent } from './messages/messages.component';
 import { MessagesViewComponent } from './messages-view/messages-view.component';
+import { FollowersViewComponent } from './followers-view/followers-view.component';
+import { FollowingViewComponent } from './following-view/following-view.component';
 const routes: Routes = [
   {
     path:'',
@@ -64,7 +66,6 @@ const routes: Routes = [
         path:'profile/:user_id',
         component:ProfileComponent,
         outlet:'navnav',
-
       },
       {
         path:'editProfile',
@@ -116,7 +117,18 @@ const routes: Routes = [
         path:'editPost/:post_id',
         component:EditPostComponent,
         outlet:'navnav'
+      },
+      {   
+        path:'following',
+        component:FollowingViewComponent,
+        outlet:'navnav'
+      },
+      {   
+        path:'followers',
+        component:FollowersViewComponent,
+        outlet:'navnav'
       }
+     
       
       
     ]}
@@ -146,7 +158,9 @@ const routes: Routes = [
     EditProfileComponent,
     EditPostComponent,
     MessagesComponent,
-    MessagesViewComponent
+    MessagesViewComponent,
+    FollowersViewComponent,
+    FollowingViewComponent
   ],
   imports: [
     MatButtonModule,

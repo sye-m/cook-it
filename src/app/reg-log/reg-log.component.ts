@@ -61,16 +61,12 @@ logPassword:FormControl;
   }
 
   passwordCheck(control:FormControl):{[s:string]:boolean}{
+
 if(this.password.value == control.value){
-  console.log("Password  1"+this.password.value+"Password 2 value"+control.value);
-  console.log({'passNotMatch':false})
   return {'passNotMatch':false}
 }
+
 else{
-  console.log("Password  1"+this.password.value+"Password 2 value"+control.value);
-
-  console.log({'passNotMatch':true})
-
   return {'passNotMatch':true}
 }
   }
@@ -94,10 +90,9 @@ else{
       this.regFormData.value.email,
       this.regFormData.value.password
     );
-    console.log("This is user data:"+JSON.stringify(user));
     this.auth.signup(user)
     .subscribe(
-        data => console.log(),
+        data => {},
         error => console.error(error)
     );
   this.regFormData.reset();
@@ -111,7 +106,6 @@ else{
     )
      this.auth.login(user)
       .subscribe(data => {
-        console.log(data);
         this.auth.auth = true;
       this.router.navigate(['/home']);
 

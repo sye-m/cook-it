@@ -1,0 +1,32 @@
+.user-info{
+    display:flex;
+}
+.messages{
+    width:200px;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    font-size: 16px;
+    font-weight: normal;
+    color:grey;
+}
+.user-name{
+    display: inline-block;
+    width: 110px;
+    font-size: 21px;
+    padding:35px 20px 35px 20px;
+    font-weight: bold;
+}
+.profile-pic > img{
+    height: 100%;
+    width: auto;
+    margin-left: -12px;
+}
+.profile-pic{
+    display:inline-block;
+    border:1px solid;
+    overflow: hidden;
+    width: 100px;
+    height: 100px;
+    margin-left: 10px;
+    border-radius: 50%;
+}

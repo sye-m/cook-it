@@ -28,7 +28,7 @@ export class AppComponent implements OnInit {
 
   }
    async logout(){
-     await this.auth.logout().toPromise().then(data=>console.log(data));
+     await this.auth.logout().toPromise().then(data=>{});
     this.router.navigate(['/user']);
   }
 }

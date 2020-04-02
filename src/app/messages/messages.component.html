@@ -1,3 +1,21 @@
-<p>
-  messages works!
-</p>
+<h3>&nbsp;&nbsp;Messages</h3>
+<hr>
+<app-infinite-scroll>
+  <div *ngFor="let users of all_users">
+    <div class="user-info" (click)="establishChat(users.user.user_id)">
+    <div class="profile-pic">
+    <img src="http://localhost:3000/{{users.user.profile_pic}}" alt="">
+    </div>
+    <div class="user-name">
+      {{users.user.user_name}}
+      <div class="messages" *ngIf="users.msg.msg">
+        {{users.msg.msg}}
+       </div>
+    </div>
+   
+  </div>
+  <hr>
+  </div>
+  
+
+</app-infinite-scroll>

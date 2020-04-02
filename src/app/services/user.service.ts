@@ -25,7 +25,6 @@ export class UserService {
 
   follow(user,userData){
     const body = JSON.stringify({followUser:user,user:userData});
-    console.log(user,userData)
     const headers = new Headers({'Content-Type': 'application/json'});
     return this.http.post('http://localhost:3000/user/followUser', body, {withCredentials:true,headers: headers})
     .pipe(map((response: Response) => response.json()));
@@ -33,7 +32,6 @@ export class UserService {
   
   unfollow(user,userData){
     const body = JSON.stringify({unfollowUser:user,user:userData});
-    console.log(user,userData)
     const headers = new Headers({'Content-Type': 'application/json'});
     return this.http.post('http://localhost:3000/user/unfollowUser', body, {withCredentials:true,headers: headers})
     .pipe(map((response: Response) => response.json()));
@@ -65,8 +63,14 @@ export class UserService {
   establishChat(from_user_id,to_user_id){
     const body = JSON.stringify({from_user_id:from_user_id,to_user_id:to_user_id});
     const headers = new Headers({'Content-Type': 'application/json'});
-    console.log(from_user_id+"establish")
     return this.http.post('http://localhost:3000/user/establishChat', body, {withCredentials:true,headers: headers})
+    .pipe(map((response: Response) => response.json()));
+  }
+
+  getMessages(from_user_id){
+    const body = JSON.stringify({from_user_id:from_user_id});
+    const headers = new Headers({'Content-Type': 'application/json'});
+    return this.http.post('http://localhost:3000/user/getMessages', body, {withCredentials:true,headers: headers})
     .pipe(map((response: Response) => response.json()));
   }
 
