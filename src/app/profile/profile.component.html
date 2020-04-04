@@ -7,7 +7,7 @@
    
     <p id="user_name">{{user.user_name}}</p>
   <p id="name">{{user.name}}</p>
-
+  <p id="bio">{{user.userProfile[0].bio}}</p>
   </div>
 
   <div id="posts-count">
@@ -37,7 +37,8 @@
     {{followValue}}
     </div>
 </button> 
-<button mat-raised-button color="primary" (click)="establishChat()"  *ngIf="!isUsersProfile">Message</button>
+&nbsp;
+<button id="message-button" mat-raised-button color="primary" (click)="establishChat()"  *ngIf="!isUsersProfile">Message</button>
 
 <button id="edit-profile" [routerLink]="['/home',{ outlets: {navnav: ['editProfile'] } }]" mat-raised-button *ngIf="isUsersProfile">
 Edit Profile

@@ -30,7 +30,6 @@ import { SinglePostComponent } from './single-post/single-post.component';
 import { SearchComponent } from './search/search.component';
 import {MatCardModule} from '@angular/material/card';
 import { UserSearchComponent } from './user-search/user-search.component';
-import { UserViewComponent } from './user-view/user-view.component';
 import { NotificationsComponent } from './notifications/notifications.component';
 import { HomeFeedPostsComponent } from './home-feed-posts/home-feed-posts.component';
 import { PostViewComponent } from './post-view/post-view.component';
@@ -81,11 +80,6 @@ const routes: Routes = [
       {
         path:'search/:searchTerm',
         component:SearchComponent,
-        outlet:'navnav'
-      },
-      {
-        path:'user-view',
-        component:UserViewComponent,
         outlet:'navnav'
       },
       {
@@ -150,7 +144,6 @@ const routes: Routes = [
     SinglePostComponent,
     SearchComponent,
     UserSearchComponent,
-    UserViewComponent,
     NotificationsComponent,
     HomeFeedPostsComponent,
     PostViewComponent,

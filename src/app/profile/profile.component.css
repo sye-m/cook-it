@@ -17,7 +17,7 @@
     height:200px;
     overflow:hidden;
     border-radius: 50%;
-    border:1px solid;
+    border:1px solid rgb(199, 194, 194);
 }
 #profile{
     width:25%;
@@ -40,7 +40,7 @@
     padding: 50px;
     font-size:20px;
     font-weight: bold;
-    border-right: 1px solid #c9c1c1;
+    border-right: 1px solid rgb(199, 194, 194);
 
 }
 #follow-button{
@@ -54,8 +54,9 @@
     padding: 50px;
     font-size:20px;
     font-weight: bold;
-    border-right: 1px solid #c9c1c1;
-
+    border-right: 1px solid rgb(199, 194, 194);
+    cursor: pointer;
+    outline: none;
 }
 
 #following-count{
@@ -64,7 +65,8 @@
     padding: 50px;
     font-size:20px;
     font-weight: bold;
-
+    cursor: pointer;
+    outline: none;
 }
 
 #profile-container{
@@ -80,5 +82,17 @@
 .post-pic{
     width:30%;
     margin:10px;
+    cursor: pointer;
+    outline: none;
+}
 
+#message-button{
+    width: 100px;
+    height: 36px;
+    padding-top: 2px;
+}
+
+#bio{
+    font-size: 15px;
+    font-weight: normal;
 }

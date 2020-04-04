@@ -1,53 +1,54 @@
 <div class="container">
-<div class="top-bar">
-  
- <div class="site-name">Cook It</div>
- <div class="search-bar">
- <form (ngSubmit)="search()" method="POST">
-<input type="text" [formControl]="searchTerm" name="searchTerm" placeholder="Search Posts or Users">
-<button mat-stroked-button type="submit" >
-  <mat-icon aria-hidden="false">search</mat-icon>
-</button>
-</form>
-</div>
-</div>
-<div class="content-container">
+  <div class="top-bar">
+    <div class="site-name">Cook It</div>
+    <div class="search-bar">
+      <form (ngSubmit)="search()" method="POST">
+        <input type="text" [formControl]="searchTerm" name="searchTerm" placeholder="Search Posts or Users">
+        <button mat-stroked-button type="submit" >
+          <mat-icon aria-hidden="false">search</mat-icon>
+        </button>
+      </form>
+    </div>
+    </div>
+  <div class="content-container">
 
-<div class="side-nav">
-   <div class="navLinks">
-     <img src="../../assets/logo/onlyLogo.jpg" alt="logo">
-   </div>
-   <hr>
-<div> 
-  <a [routerLink]="['/home',{ outlets: {navnav: ['homeFeed'] } }]">Home</a>
-</div> 
+    <div class="side-nav">
+      <div class="navLinks">
+        <img src="../../assets/logo/onlyLogo.jpg" alt="logo">
+      </div> 
 
-<hr>
-   <div>
-    <a [routerLink]="[{ outlets: {navnav: ['explore'] } }]">Explore</a>
-    <hr>
-   </div>
-   <div>
-    <a matBadge={{notifications}} matBadgeOverlap="false" matBadgeColor="warn" [routerLink]="[{ outlets: {navnav: ['notifications']}}]">Notification</a>
-    <hr>
-   </div>
-   <div>
-    <a [routerLink]="[{ outlets:{navnav: ['profile',userData.user.user_id] } }]">Profile</a>
-    <hr>
-   </div>
-   <div>
-    <a [routerLink]="[{ outlets: {navnav: ['post'] } }]">Post</a>
-    <hr>
-   </div>
-   <div>
-    <a [routerLink]="[{ outlets: {navnav: ['messages'] } }]">Messages</a>
-    <hr>
-   </div>
-<button  mat-raised-button color="primary"(click)="logout()">Log Out</button>
+      <div class="page-links" > 
+        <a [routerLink]="['/home',{ outlets: {navnav: ['homeFeed'] } }]" routerLinkActive="active-link">Home</a>
+      </div> 
+
+      <div class="page-links">
+        <a [routerLink]="[{ outlets: {navnav: ['explore'] } }]" routerLinkActive="active-link">Explore</a>
+      </div>
+
+      <div class="page-links" >
+        <a [routerLink]="[{ outlets: {navnav: ['notifications']}}]" routerLinkActive="active-link">
+          Notifications
+          <span *ngIf="notifications>0"matBadge={{notifications}} matBadgeOverlap="false" matBadgeColor="warn"></span>
+        </a>
+      </div>
+
+      <div class="page-links" >
+        <a [routerLink]="[{ outlets:{navnav: ['profile',userData.user.user_id] } }]" routerLinkActive="active-link">Profile</a>
+      </div>
+
+      <div class="page-links">
+        <a [routerLink]="[{ outlets: {navnav: ['post'] } }]" routerLinkActive="active-link">Post</a>
+      </div>
+
+      <div class="page-links">
+        <a [routerLink]="[{ outlets: {navnav: ['messages'] } }]" routerLinkActive="active-link">Messages</a>
+      </div>
+      <br>
+      <button  mat-raised-button color="primary"(click)="logout()">Log Out</button>
+      </div>
+
+    <div class="main-content">
+        <router-outlet name="navnav"></router-outlet>
+    </div>
   </div>
-
-<div class="main-content">
-    <router-outlet name="navnav"></router-outlet>
-</div>
-</div>
 </div>

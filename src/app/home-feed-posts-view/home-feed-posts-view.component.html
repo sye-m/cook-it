@@ -1,6 +1,6 @@
 <div class="post-card" >
   <mat-card>
-    <mat-card-header>
+    <mat-card-header [routerLink]="['/home',{ outlets:{navnav: ['profile',byUser.user_id] } }]">
     
       <mat-card-title>
         
@@ -11,7 +11,7 @@
 
     </mat-card-header>
     <div [routerLink]="['/home',{ outlets: {navnav: ['p',post.post_id] } }]">
-    <img class="post-image" mat-card-image src="http://localhost:3000/{{post.image}}" alt="Photo of a Shiba Inu">
+    <img class="post-image" mat-card-image src="http://localhost:3000/{{post.image}}">
     </div>
     <div class="flex-container">
       <button type="button" mat-icon-button color="accent"(click)="likeOrUnlike()" *ngIf="buttonValue=='Unlike'">
@@ -37,7 +37,7 @@
    <div style="font-weight: bold;">
      {{likes}} likes
    </div>
-   <mat-card-content [routerLink]="['/home',{ outlets: {navnav: ['p',post.post_id] } }]">
+   <mat-card-content class="content" [routerLink]="['/home',{ outlets: {navnav: ['p',post.post_id] } }]">
      <p id="post-title">{{post.title}}</p>
     {{post.content.ingredients[0]}},{{post.content.ingredients[1]}},{{post.content.ingredients[2]}}
   </mat-card-content>

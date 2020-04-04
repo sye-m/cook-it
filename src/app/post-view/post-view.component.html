@@ -1,7 +1,11 @@
 <div class="post-container" *ngIf="post">   
 <div class="post-by">
-<span><img src="http://localhost:3000/{{byUser.profile_pic}}" alt=""></span>
+    <span class="user-info" [routerLink]="['/home',{ outlets:{navnav: ['profile',byUser.user_id] } }]">
+<span class="profile-pic">
+    <img src="http://localhost:3000/{{byUser.profile_pic}}" alt="">
+</span>
 <span id="user-name">{{byUser.user_name}}</span>
+</span>
 <button (click)="followOrUnfollow(post.by)" id="follow-button" mat-raised-button color="{{colorValue}}" *ngIf="userData.user_id!=post.by.user_id">
     <div *ngIf="isLoading"  color="white" class="follow-button-text">
         <mat-spinner color="accent" diameter=25></mat-spinner>
@@ -109,3 +113,4 @@
         </div>
     </mat-expansion-panel>
 </mat-accordion>
+</div>

@@ -4,7 +4,7 @@
   <form enctype="multipart/form-data"[formGroup]="postFormData" (ngSubmit)="onPost()">
     <input id="post_pic" #post_pic type="file" (change)="getImage()" style="display: none;">  
     <div class="post-pic">
-    <img src="{{upload_pic}}" class="post-pic" alt="" width="200px" height="200px">
+    <img src="{{upload_pic}}" class="post-pic" alt="">
     </div>
     <label for="post_pic" id="upload-button">
       <button type="button" (click)="post_pic.click()" mat-raised-button color="primary">

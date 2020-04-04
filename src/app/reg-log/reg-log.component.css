@@ -5,7 +5,7 @@
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    border: 2px solid #8A959E;
+    border: 2px solid rgb(199, 194, 194);
     border-radius: 10px;
     padding: 30px;
     text-align: center;

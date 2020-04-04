@@ -27,3 +27,12 @@
     font-weight: bold;
     font-size:15px;
 }
+
+mat-card-header,.content{
+    outline:none;
+    cursor: pointer;
+}
+.post-image{
+    cursor: pointer;
+    outline: none;
+}

@@ -6,7 +6,7 @@ var post = new Schema({
     post_id:{type:String},
     by:{"user_id":String},
     content:{"story":String,"recipe":[{type:String}],"ingredients":[{type:String}]},
-    date:{type:String,required:true},
+    date:{type:Number,required:true},
     likes_by:[{"user_id":String}],
     comments:[{"by":String,"comment":String,"commented_on":{type:String,default:Date.now()}}],
     image:{type:String}

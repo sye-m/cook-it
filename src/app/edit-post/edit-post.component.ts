@@ -1,6 +1,6 @@
 import { ActivatedRoute, Router } from '@angular/router';
 import { PostService } from './../services/post.service';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { FormGroup, FormControl } from '@angular/forms';
 import { AuthService } from '../services/auth.service';
 import { Post } from '../post/post.model';
@@ -10,20 +10,21 @@ import { Post } from '../post/post.model';
   templateUrl: './edit-post.component.html',
   styleUrls: ['./edit-post.component.css']
 })
-export class EditPostComponent implements OnInit {
+export class EditPostComponent implements OnInit,OnDestroy {
   post;
   editedPost;
   post_id;
   postFormData:FormGroup;
-title:FormControl;
-story:FormControl;
-recipe:Array<String>=[];
-ingredients:Array<String>=[];
-post_pic;
-upload_pic;
-recipeSteps:Array<Number>=[];
-reader = new FileReader();
-noOfIngredients:Array<Number>=[];
+  title:FormControl;
+  story:FormControl;
+  recipe:Array<String>=[];
+  ingredients:Array<String>=[];
+  post_pic;
+  upload_pic;
+  recipeSteps:Array<Number>=[];
+  reader = new FileReader();
+  noOfIngredients:Array<Number>=[];
+  sub;
   constructor(private auth:AuthService,private postService:PostService,private route:ActivatedRoute,private router:Router) { 
     this.post_id = this.route.snapshot.paramMap.get('post_id');
     this.title = new FormControl();
@@ -36,10 +37,11 @@ noOfIngredients:Array<Number>=[];
 
   async ngOnInit() {
     
-    this.postService.singlePost(this.post_id).toPromise().then(data=>{this.post =data.post[0];
+    await this.postService.singlePost(this.post_id).toPromise().then(data=>{this.post =data.post[0];
     this.title = new FormControl(this.post.title);
     this.story = new FormControl(this.post.content.story);
     this.upload_pic = "http://localhost:3000/"+this.post.image;
+    console.log(this.upload_pic);
     this.recipe = this.post.content.recipe;
     this.ingredients =this.post.content.ingredients;
     var i=0;
@@ -63,6 +65,7 @@ noOfIngredients:Array<Number>=[];
     })
     //seperate the image data and data type for further processing on server side
     var image_data = {"image_data":dataUrl.toString().split(",")[1],"image_type":blob.type.split("/")[1]}
+    console.log(blob)
     //profile pic will contain the image data
     this.post_pic=image_data;;
   }
@@ -117,9 +120,13 @@ noOfIngredients:Array<Number>=[];
       this.ingredients,
       this.auth.userData.user.user_id
     )
-    this.postService.editPost(this.post_id,this.editedPost,this.auth.userData.user).subscribe((data)=>{});
+    this.sub = this.postService.editPost(this.post_id,this.editedPost,this.auth.userData.user).subscribe((data)=>{});
     this.router.navigate(['/home',{ outlets: {navnav: ['p',this.post_id] } }]);
    
+  }
+
+  ngOnDestroy(){
+    this.sub.unsubscribe();
   }
 
 }

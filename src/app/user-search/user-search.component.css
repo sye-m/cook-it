@@ -4,6 +4,8 @@
 }
 .user-info{
     display:flex;
+    cursor: pointer;
+    outline: none;
 }
 .user-name{
     display: inline-block;
@@ -18,7 +20,7 @@
 }
 .profile-pic{
     display:inline-block;
-    border:1px solid;
+    border:1px solid rgb(199, 194, 194);
     overflow: hidden;
     width: 100px;
     height: 100px;

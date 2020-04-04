@@ -32,7 +32,7 @@ export class EditProfileComponent implements OnInit {
     this.user = this.auth.userData.user;
 
     this.upload_pic = "http://localhost:3000/"+this.user.userProfile[0].profile_pic;
-
+console.log(this.upload_pic)
     this.email = new FormControl(this.user.email,[Validators.required,Validators.email]);
     this.name = new FormControl(this.user.name,[Validators.required,Validators.minLength(3)]);
     this.user_name = new FormControl(this.user.user_name,[Validators.required,Validators.minLength(3),Validators.maxLength(25)]);
@@ -57,6 +57,8 @@ export class EditProfileComponent implements OnInit {
     //seperate the image data and data type for further processing on server side
     var image_data = {"image_data":dataUrl.toString().split(",")[1],"image_type":blob.type.split("/")[1]}
     //profile pic will contain the image data
+    console.log(blob);
+    console.log(dataUrl)
     this.profile_pic=image_data;    
   }
 
@@ -70,7 +72,6 @@ export class EditProfileComponent implements OnInit {
       this.profile_pic
     )
     this.userService.editProfile(this.user,profile).subscribe(data=>{});
-    
     this.router.navigate(['/home',{ outlets: {navnav: ['profile',this.user.user_id] } }]);
   }
 

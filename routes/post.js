@@ -218,9 +218,8 @@ fs.writeFile("public/assets/post_uploads/"+by+"/"+post_image, new Buffer(post_pi
         
         else {
          userPosts = posts; 
-         ("userPosts"+posts); 
         }
-    })
+    }).sort({date:-1})
     Post.find({'post_id':{$in:savedPostsId}},function(err,posts){
         if(err){
             return res.status(500).json({
@@ -243,6 +242,7 @@ fs.writeFile("public/assets/post_uploads/"+by+"/"+post_image, new Buffer(post_pi
 
 router.post('/editPost',function(req,res,next){
     var by = req.body.userData.user_id;
+    console.log("image type"+req.body.editedPost.post_pic.image_type)
 var post_image = "user_"+by+"_"+req.body.postId+"."+req.body.editedPost.post_pic.image_type;
 
 Post.find({'post_id':req.body.postId},function(err,post){
