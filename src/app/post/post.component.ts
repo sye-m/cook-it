@@ -1,7 +1,7 @@
 import { AuthService } from './../services/auth.service';
 import { PostService } from './../services/post.service';
 import { Component, OnInit } from '@angular/core';
-import { FormGroup, FormControl } from '@angular/forms';
+import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { Post } from './post.model';
 import { Router } from '@angular/router';
 
@@ -24,8 +24,8 @@ noOfIngredients:Array<Number>=[0];
   constructor(private post:PostService, private auth:AuthService, private router:Router ) { }
 
   ngOnInit() {
-    this.title = new FormControl();
-    this.story = new FormControl();
+    this.title = new FormControl('',[Validators.required,Validators.minLength(3)]);
+    this.story = new FormControl('',[Validators.required,Validators.minLength(3)]);
     this.postFormData = new FormGroup({
       title:this.title,
       story:this.story,

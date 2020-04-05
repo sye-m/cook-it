@@ -181,18 +181,40 @@ fs.writeFile("public/assets/post_uploads/"+by+"/"+post_image, new Buffer(post_pi
  })
 
  router.post('/notifPosts',function(req,res,next){
-    Post.find({'post_id':{$in:req.body.postIds}},function(err, posts){
+     var post;
+     var user;
+    Post.find({'post_id':req.body.userAndPostsIds.post_id},function(err, post){
        if(err){
            return res.status(500).json({
                title: 'oops',
            }); 
         }
         else {
-           return res.status(201).json({
-               posts:posts
-           }); 
+            console.log('post'+post)
+               post = post[0]
         }
+        User.find({'user_id':req.body.userAndPostsIds.user_id},function(err,result){
+            if(err){
+                return res.status(500).json({
+                    title: 'oops',
+                }); 
+             }
+             else {
+                    user = {
+                        user_id:result[0].user_id,
+                        user_name:result[0].user_name,
+                        profile_pic:result[0].userProfile[0].profile_pic
+                    }
+
+                    console.log('user'+post)
+                    return res.status(201).json({
+                     user:user,
+                     post:post
+                    });
+             }
+        })
     })
+    
 })
  
 

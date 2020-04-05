@@ -38,7 +38,7 @@ console.log(this.upload_pic)
     this.user_name = new FormControl(this.user.user_name,[Validators.required,Validators.minLength(3),Validators.maxLength(25)]);
     this.password = new FormControl('',[Validators.minLength(3)]);
     this.password2 = new FormControl('',[Validators.minLength(3)]);;
-    this.bio = new FormControl(this.user.userProfile[0].bio,[Validators.required,Validators.minLength(3)]);
+    this.bio = new FormControl(this.user.userProfile[0].bio);
     this.profileFormData = new FormGroup({
       name: this.name,
       user_name: this.user_name,

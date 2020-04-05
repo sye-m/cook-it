@@ -4,7 +4,7 @@
 
 $app-primary:mat-palette($mat-orange,500);
 $app-accent:mat-palette($mat-pink);
-$app-warn:app-palette($mat-red);
+$app-warn:mat-palette($mat-red);
 
 $app-theme:mat-light-theme($app-primary, $app-accent, $app-warn);
 

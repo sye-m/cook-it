@@ -36,10 +36,9 @@ export class NotificationsComponent implements OnInit {
       this.post_notif.push(element)
       this.post_notif_user_ids.push(element.by_user_id)
       this.post_notif_post_ids.push(element.acvtId)
+      this.postService.getNotifPosts({'user_id':element.by_user_id,'post_id':element.acvtId}).toPromise().then(data=>{console.log(data);this.post_notif_users.push(data)});
       }
     });
-    this.postService.getNotifPosts(this.post_notif_post_ids).subscribe(data=>{this.posts = data.posts;});
-    this.userService.getUsers(this.post_notif_user_ids).subscribe(data=> this.post_notif_users = data.users);
     this.userService.getUsers(this.user_ids).subscribe(data=> this.users = data.users);
     
   this.userService.readAll(this.auth.userData.user).subscribe(data=>{});

@@ -24,3 +24,8 @@
     max-width: 500px;
     width: 100%;
   }
+
+.change-form{
+    cursor: pointer;
+    text-decoration: underline;
+}

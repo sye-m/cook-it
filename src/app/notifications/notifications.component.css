@@ -12,6 +12,8 @@
 
 .user-info{
     display:flex;
+    outline:none;
+    cursor: pointer;
 }
 
 .profile-pic > img{
@@ -27,4 +29,13 @@
     overflow:hidden;
     width:100px;
     height:100px;
+}
+.post-pic{
+    outline: none;
+    cursor: pointer;
+  
+}
+.post-pic > img{
+    width:200px;
+    height: 100px;
 }

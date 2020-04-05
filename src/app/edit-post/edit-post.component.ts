@@ -1,7 +1,7 @@
 import { ActivatedRoute, Router } from '@angular/router';
 import { PostService } from './../services/post.service';
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { FormGroup, FormControl } from '@angular/forms';
+import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { AuthService } from '../services/auth.service';
 import { Post } from '../post/post.model';
 
@@ -38,8 +38,8 @@ export class EditPostComponent implements OnInit,OnDestroy {
   async ngOnInit() {
     
     await this.postService.singlePost(this.post_id).toPromise().then(data=>{this.post =data.post[0];
-    this.title = new FormControl(this.post.title);
-    this.story = new FormControl(this.post.content.story);
+    this.title = new FormControl(this.post.title,[Validators.required,Validators.minLength(3)]);
+    this.story = new FormControl(this.post.content.story,[Validators.required,Validators.minLength(3)]);
     this.upload_pic = "http://localhost:3000/"+this.post.image;
     console.log(this.upload_pic);
     this.recipe = this.post.content.recipe;
@@ -85,7 +85,7 @@ export class EditPostComponent implements OnInit,OnDestroy {
   }
    getImage(){
      //@ts-ignore
- var image = document.getElementById('post_pic').files[0];
+    var image = document.getElementById('post_pic').files[0];
     this.reader.readAsDataURL(image);
     this.reader.addEventListener('load',(event) =>{ this.upload_pic = this.reader.result;this.getImageData(event, image)});
   }
@@ -101,6 +101,7 @@ export class EditPostComponent implements OnInit,OnDestroy {
       var ingredientInput = (<HTMLInputElement>document.getElementById("ingredient#"+i));
       if(ingredientInput){
        var ingredient = ingredientInput.value;
+      
       }
       this.ingredients.push(ingredient);
     }
@@ -109,6 +110,7 @@ export class EditPostComponent implements OnInit,OnDestroy {
       var recipeStep = (<HTMLInputElement>document.getElementById("recipeStep#"+i));
       if(recipeStep){
        var recipeS = recipeStep.value;
+      
       }
       this.recipe.push(recipeS);
     }
@@ -126,7 +128,9 @@ export class EditPostComponent implements OnInit,OnDestroy {
   }
 
   ngOnDestroy(){
+    if(this.sub){
     this.sub.unsubscribe();
+  }
   }
 
 }
