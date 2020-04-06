@@ -55,8 +55,8 @@ export class ChatService {
    }
 
   socketDisconnect(){
-    this.socket.disconnect();
-    this.userSocket.disconnect();
+      this.socket.disconnect();
+      this.userSocket.disconnect();
    }
    }
    

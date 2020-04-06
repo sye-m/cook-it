@@ -3,6 +3,7 @@ import { PostService } from './../services/post.service';
 import { Component, OnInit, Input, OnChanges, ChangeDetectorRef } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
 import { NavigationEnd, Router } from '@angular/router';
+import { UserService } from '../services/user.service';
 
 @Component({
   selector: 'app-home-feed-posts',
@@ -12,7 +13,8 @@ import { NavigationEnd, Router } from '@angular/router';
 export class HomeFeedPostsComponent implements OnInit {
 posts; 
 postSub;
-  constructor(private post:PostService,private auth:AuthService,private ref:ChangeDetectorRef,private router:Router) {
+users = [];
+  constructor(private userService:UserService,private post:PostService,private auth:AuthService,private ref:ChangeDetectorRef,private router:Router) {
     
    }
 

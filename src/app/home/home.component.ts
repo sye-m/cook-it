@@ -42,7 +42,11 @@ this.notifications= this.notifications+1;
   }
    async logout(){
      await this.auth.logout().toPromise().then(data=>{});
+    this.chatService.socketDisconnect();
     this.router.navigate(['/user']);
   }
-
+  ngOnDestroy(){
+    this.chatService.socketDisconnect();
+  }
 }
+

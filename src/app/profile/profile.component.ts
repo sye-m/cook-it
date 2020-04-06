@@ -44,7 +44,7 @@ export class ProfileComponent implements OnInit {
       if(this.isUsersProfile==true){
       this.savedPosts = data.savedPosts;
       }
-
+    })
       this.auth.userData.user.following.forEach(elem => {
         if(elem.user_id == this.user.user_id){
           this.followValue="Following"
@@ -64,7 +64,6 @@ export class ProfileComponent implements OnInit {
         this.colorValue="warn"
       }
 
-    });
   }
   async followOrUnfollow(user){
     this.isLoading = true;

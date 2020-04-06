@@ -1,6 +1,8 @@
 .post-card{
     max-width: 350px;
     margin:15px;
+    outline: none;
+    cursor: pointer;
 }
 .post-image{
     height: 240px;

@@ -17,7 +17,7 @@ var user = new Schema({
     userProfile:[userProfileSchema],
     followers:[{"user_id":String}],
     following:[{"user_id":String}],
-    notifications:[{"acvtId":String,"by_user_id":String,read:Boolean,'activityType':String}],
+    notifications:[{"acvtId":String,"by_user_id":String,read:Boolean,'activityType':String,'date':Number}],
     saved:[{"post_id":String}],
     messaged_users:[{"user_id":String}]
 });

@@ -98,7 +98,7 @@ fs.writeFile("public/assets/post_uploads/"+by+"/"+post_image, new Buffer(post_pi
             //acvtId is the Id which will be used to redirect the user to the activity like the post which was liked
             if(isUsersPost == false){
                 //user can like their own post but will not recieve a notification for it
-            user[0].update({$push:{'notifications':{'acvtId':req.body.post_id,'by_user_id':req.body.userData.user_id,'message':"just liked your post",'read':false,'activityType':'Post Activity'}}},function(err){});
+            user[0].update({$push:{'notifications':{'acvtId':req.body.post_id,'by_user_id':req.body.userData.user_id,'message':"just liked your post",'read':false,'activityType':'Post Activity','date':Date.now()}}},function(err){});
             }
          post[0].update({$push:{'likes_by':{'user_id':req.body.userData.user_id}}},function(err){
              if(err){

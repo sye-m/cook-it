@@ -25,6 +25,13 @@ export class NotificationsComponent implements OnInit {
   async ngOnInit() {
     await this.auth.isLoggedIn().toPromise();
     //get followers activity user ids
+  this.auth.userData.user.notifications.sort(
+      function(a,b){
+        // to get a value that is either negative, positive, or zero.
+        //arrange the all messages array in ascending order
+        if (b.date > a.date) return 1;
+        if (b.date <a.date) return -1;
+      })
     this.auth.userData.user.notifications.forEach(element => {
       if(element.activityType == "Account Activity"){
       this.user_ids.push(element.by_user_id)

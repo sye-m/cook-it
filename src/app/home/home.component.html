@@ -25,7 +25,7 @@
         <a [routerLink]="[{ outlets: {navnav: ['explore'] } }]" routerLinkActive="active-link">Explore</a>
       </div>
 
-      <div class="page-links" >
+      <div class="page-links" (click)="notifications=0" >
         <a [routerLink]="[{ outlets: {navnav: ['notifications']}}]" routerLinkActive="active-link">
           Notifications
           <span *ngIf="notifications>0"matBadge={{notifications}} matBadgeOverlap="false" matBadgeColor="warn"></span>
