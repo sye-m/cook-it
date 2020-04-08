@@ -4,7 +4,7 @@ import { AuthService } from './../services/auth.service';
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl } from '@angular/forms';
 import { PostService } from '../services/post.service';
-import { ChatService } from '../services/chat.service';
+import { UserService } from '../services/user.service';
 
 @Component({
   selector: 'app-home',
@@ -17,36 +17,35 @@ export class HomeComponent implements OnInit {
   userData;
   posts:Array<Object>;
   notifications=0;
-  
-  constructor(private chatService:ChatService,private auth:AuthService,private post:PostService,private router:Router) { 
-  this.userData = this.auth.userData;
-  this.userData.user.notifications.forEach(elem=>{
-    if(elem.read == false){
-this.notifications= this.notifications+1;
-    }
-  })
-  
+  constructor(private userService:UserService,private auth:AuthService,private post:PostService,private router:Router) { 
+    this.userData = this.auth.userData;
+    this.userData.user.notifications.forEach(elem=>{
+      if(elem.read == false){
+        this.notifications= this.notifications+1;
+      }
+    })
+
 }
 
   
-   ngOnInit() {
-     this.searchTerm = new FormControl('');
+  ngOnInit() {
+    this.searchTerm = new FormControl('');
     this.router.navigate(['/home',{ outlets: {navnav: ['homeFeed'] } }]);
-    }
+
+  }
 
   search(){
     if(this.searchTerm.value!=''){
     this.router.navigate(['/home',{ outlets: {navnav: ['search',this.searchTerm.value] } }]);
     }
-
   }
+
    async logout(){
      await this.auth.logout().toPromise().then(data=>{});
-    this.chatService.socketDisconnect();
     this.router.navigate(['/user']);
   }
+  
   ngOnDestroy(){
-    this.chatService.socketDisconnect();
   }
 }
 

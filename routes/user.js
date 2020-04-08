@@ -7,14 +7,16 @@ var User = require('../models/User');
 var Post = require('../models/Post');
 var Chat = require('../models/Chat');
 const fs = require('fs');
+const imagemin = require('imagemin');
+const imageminJpegtran = require('imagemin-jpegtran');
+const imageminPngquant = require('imagemin-pngquant');
 
 router.post('/', function (req, res, next) {
     User.findOne({'email':req.body.email},function(err,userExists){
       
       if(userExists){
-        return res.status(500).json({
-          message: 'user already exists',
-         user :req.body 
+        return res.status(501).json({
+          message: 'User already exists',
       });
       }
 
@@ -39,9 +41,9 @@ router.post('/', function (req, res, next) {
         })
     }
         var user = new User({
-          name:req.body.name,
+          name:req.body.name.toLowerCase(),
           user_id:user_id,
-          user_name:req.body.user_name,
+          user_name:req.body.user_name.toLowerCase(),
           password:bcrypt.hashSync(req.body.password, 10),
           email: req.body.email,
           userProfile:{},
@@ -89,6 +91,26 @@ router.post('/login', (req, res, next) => {
     else return res.status(401).json({message:'Bad Request'});
   } )
 
+  router.post('/recommendedUsers',function(req,res,next){
+    var notTheseUsers=[];
+    req.body.following.forEach(elem=>notTheseUsers.push(elem.user_id));
+    notTheseUsers.push(req.body.user_id);
+    User.find({'user_id':{$nin:notTheseUsers}},function(err,result){
+      if(!err){
+        var users = [];
+        
+        result.forEach(element =>{
+          user_id = element.user_id;
+          user_name=element.user_name;
+          profile_pic = element.userProfile[0].profile_pic;
+          users.push({user_id:user_id,user_name:user_name,profile_pic:profile_pic});
+        } )
+        return res.status(200).json({users:users});
+      }
+    else return res.status(401).json({message:'Bad Request'});
+
+    }).sort({'followers':-1});
+  })
   
 
   router.post('/getUsers',function(req,res,next){
@@ -96,12 +118,14 @@ router.post('/login', (req, res, next) => {
     var users=[];
     User.find({'user_id':{$in:user_ids}},function(err,result){  
       if(!err){
-
+        
         result.forEach(element =>{
           user_id = element.user_id;
           user_name=element.user_name;
           profile_pic = element.userProfile[0].profile_pic;
-          users.push({user_id:user_id,user_name:user_name,profile_pic:profile_pic});
+          followers = element.followers;
+          following = element.following;
+          users.push({user_id:user_id,user_name:user_name,profile_pic:profile_pic,followers:followers,following:following});
         } )
         return res.status(200).json({
           users:users,
@@ -243,7 +267,10 @@ User.find({user_name:{$regex:searchTerm,$options:'i'}},function(err,result){
    }
 var profile_pic = "user_"+req.body.userData.user_id+"."+req.body.newUserData.profile_pic.image_type;
 fs.unlink("public/assets/profile_pics"+req.body.userData.user_id+"/"+req.body.userData.userProfile[0].profile_pic,function(err){});
-fs.writeFile("public/assets/profile_pics/"+req.body.userData.user_id+"/"+profile_pic, new Buffer(req.body.newUserData.profile_pic.image_data,"base64"),function(err){})
+fs.writeFile("public/assets/profile_pics/"+profile_pic, new Buffer(req.body.newUserData.profile_pic.image_data,"base64"),function(err){
+compressImage(profile_pic,req.body.userData.user_id).then(()=>{});
+
+})
 if(req.body.newUserData.password!=''){
     User.updateOne({'user_id':req.body.userData.user_id},{$set:{
       name:req.body.newUserData.name,
@@ -341,4 +368,20 @@ next();
     else return res.status(401).json({message:'Bad Request'});
   }
   
+  async function compressImage(post_image,by){
+    const files = await imagemin(["public/assets/profile_pics/"+post_image], {
+        destination: "public/assets/profile_pics/"+by,
+        plugins: [
+            imageminJpegtran(),
+            imageminPngquant({
+                quality: [0.3, 0.4]
+            })
+        ]
+    });
+
+     fs.unlink("public/assets/profile_pics/"+post_image,function(err){});
+    //=> [{data: <Buffer 89 50 4e …>, destinationPath: 'build/images/foo.jpg'}, …]
+
+ }
+
 module.exports = router;

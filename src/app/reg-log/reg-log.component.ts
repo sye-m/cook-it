@@ -1,5 +1,5 @@
 import { AuthService } from './../services/auth.service';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { FormGroup, FormControl, Validators, FormGroupDirective, NgForm } from "@angular/forms";
 import { User } from "./user.model";
 import { RegUser } from './RegUser.model';
@@ -19,20 +19,21 @@ export class MyErrorStateMatcher implements ErrorStateMatcher {
   templateUrl: './reg-log.component.html',
   styleUrls: ['./reg-log.component.css']
 })
-export class RegLogComponent implements OnInit {
-show:Boolean = false;
-user:Boolean;
-regFormData:FormGroup;
-logFormData:FormGroup;
-email:FormControl;
-name:FormControl;
-user_name:FormControl;
-password:FormControl;
-password2:FormControl;
-pic:String;
-logEmail:FormControl;
-logPassword:FormControl;
-
+export class RegLogComponent implements OnInit,OnDestroy {
+  show:Boolean = false;
+  user:Boolean;
+  regFormData:FormGroup;
+  logFormData:FormGroup;
+  email:FormControl;
+  name:FormControl;
+  user_name:FormControl;
+  password:FormControl;
+  password2:FormControl;
+  pic:String;
+  logEmail:FormControl;
+  logPassword:FormControl;
+  sub;
+  sub2;
    constructor(private router:Router, private auth:AuthService,private flash:FlashMessagesService) {
   this.checkUser();
   }
@@ -90,11 +91,12 @@ else{
       this.regFormData.value.email,
       this.regFormData.value.password
     );
-    this.auth.signup(user)
-    .subscribe(
-        data => {},
-        error => console.error(error)
-    );
+    this.sub = this.auth.signup(user).subscribe(data => {}, error => {    
+      var obj = JSON.parse(error._body);
+      this.flash.show(obj.message,{cssClass:"alert alert-danger",timeout:2500})
+    
+    });
+
   this.regFormData.reset();
   this.password2.reset();
   }
@@ -104,7 +106,7 @@ else{
       this.logFormData.value.email,
       this.logFormData.value.password
     )
-     this.auth.login(user)
+     this.sub2 = this.auth.login(user)
       .subscribe(data => {
         this.auth.auth = true;
       this.router.navigate(['/home']);
@@ -112,11 +114,20 @@ else{
       }, error => {
         
         var obj = JSON.parse(error._body);
-        this.flash.show(obj.info.message,{cssClass:"alert alert-danger",timeout:2000})
+        this.flash.show(obj.info.message,{cssClass:"alert alert-danger",timeout:2500})
       });
 
     
 
+  }
+
+  ngOnDestroy(){
+    if(this.sub){
+      this.sub.unsubscribe();
+    }
+    if(this.sub2){
+      this.sub2.unsubscribe();
+    }
   }
 
 }

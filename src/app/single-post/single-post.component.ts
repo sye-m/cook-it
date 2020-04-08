@@ -10,20 +10,16 @@ import { Component, OnInit, Input } from '@angular/core';
   styleUrls: ['./single-post.component.css']
 })
 export class SinglePostComponent implements OnInit {
-@Input('post')post;
-byUser={
-  user_id:'',
-  user_name:'',
-  profile_pic:''
-};
-  constructor(private userService:UserService) {
+  @Input('post')post;
+  byUser={
+    user_id:'',
+    user_name:'',
+    profile_pic:''
+  };
+  constructor(private userService:UserService) {}   
 
-  }   
-
-   ngOnInit() {
-    this.userService.getUsers(this.post.by.user_id).subscribe(data=>{this.byUser = data.users[0];});
-
-
+  ngOnInit() {
+    this.userService.getUsers(this.post.by.user_id).toPromise().then(data=>{this.byUser = data.users[0];});
   }
 
   

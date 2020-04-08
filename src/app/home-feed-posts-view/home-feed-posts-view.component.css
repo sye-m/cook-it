@@ -12,6 +12,7 @@
     display:flex;
     flex-flow:row wrap;
     width: 100%;
+    margin-left: -10px;
 }
 
 
@@ -35,4 +36,7 @@ mat-card-header,.content{
 .post-image{
     cursor: pointer;
     outline: none;
+}
+#title{
+    margin-left: -21px;
 }

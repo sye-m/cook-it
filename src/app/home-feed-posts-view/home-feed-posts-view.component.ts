@@ -1,6 +1,6 @@
 import {HomeFeedPostsComponent } from './../home-feed-posts/home-feed-posts.component';
 import { Router,  } from '@angular/router';
-import { Component, OnInit, Input, OnChanges, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter, OnDestroy } from '@angular/core';
 import { AuthService } from '../services/auth.service';
 import { PostService } from '../services/post.service';
 import { UserService } from '../services/user.service';
@@ -10,7 +10,7 @@ import { UserService } from '../services/user.service';
   templateUrl: './home-feed-posts-view.component.html',
   styleUrls: ['./home-feed-posts-view.component.css']
 })
-export class HomeFeedPostsViewComponent implements OnInit,OnChanges {
+export class HomeFeedPostsViewComponent implements OnInit,OnDestroy {
   @Input('post')post;
   @Output() changed = new EventEmitter<Array<Object>>();
 
@@ -19,21 +19,23 @@ export class HomeFeedPostsViewComponent implements OnInit,OnChanges {
   colorValue="primary";
   userData;
   saveValue:String="Save";
-likes=0;
-mySubscription;
-byUser={
-  user_id:'',
-  user_name:'',
-  profile_pic:''
-};
+  likes=0;
+  mySubscription;
+  byUser={
+    user_id:'',
+    user_name:'',
+    profile_pic:''
+  };
+  sub;
+  sub2;
   constructor(private homeFeed:HomeFeedPostsComponent,private auth:AuthService, private postService:PostService,private userService:UserService,private router:Router) {
     this.userData = this.auth.userData.user;
     
    }
 
-   ngOnInit() {
+   async ngOnInit() {
      //get followed users information
-    this.userService.getUsers(this.post.by.user_id).subscribe(data => {this.byUser = data.users[0];})
+    await this.userService.getUsers(this.post.by.user_id).toPromise().then(data => {this.byUser = data.users[0];})
 
      this.likes = this.post.likes_by.length;
      //if post is already liked by current user set button to unlike
@@ -112,13 +114,13 @@ byUser={
   
      followOrUnfollow(postObj){
       if(this.followValue == "Follow" || this.followValue == "Follow Back"){
-      this.followValue = "Following";
-       this.userService.follow(this.post.by,this.auth.userData).subscribe(data=>{});
-      this.auth.userData.user.following.push(postObj);
+        this.followValue = "Following";
+        this.sub = this.userService.follow(this.post.by,this.auth.userData).subscribe(data=>{});
+        this.auth.userData.user.following.push(postObj);
       }
       else if(this.followValue == "Following"){
         this.followValue = "Follow";
-      this.userService.unfollow(this.post.by,this.auth.userData).subscribe(data=>{});
+        this.sub2 = this.userService.unfollow(this.post.by,this.auth.userData).subscribe(data=>{});
       //updating the static user data 
       this.auth.userData.user.following = this.auth.userData.user.following.filter((val)=>{
         if(val.user_id!=postObj.user_id){
@@ -135,6 +137,14 @@ byUser={
       }
 
       }
+  ngOnDestroy(){
+    if(this.sub){
+      this.sub.unsubscribe();
+    }
+    if(this.sub2){
+      this.sub2.unsubscribe();
+    }
+  }
       
   
 }

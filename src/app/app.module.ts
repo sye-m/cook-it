@@ -40,6 +40,9 @@ import { MessagesComponent } from './messages/messages.component';
 import { MessagesViewComponent } from './messages-view/messages-view.component';
 import { FollowersViewComponent } from './followers-view/followers-view.component';
 import { FollowingViewComponent } from './following-view/following-view.component';
+import {NgxImageCompressService} from 'ngx-image-compress';
+import { UsersToFollowComponent } from './users-to-follow/users-to-follow.component';
+
 const routes: Routes = [
   {
     path:'',
@@ -113,12 +116,12 @@ const routes: Routes = [
         outlet:'navnav'
       },
       {   
-        path:'following',
+        path:'following/:user_id',
         component:FollowingViewComponent,
         outlet:'navnav'
       },
       {   
-        path:'followers',
+        path:'followers/:user_id',
         component:FollowersViewComponent,
         outlet:'navnav'
       }
@@ -153,7 +156,8 @@ const routes: Routes = [
     MessagesComponent,
     MessagesViewComponent,
     FollowersViewComponent,
-    FollowingViewComponent
+    FollowingViewComponent,
+    UsersToFollowComponent
   ],
   imports: [
     MatButtonModule,
@@ -175,7 +179,7 @@ const routes: Routes = [
     FlashMessagesModule.forRoot()
   ],
   exports: [RouterModule],
-  providers: [AuthService,PostService,UserService],
+  providers: [AuthService,PostService,UserService,NgxImageCompressService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

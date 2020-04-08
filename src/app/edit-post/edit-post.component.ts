@@ -41,7 +41,6 @@ export class EditPostComponent implements OnInit,OnDestroy {
     this.title = new FormControl(this.post.title,[Validators.required,Validators.minLength(3)]);
     this.story = new FormControl(this.post.content.story,[Validators.required,Validators.minLength(3)]);
     this.upload_pic = "http://localhost:3000/"+this.post.image;
-    console.log(this.upload_pic);
     this.recipe = this.post.content.recipe;
     this.ingredients =this.post.content.ingredients;
     var i=0;
@@ -65,7 +64,6 @@ export class EditPostComponent implements OnInit,OnDestroy {
     })
     //seperate the image data and data type for further processing on server side
     var image_data = {"image_data":dataUrl.toString().split(",")[1],"image_type":blob.type.split("/")[1]}
-    console.log(blob)
     //profile pic will contain the image data
     this.post_pic=image_data;;
   }
@@ -74,8 +72,21 @@ export class EditPostComponent implements OnInit,OnDestroy {
     this.noOfIngredients.push(this.noOfIngredients.length);
   }
 
+  
+  deleteIngredients(indexValue){
+    if(this.noOfIngredients.length){
+      this.noOfIngredients.splice(indexValue,1);
+    }
+  }
+
   addRecipeSteps(){
     this.recipeSteps.push(this.recipeSteps.length);
+  }
+
+  deleteRecipeSteps(indexValue){
+    if(this.recipeSteps.length>1){
+      this.recipeSteps.splice(indexValue,1); 
+    }
   }
 
   getImageData(e,image){
@@ -91,7 +102,7 @@ export class EditPostComponent implements OnInit,OnDestroy {
   }
 
 
-  editPost(){
+  async editPost(){
     this.ingredients=[];
     this.postFormData = new FormGroup({
       title:this.title,
@@ -122,15 +133,15 @@ export class EditPostComponent implements OnInit,OnDestroy {
       this.ingredients,
       this.auth.userData.user.user_id
     )
-    this.sub = this.postService.editPost(this.post_id,this.editedPost,this.auth.userData.user).subscribe((data)=>{});
+    await this.postService.editPost(this.post_id,this.editedPost,this.auth.userData.user).toPromise().then((data)=>{
     this.router.navigate(['/home',{ outlets: {navnav: ['p',this.post_id] } }]);
+
+    });
    
   }
 
   ngOnDestroy(){
-    if(this.sub){
-    this.sub.unsubscribe();
-  }
+  
   }
 
 }

@@ -1,26 +1,25 @@
 import { UserService } from './../services/user.service';
 import { AuthService } from './../services/auth.service';
-import { Component, OnInit, Input, OnDestroy } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 
 @Component({
-  selector: 'app-user-search',
-  templateUrl: './user-search.component.html',
-  styleUrls: ['./user-search.component.css']
+  selector: 'app-users-to-follow',
+  templateUrl: './users-to-follow.component.html',
+  styleUrls: ['./users-to-follow.component.css']
 })
-export class UserSearchComponent implements OnInit,OnDestroy {
-  @Input('user')user;
-  colorValue="primary"
+export class UsersToFollowComponent implements OnInit {
+  @Input('user')user: any;
   userData;
+  colorValue="primary"
+  buttonValue:String = "Follow";
   sub;
   sub2;
-  buttonValue:String = "Follow";
-
-  constructor(private auth:AuthService,private userService:UserService) {
+  constructor(private auth:AuthService,private userService:UserService) { 
     this.userData = this.auth.userData;
-   }
+  }
 
-  ngOnInit() {    
-     this.userData.user.following.forEach(elem => {
+  ngOnInit() {
+    this.userData.user.following.forEach(elem => {
       if(elem.user_id == this.user.user_id){
         this.buttonValue="Following"
       }
@@ -37,8 +36,8 @@ export class UserSearchComponent implements OnInit,OnDestroy {
     }
     else{
       this.colorValue="warn"
-    }   
-}
+    }
+  }
 
   followOrUnfollow(){
     if(this.buttonValue == "Follow" || this.buttonValue == "Follow Back"){
@@ -67,12 +66,15 @@ export class UserSearchComponent implements OnInit,OnDestroy {
     }
 }
 
-  ngOnDestroy(){
-    if(this.sub){
-      this.sub.unsubscribe();
-    }
-    if(this.sub2){
-      this.sub2.unsubscribe();
-    }
+ngOnDestroy(){
+  if(this.sub){
+    this.sub.unsubscribe();
   }
+  if(this.sub2){
+    this.sub2.unsubscribe();
+  }
+}
+
+
+
 }

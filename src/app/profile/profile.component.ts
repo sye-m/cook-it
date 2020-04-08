@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AuthService } from '../services/auth.service';
 import { PostService } from '../services/post.service';
@@ -10,15 +10,15 @@ import { ChatService } from '../services/chat.service';
   templateUrl: './profile.component.html',
   styleUrls: ['./profile.component.css']
 })
-export class ProfileComponent implements OnInit {
+export class ProfileComponent implements OnInit,OnDestroy {
   user_id:String;
   user;
   followValue:String = "Follow";
   colorValue="primary";
   isLoading:boolean =false;
   post_pic;
-
-
+  sub;
+  sub2;
 
   isUsersProfile:boolean = false;
   posts:Array<Object>=[];
@@ -73,7 +73,7 @@ export class ProfileComponent implements OnInit {
     if(this.followValue == "Follow" || this.followValue == "Follow Back"){
     
       this.followValue = "Following";
-    this.userService.follow(user,this.auth.userData).subscribe(data=>{this.isLoading = false;});
+      this.sub = this.userService.follow(user,this.auth.userData).subscribe(data=>{this.isLoading = false;});
      this.auth.userData.user.following.push({user_id:user.user_id});
     button.removeAttribute("disabled");
     
@@ -81,7 +81,7 @@ export class ProfileComponent implements OnInit {
     else if(this.followValue == "Following"){
 
       this.followValue = "Follow";
-    this.userService.unfollow(user,this.auth.userData).subscribe(data=>{this.isLoading = false;});
+      this.sub2 = this.userService.unfollow(user,this.auth.userData).subscribe(data=>{this.isLoading = false;});
     this.auth.userData.user.following =  this.auth.userData.user.following.filter((val)=>{
       if(val.user_id!=user.user_id){
         return true
@@ -104,7 +104,14 @@ export class ProfileComponent implements OnInit {
      })
     }
 
-    
+  ngOnDestroy(){
+    if(this.sub){
+    this.sub.unsubscribe();
+    }
+    if(this.sub2){
+    this.sub2.unsubscribe();
+    }
+  }    
 
 
 }

@@ -30,15 +30,21 @@
       <mat-form-field appearance="outline">
         <mat-label>Step {{indexValue+1}}</mat-label>
         <input matInput type="text" class="input-field" name="recipe"  #recipeStep{{indexValue}} id="recipeStep#{{indexValue}}">
+        <button *ngIf="indexValue!=0" type="button" color="warn" mat-button  matSuffix mat-icon-button aria-label="Clear" (click)="deleteRecipeSteps(indexValue)">
+          <mat-icon>remove_circle</mat-icon>
+        </button>
       </mat-form-field>
     </div>
     <button type="button" mat-raised-button (click)="addRecipeSteps()">Add Step</button>
-<br><br>
+    <br><br>
     <span>Ingredients</span>
     <div *ngFor="let nOI of noOfIngredients; let indexValue=index;">
       <mat-form-field appearance="outline">
       <mat-label>Ingredient No {{indexValue+1}}</mat-label>
       <input class="input-field" matInput type="text" #ingredient{{indexValue}} id="ingredient#{{indexValue}}">
+      <button *ngIf="indexValue!=0" type="button" color="warn" mat-button  matSuffix mat-icon-button aria-label="Clear" (click)="deleteIngredients(indexValue)">
+          <mat-icon>remove_circle</mat-icon>
+      </button> 
       </mat-form-field>
     </div>
     <button type="button" mat-raised-button  (click)="addIngredient()">Add Ingredient</button>

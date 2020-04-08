@@ -1,8 +1,8 @@
-<div class="post-card" >
+<div class="post-card" *ngIf="byUser.user_name!=''" >
   <mat-card>
     <mat-card-header [routerLink]="['/home',{ outlets:{navnav: ['profile',byUser.user_id] } }]">
     
-      <mat-card-title>
+      <mat-card-title id="title">
         
           <img mat-card-avatar  src="http://localhost:3000/{{byUser.profile_pic}}">
         

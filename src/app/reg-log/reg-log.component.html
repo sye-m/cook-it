@@ -2,6 +2,7 @@
   <span id="site-name"> Cook It</span>
   <hr>
   <div id="regForm" *ngIf="!show">
+    <flash-messages></flash-messages>
     <form [formGroup]="regFormData" (ngSubmit)="onReg()" name="reg-form" class="reg-form">
 
       <mat-form-field appearance="outline" class="input-full-width">

@@ -1,4 +1,4 @@
-<div class="post-card" [routerLink]="['/home',{ outlets: {navnav: ['p',post.post_id] } }]">
+<div class="post-card" *ngIf="byUser.user_id!=''"[routerLink]="['/home',{ outlets: {navnav: ['p',post.post_id] } }]">
 <mat-card>
   <mat-card-header>
   

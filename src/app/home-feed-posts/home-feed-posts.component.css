@@ -1,0 +1,35 @@
+#recommended-users{
+    height: 60%;
+    width: 30%;
+    float: right;
+    position: fixed;
+    top: 17%;
+    right: 2%;
+    overflow-y: auto;
+    overflow-x: hidden;
+    border:1px solid rgb(199, 194, 194);
+    border-radius: 15px;
+}
+::-webkit-scrollbar{
+    width:10px;
+    height: fit-content;
+}
+::-webkit-scrollbar-track{
+    background: #f1f1f1;
+    border-radius: 15px;
+}
+
+::-webkit-scrollbar-thumb{
+    background: #888;
+    border-radius: 15px;
+}
+
+::-webkit-scrollbar-thumb:hover{
+    background:#555;
+}
+
+#title{
+    text-align: center;
+    font-size: 1.5em;
+    padding-top: 12px;
+}

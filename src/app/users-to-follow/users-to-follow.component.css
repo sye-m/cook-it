@@ -1,0 +1,37 @@
+
+.user-info{
+    display:flex;
+    margin:20px;
+}
+
+.profile-pic > img{
+    height: 100%;
+    width: auto;
+    margin-left: -10px;
+}
+
+.profile-pic{
+    display:inline-block;
+    border:1px solid rgb(199, 194, 194);
+    overflow: hidden;
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+}
+
+.user_name{
+    height: 80px;
+    width:80px;
+    padding: 25px 10px 0px 18px;
+}
+
+.user_name > span{
+    font-size: 21px;
+}
+
+.action-button{
+    height: 50px;
+    width: 120px;
+    top: 15px;
+    left: 40px;
+}

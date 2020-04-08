@@ -1,7 +1,7 @@
 import { PostService } from './../services/post.service';
 import { UserService } from './../services/user.service';
 import { ActivatedRoute } from '@angular/router';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { AuthService } from '../services/auth.service';
 
 @Component({
@@ -9,7 +9,7 @@ import { AuthService } from '../services/auth.service';
   templateUrl: './notifications.component.html',
   styleUrls: ['./notifications.component.css']
 })
-export class NotificationsComponent implements OnInit {
+export class NotificationsComponent implements OnInit,OnDestroy {
   users:Array<Object>;
   user_ids=[];
   post_notif = [];
@@ -17,7 +17,8 @@ export class NotificationsComponent implements OnInit {
   post_notif_user_ids=[];
   post_notif_post_ids=[];
   posts = [];
-
+  sub;
+  sub2;
   constructor(private auth:AuthService,private userService:UserService,private postService:PostService) {
    }
 
@@ -43,12 +44,14 @@ export class NotificationsComponent implements OnInit {
       this.post_notif.push(element)
       this.post_notif_user_ids.push(element.by_user_id)
       this.post_notif_post_ids.push(element.acvtId)
-      this.postService.getNotifPosts({'user_id':element.by_user_id,'post_id':element.acvtId}).toPromise().then(data=>{console.log(data);this.post_notif_users.push(data)});
+      this.postService.getNotifPosts({'user_id':element.by_user_id,'post_id':element.acvtId}).toPromise().then(data=>{this.post_notif_users.push(data)});
       }
     });
-    this.userService.getUsers(this.user_ids).subscribe(data=> this.users = data.users);
-    
-  this.userService.readAll(this.auth.userData.user).subscribe(data=>{});
+    this.sub = this.userService.getUsers(this.user_ids).subscribe(data=> this.users = data.users);
+    this.sub2 = this.userService.readAll(this.auth.userData.user).subscribe(data=>{});
   }
-
+  ngOnDestroy(){
+    this.sub.unsubscribe();
+    this.sub2.unsubscribe();
+  }
 }

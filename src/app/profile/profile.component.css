@@ -3,7 +3,6 @@
     flex-flow: row wrap;
 }
 .follow-button-text{
-    width: 71px;
     height:40px;
     display: inline-block;
 }
@@ -88,8 +87,10 @@
 
 #message-button{
     width: 100px;
-    height: 36px;
+    height: 37px;
     padding-top: 2px;
+    margin-left: 10px;
+    color: white;
 }
 
 #bio{

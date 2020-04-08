@@ -2,6 +2,9 @@ var express = require('express');
 var router = express.Router();
 var uniqid = require('uniqid');
 var User = require('../models/User');
+const imagemin = require('imagemin');
+const imageminJpegtran = require('imagemin-jpegtran');
+const imageminPngquant = require('imagemin-pngquant');
 
 const fs = require('fs');
 
@@ -16,7 +19,7 @@ try {
   }
 var post_image = "user_"+by+"_"+post_id+"."+post_pic.image_type;
 var post = new Post({
-    title: title,
+    title: title.toLowerCase(),
     post_id:post_id,
     by:{'user_id':by},
     content:{"story":story,"recipe":recipe,"ingredients":ingredients},
@@ -26,8 +29,11 @@ var post = new Post({
     comments:[],
     image:"assets/post_uploads/"+by+"/"+post_image
 })
-fs.writeFile("public/assets/post_uploads/"+by+"/"+post_image, new Buffer(post_pic.image_data,"base64"),function(err){
+fs.writeFile("public/assets/post_uploads/"+post_image, new Buffer(post_pic.image_data,"base64"),function(err){
+
     if(!err){
+compressImage(post_image,by).then(()=>{;
+
         post.save(function(err,result){
             if (err) {
                 return res.status(500).json({
@@ -35,22 +41,25 @@ fs.writeFile("public/assets/post_uploads/"+by+"/"+post_image, new Buffer(post_pi
                     error: req.body.title
                 });
             }
-            else{
+            else{               
             return res.status(201).json({
                 message: result,
                 
             });
         }
         })
+    })
     }
     else {
         return res.status(500).json({
             title: 'oops',
             error: req.body.title
         });
-    }
+        }
+    })
 })
- })
+
+ 
 
  router.post('/explore',function(req,res,next){
     User.find({'user_id':req.body.userData.user_id},function(err,user){
@@ -190,7 +199,6 @@ fs.writeFile("public/assets/post_uploads/"+by+"/"+post_image, new Buffer(post_pi
            }); 
         }
         else {
-            console.log('post'+post)
                post = post[0]
         }
         User.find({'user_id':req.body.userAndPostsIds.user_id},function(err,result){
@@ -206,7 +214,6 @@ fs.writeFile("public/assets/post_uploads/"+by+"/"+post_image, new Buffer(post_pi
                         profile_pic:result[0].userProfile[0].profile_pic
                     }
 
-                    console.log('user'+post)
                     return res.status(201).json({
                      user:user,
                      post:post
@@ -264,15 +271,16 @@ fs.writeFile("public/assets/post_uploads/"+by+"/"+post_image, new Buffer(post_pi
 
 router.post('/editPost',function(req,res,next){
     var by = req.body.userData.user_id;
-    console.log("image type"+req.body.editedPost.post_pic.image_type)
 var post_image = "user_"+by+"_"+req.body.postId+"."+req.body.editedPost.post_pic.image_type;
 
 Post.find({'post_id':req.body.postId},function(err,post){
     fs.unlink("public/"+post[0].image,function(err){});
     
-fs.writeFile("public/assets/post_uploads/"+by+"/"+post_image, new Buffer(req.body.editedPost.post_pic.image_data,"base64"),function(err){})
+fs.writeFile("public/assets/post_uploads/"+post_image, new Buffer(req.body.editedPost.post_pic.image_data,"base64"),function(err){
+    if(!err){
+compressImage(post_image,by).then(()=>{;
+    
 
-})
     Post.update({'post_id':req.body.postId},{$set:{
         title:req.body.editedPost.title,
         'content.story':req.body.editedPost.story,
@@ -291,6 +299,11 @@ fs.writeFile("public/assets/post_uploads/"+by+"/"+post_image, new Buffer(req.bod
                 msg:"edited Post"
             }); 
          }
+
+})
+    })
+    }
+})
 })
 })
 
@@ -314,6 +327,20 @@ router.post('/deletePost',function(req,res,next){
         user[0].update({$pull:{notifications:{'acvtId':req.body.postId}}},function(err){})
     })
 })
+async function compressImage(post_image,by){
+    const files = await imagemin(["public/assets/post_uploads/"+post_image], {
+        destination: "public/assets/post_uploads/"+by,
+        plugins: [
+            imageminJpegtran(),
+            imageminPngquant({
+                quality: [0.3, 0.4]
+            })
+        ]
+    });
+     fs.unlink("public/assets/post_uploads/"+post_image,function(err){});
+    //=> [{data: <Buffer 89 50 4e …>, destinationPath: 'build/images/foo.jpg'}, …]
+
+ }
 
 
 module.exports = router;

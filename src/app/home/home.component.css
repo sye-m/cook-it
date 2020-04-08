@@ -39,8 +39,9 @@ padding: 2px;
 border-bottom: 1px solid rgb(199, 194, 194);
 }
 .navLinks > img{
-    height: 10rem;
-    width: 15rem;
+    height: 11rem;
+    width: 14rem;
+    margin-left: -15%;
 }
 .main-content{
     left: 15%;

@@ -1,116 +1,115 @@
 <div class="post-container" *ngIf="post">   
-<div class="post-by">
-    <span class="user-info" [routerLink]="['/home',{ outlets:{navnav: ['profile',byUser.user_id] } }]">
-<span class="profile-pic">
-    <img src="http://localhost:3000/{{byUser.profile_pic}}" alt="">
-</span>
-<span id="user-name">{{byUser.user_name}}</span>
-</span>
-<button (click)="followOrUnfollow(post.by)" id="follow-button" mat-raised-button color="{{colorValue}}" *ngIf="userData.user_id!=post.by.user_id">
-    <div *ngIf="isLoading"  color="white" class="follow-button-text">
-        <mat-spinner color="accent" diameter=25></mat-spinner>
-    </div>
-    <div *ngIf="!isLoading" class="follow-button-text">
-    {{followValue}}
-    </div>
-</button> 
-
-
-<button [routerLink]="['/home',{ outlets: {navnav: ['editPost',post.post_id] } }]" id="edit-post" mat-raised-button *ngIf="userData.user_id==post.by.user_id">
-    <div>
-    Edit Post
-    </div>
-</button>  
-
-<button (click)="deletePost(post.post_id)" id="delete-post" mat-raised-button color="warn" *ngIf="userData.user_id==post.by.user_id">
-    
-    <div>
-    Delete Post
-    </div>
-</button>
-
-</div>
-<hr>
-<div class="post-image">
-    <img src="http://localhost:3000/{{post.image}}" alt="">
-</div>
-<div class="flex-container">
-<button type="button" mat-icon-button color="accent"(click)="likeOrUnlike()" *ngIf="buttonValue=='Unlike'">
-    <mat-icon class="action-button" >favorite</mat-icon>
-</button>
-<button type="button" mat-icon-button color="accent" (click)="likeOrUnlike()" *ngIf="buttonValue=='Like'">
-    <mat-icon class="action-button" >favorite_border</mat-icon>
-</button>
-
-<button type="button" mat-icon-button (click)="saveOrUnSave()" *ngIf="saveValue=='UnSave'">
-    <mat-icon class="action-button" >bookmark</mat-icon>
-</button>
-<button type="button" mat-icon-button (click)="saveOrUnSave()" *ngIf="saveValue=='Save'">
-    <mat-icon class="action-button" >bookmark_border</mat-icon>
-</button>
-<span class="post-date">
-    {{post.date|date:'MMMM d,y'}}
-</span>
-</div>
-<hr>
-
-<div id="post-title">
-{{post.title}}
-</div>
-<hr>
-
-
-<mat-accordion multi="true">
-    <mat-expansion-panel  expandedHeight="300px" id="story">
-        <mat-expansion-panel-header>
-            <mat-panel-title>
-                <div>
-                    Story
-                </div>    
-            </mat-panel-title>
-                   
-            <mat-panel-description>
-                Tap to view the whole Story
-            </mat-panel-description>
-          
-        </mat-expansion-panel-header >
-        <p id="story">
-            {{post.content.story}}
-        </p>
-    </mat-expansion-panel>
-
-    <mat-expansion-panel>
-        <mat-expansion-panel-header>
-            <mat-panel-title>
-                <div>
-                    Recipe
-                </div>    
-            </mat-panel-title>
-                       
-            <mat-panel-description>
-                Tap to view the Recipe
-            </mat-panel-description>     
-        </mat-expansion-panel-header>
-        <div *ngFor="let step of post.content.recipe;let i=index;">
-            {{i+1}}. {{step}}
+    <div class="post-by" *ngIf="byUser.user_id!=''">
+        <span class="user-info" [routerLink]="['/home',{ outlets:{navnav: ['profile',byUser.user_id] } }]">
+            <span class="profile-pic">
+                <img src="http://localhost:3000/{{byUser.profile_pic}}" alt="">
+            </span>
+            <span id="user-name">{{byUser.user_name}}</span>
+        </span>
+        <button (click)="followOrUnfollow(post.by)" id="follow-button" mat-raised-button color="{{colorValue}}" *ngIf="userData.user_id!=post.by.user_id">
+            <div *ngIf="isLoading"  color="white" class="follow-button-text">
+                <mat-spinner color="accent" diameter=25></mat-spinner>
             </div>
-            <hr>
-    </mat-expansion-panel>
+            <div *ngIf="!isLoading" class="follow-button-text">
+                {{followValue}}
+            </div>
+        </button> 
 
-    <mat-expansion-panel>
-        <mat-expansion-panel-header>
-            <mat-panel-title>
-                <div>
-                    Ingredients
-                </div>    
-            </mat-panel-title>           
-            <mat-panel-description>
-                Tap to view the Ingredients
-            </mat-panel-description>
-        </mat-expansion-panel-header>
-        <div *ngFor="let ingredient of post.content.ingredients;let indexValue=index">
-           {{indexValue + 1}}. {{ingredient}}
-        </div>
-    </mat-expansion-panel>
-</mat-accordion>
+        <button [routerLink]="['/home',{ outlets: {navnav: ['editPost',post.post_id] } }]" id="edit-post" mat-raised-button *ngIf="userData.user_id==post.by.user_id">
+            <div>
+                Edit Post
+            </div>
+        </button>  
+
+        <button (click)="deletePost(post.post_id)" id="delete-post" mat-raised-button color="warn" *ngIf="userData.user_id==post.by.user_id">
+            <div>
+                Delete Post
+            </div>
+        </button>
+    </div>
+    <hr>
+    <div class="post-image">
+        <img src="http://localhost:3000/{{post.image}}" alt="">
+    </div>
+    <div class="flex-container">
+        <button type="button" mat-icon-button color="accent"(click)="likeOrUnlike()" *ngIf="buttonValue=='Unlike'">
+            <mat-icon class="action-button" >favorite</mat-icon>
+        </button>
+
+        <button type="button" mat-icon-button color="accent" (click)="likeOrUnlike()" *ngIf="buttonValue=='Like'">
+            <mat-icon class="action-button" >favorite_border</mat-icon>
+        </button>
+
+        <button type="button" mat-icon-button (click)="saveOrUnSave()" *ngIf="saveValue=='UnSave'">
+            <mat-icon class="action-button" >bookmark</mat-icon>
+        </button>
+
+        <button type="button" mat-icon-button (click)="saveOrUnSave()" *ngIf="saveValue=='Save'">
+            <mat-icon class="action-button" >bookmark_border</mat-icon>
+        </button>
+
+        <span class="post-date">
+            {{post.date|date:'MMMM d,y'}}
+        </span>
+    </div>
+    <hr>
+
+    <div id="post-title">
+        {{post.title}}
+    </div>
+    <hr>
+
+    <mat-accordion multi="true">
+        <mat-expansion-panel  expandedHeight="300px" id="story">
+            <mat-expansion-panel-header>
+                <mat-panel-title>
+                    <div>
+                        Story
+                    </div>    
+                </mat-panel-title>
+                    
+                <mat-panel-description>
+                    Tap to view the whole Story
+                </mat-panel-description>
+            
+            </mat-expansion-panel-header >
+            <p id="story">
+                {{post.content.story}}
+            </p>
+        </mat-expansion-panel>
+
+        <mat-expansion-panel>
+            <mat-expansion-panel-header>
+                <mat-panel-title>
+                    <div>
+                        Recipe
+                    </div>    
+                </mat-panel-title>
+                        
+                <mat-panel-description>
+                    Tap to view the Recipe
+                </mat-panel-description>     
+            </mat-expansion-panel-header>
+            <div *ngFor="let step of post.content.recipe;let i=index;">
+                {{i+1}}. {{step}}
+                </div>
+                <hr>
+        </mat-expansion-panel>
+
+        <mat-expansion-panel>
+            <mat-expansion-panel-header>
+                <mat-panel-title>
+                    <div>
+                        Ingredients
+                    </div>    
+                </mat-panel-title>           
+                <mat-panel-description>
+                    Tap to view the Ingredients
+                </mat-panel-description>
+            </mat-expansion-panel-header>
+            <div *ngFor="let ingredient of post.content.ingredients;let indexValue=index">
+            {{indexValue + 1}}. {{ingredient}}
+            </div>
+        </mat-expansion-panel>
+    </mat-accordion>
 </div>

@@ -74,7 +74,12 @@ export class UserService {
     .pipe(map((response: Response) => response.json()));
   }
 
-  
+  recommendedUsers(user_id,following){
+    const body = JSON.stringify({user_id:user_id,following:following});
+    const headers = new Headers({'Content-Type': 'application/json'});
+    return this.http.post('http://localhost:3000/user/recommendedUsers', body, {withCredentials:true,headers: headers})
+    .pipe(map((response: Response) => response.json()));
+  }
 
   
 

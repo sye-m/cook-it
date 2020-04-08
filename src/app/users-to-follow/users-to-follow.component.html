@@ -1,0 +1,16 @@
+<div class="user-info">
+  <div class="profile-pic">
+    <img src="http://localhost:3000/{{user.profile_pic}}" alt="User's Profile Pic">
+  </div>
+
+  <div class="user_name">
+    <span>
+    {{user.user_name}}
+    </span>
+  </div>
+
+  <div>
+    <button class="action-button" mat-stroked-button color="{{colorValue}}" (click)="followOrUnfollow()" *ngIf="userData.user.user_id!=user.user_id">{{buttonValue}}</button> 
+  </div>
+</div>
+<hr>
