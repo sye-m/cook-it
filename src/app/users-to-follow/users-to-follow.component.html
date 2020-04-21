@@ -3,7 +3,7 @@
     <img src="http://localhost:3000/{{user.profile_pic}}" alt="User's Profile Pic">
   </div>
 
-  <div class="user_name" [routerLink]="['/home',{ outlets:{navnav: ['profile',user.user_id] } }]">
+  <div class="user_name" [routerLink]="['/home/profile',user.user_id]">
     <span>
     {{user.user_name}}
     </span>

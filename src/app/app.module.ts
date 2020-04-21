@@ -58,71 +58,59 @@ const routes: Routes = [
     canActivate: [LoggedInGuard],
     children: [
       {
+        path: '',
+        component: HomeFeedPostsComponent,
+      },
+      {
         path: 'explore',
         component: ExploreComponent,
-        outlet: 'navnav',
       },
 
       {
         path: 'profile/:user_id',
         component: ProfileComponent,
-        outlet: 'navnav',
       },
       {
         path: 'editProfile',
         component: EditProfileComponent,
-        outlet: 'navnav'
       },
       {
         path: 'post',
         component: PostComponent,
-        outlet: 'navnav',
 
       },
       {
         path: 'search/:searchTerm',
         component: SearchComponent,
-        outlet: 'navnav'
       },
       {
         path: 'notifications',
         component: NotificationsComponent,
-        outlet: 'navnav'
       },
-      {
-        path: 'homeFeed',
-        component: HomeFeedPostsComponent,
-        outlet: 'navnav'
-      },
+      
       {
         path: 'messages',
         component: MessagesComponent,
-        outlet: 'navnav'
       },
       {
         path: 'm/:user_id',
         component: MessagesViewComponent,
-        outlet: 'navnav'
       },
       {
         path: 'p/:post_id',
         component: PostViewComponent,
-        outlet: 'navnav'
       },
       {
         path: 'editPost/:post_id',
         component: EditPostComponent,
-        outlet: 'navnav'
       },
       {
         path: 'following/:user_id',
         component: FollowingViewComponent,
-        outlet: 'navnav'
       },
       {
         path: 'followers/:user_id',
         component: FollowersViewComponent,
-        outlet: 'navnav'
       }
     ]
   }

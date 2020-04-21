@@ -8,7 +8,7 @@
     <mat-tab label="Posts Activity" >
       <app-infinite-scroll *ngFor="let user of post_notif_users;let i = index">
         <div class="searched-users"> 
-          <div class="user-info" [routerLink]="['/home',{ outlets:{navnav: ['profile',user.user.user_id] } }]">
+          <div class="user-info" [routerLink]="['/home/profile',user.user.user_id]">
             <div class="profile-pic">
               <img src = "http://localhost:3000/{{user.user.profile_pic}}">
             </div>
@@ -16,7 +16,7 @@
               <b>{{user.user.user_name}}</b> liked your post
             </div>
           </div>
-          <div class="post-pic" [routerLink]="['/home',{ outlets: {navnav: ['p',user.post.post_id] } }]">
+          <div class="post-pic" [routerLink]="['/home/p',user.post.post_id]">
             <img src = "http://localhost:3000/{{user.post.image}}">
           </div>
         </div>  

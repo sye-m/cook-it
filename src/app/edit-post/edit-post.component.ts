@@ -141,7 +141,7 @@ export class EditPostComponent implements OnInit,OnDestroy {
     await this.postService.editPost(this.post_id,this.editedPost,this.auth.userData.user).toPromise().then((data)=>{
       this.isPosting = false;
       button.disabled = false;
-      this.router.navigate(['/home',{ outlets: {navnav: ['p',this.post_id] } }]);
+      this.router.navigate(['/home/p',this.post_id]);
     });
    
   }

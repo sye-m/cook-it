@@ -113,7 +113,7 @@ export class MessagesComponent implements OnInit {
     //open up socket connection with the person user is trying to communicate.
     await this.userService.establishChat(this.auth.userData.user.user_id,toUserId).toPromise().
     then(data=>{
-      this.router.navigate(['/home',{ outlets: {navnav: ['m',toUserId] } }]);
+      this.router.navigate(['/home/m',toUserId]);
     })
   }
 

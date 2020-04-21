@@ -100,7 +100,7 @@ export class ProfileComponent implements OnInit,OnDestroy {
 
     async establishChat(){
      await this.userService.establishChat(this.auth.userData.user.user_id,this.user_id).toPromise().then(data=>{
-       this.router.navigate(['/home',{ outlets: {navnav: ['m',this.user_id] } }]);
+       this.router.navigate(['/home/m',this.user_id]);
      })
     }
 

@@ -93,7 +93,7 @@ router.post('/recommendedUsers', function (req, res, next) {
   User.find({ 'user_id': { $nin: notTheseUsers } }, function (err, result) {
     if (!err) {
       var users = [];
-      if(result > 0){
+      if(result.length > 0){
         result.forEach(element => {
           user_id = element.user_id;
           user_name = element.user_name;

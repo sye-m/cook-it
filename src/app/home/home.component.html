@@ -18,37 +18,38 @@
       </div> 
 
       <div class="page-links" > 
-        <a [routerLink]="['/home',{ outlets: {navnav: ['homeFeed'] } }]" routerLinkActive="active-link">Home</a>
+        <a [routerLink]="['/home']" routerLinkActive="active-link" 
+        [routerLinkActiveOptions]="{exact:true}" >Home</a>
       </div> 
 
       <div class="page-links">
-        <a [routerLink]="[{ outlets: {navnav: ['explore'] } }]" routerLinkActive="active-link">Explore</a>
+        <a [routerLink]="['explore']" routerLinkActive="active-link">Explore</a>
       </div>
 
       <div class="page-links" (click)="notifications=0" >
-        <a [routerLink]="[{ outlets: {navnav: ['notifications']}}]" routerLinkActive="active-link">
+        <a [routerLink]="['notifications']" routerLinkActive="active-link">
           Notifications
           <span *ngIf="notifications>0"matBadge={{notifications}} matBadgeOverlap="false" matBadgeColor="warn"></span>
         </a>
       </div>
 
       <div class="page-links" >
-        <a [routerLink]="[{ outlets:{navnav: ['profile',userData.user.user_id] } }]" routerLinkActive="active-link">Profile</a>
+        <a [routerLink]="['profile',userData.user.user_id]" routerLinkActive="active-link">Profile</a>
       </div>
 
       <div class="page-links">
-        <a [routerLink]="[{ outlets: {navnav: ['post'] } }]" routerLinkActive="active-link">Post</a>
+        <a [routerLink]="['post']" routerLinkActive="active-link">Post</a>
       </div>
 
       <div class="page-links">
-        <a [routerLink]="[{ outlets: {navnav: ['messages'] } }]" routerLinkActive="active-link">Messages</a>
+        <a [routerLink]="['messages']" routerLinkActive="active-link">Messages</a>
       </div>
       <br>
       <button  mat-raised-button color="primary"(click)="logout()">Log Out</button>
       </div>
 
     <div class="main-content">
-        <router-outlet name="navnav"></router-outlet>
+        <router-outlet></router-outlet>
     </div>
   </div>
 </div>

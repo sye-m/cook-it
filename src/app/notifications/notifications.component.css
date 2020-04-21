@@ -33,9 +33,10 @@
 .post-pic{
     outline: none;
     cursor: pointer;
-  
+    height:100px;
+    width: 100px;
 }
 .post-pic > img{
-    width:200px;
-    height: 100px;
+    width:auto;
+    height: 100%;
 }

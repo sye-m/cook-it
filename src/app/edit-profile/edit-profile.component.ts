@@ -75,7 +75,7 @@ export class EditProfileComponent implements OnInit,OnDestroy {
     this.sub = this.userService.editProfile(this.user,profile).subscribe(data=>{
       this.isPosting = false;
     });
-    this.router.navigate(['/home',{ outlets: {navnav: ['profile',this.user.user_id] } }]);
+    this.router.navigate(['/home/profile',this.user.user_id]);
   }
 
   getImageData(e,image){

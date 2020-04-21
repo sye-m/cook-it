@@ -98,7 +98,7 @@ export class PostComponent implements OnInit {
    button.disabled = false;
    this.post_id = data.message.post_id;
  });
- this.router.navigate(['/home',{ outlets: {navnav: ['p',this.post_id] } }]);
+ this.router.navigate(['/home/p',this.post_id]);
 
   
   }

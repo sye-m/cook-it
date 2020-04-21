@@ -32,8 +32,6 @@ router.post('/', function (req, res, next) {
 
         if (!err) {
             compressImage(post_image, by).then(() => {
-                ;
-
                 post.save(function (err, result) {
                     if (err) {
                         return res.status(500).json({
@@ -334,9 +332,13 @@ async function compressImage(post_image, by) {
     const files = await imagemin(["public/assets/post_uploads/" + post_image], {
         destination: "public/assets/post_uploads/" + by,
         plugins: [
-            imageminJpegtran(),
+            imageminJpegtran({
+                speed:11,
+                quality:[0.1,0.1]
+            }),
             imageminPngquant({
-                quality: [0.3, 0.4]
+                speed:11,
+                quality: [0.1, 0.1]
             })
         ]
     });

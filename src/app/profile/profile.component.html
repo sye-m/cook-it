@@ -16,13 +16,13 @@
       {{posts.length}}
     </div>
 
-    <div id="follower-count" [routerLink]="['/home',{ outlets: {navnav: ['followers',user.user_id] } }]">
+    <div id="follower-count" [routerLink]="['/home/followers',user.user_id]">
       Followers
       <br>
       {{user.followers.length}}
     </div>
 
-    <div id="following-count" [routerLink]="['/home',{ outlets: {navnav: ['following',user.user_id] } }]">
+    <div id="following-count" [routerLink]="['/home/following',user.user_id]">
       Following
       <br>
       {{user.following.length}}
@@ -44,7 +44,7 @@
       </button>
 
       <button id="edit-profile" 
-      [routerLink]="['/home',{ outlets: {navnav: ['editProfile'] } }]" mat-raised-button *ngIf="isUsersProfile">
+      [routerLink]="['/home/editProfile']" mat-raised-button *ngIf="isUsersProfile">
       Edit Profile
       </button>
     </div>
@@ -56,7 +56,7 @@
       <app-infinite-scroll>
         <div class="flex-container">
           <div *ngFor="let post of posts" class="post-pic" 
-          [routerLink]="['/home',{ outlets: {navnav: ['p',post.post_id] } }]"> 
+          [routerLink]="['/home/p',post.post_id]"> 
             <img src="http://localhost:3000/{{post.image}}" alt="">
           </div>
         </div>
@@ -67,7 +67,7 @@
       <app-infinite-scroll>
         <div class="flex-container">
           <div *ngFor="let post of savedPosts" class="post-pic" 
-          [routerLink]="['/home',{ outlets: {navnav: ['p',post.post_id] } }]"> 
+          [routerLink]="['/home/p',post.post_id]"> 
             <img src="http://localhost:3000/{{post.image}}" alt="">
           </div>
         </div>

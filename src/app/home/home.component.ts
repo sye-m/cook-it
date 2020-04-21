@@ -30,13 +30,13 @@ export class HomeComponent implements OnInit {
   
   ngOnInit() {
     this.searchTerm = new FormControl('');
-    this.router.navigate(['/home',{ outlets: {navnav: ['homeFeed'] } }]);
+    this.router.navigate(['/home']);
 
   }
 
   search(){
     if(this.searchTerm.value!=''){
-    this.router.navigate(['/home',{ outlets: {navnav: ['search',this.searchTerm.value] } }]);
+    this.router.navigate(['/home/search',this.searchTerm.value]);
     }
   }
 

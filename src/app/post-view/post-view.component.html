@@ -1,6 +1,6 @@
 <div class="post-container" *ngIf="post">   
     <div class="post-by" *ngIf="byUser.user_id!=''">
-        <span class="user-info" [routerLink]="['/home',{ outlets:{navnav: ['profile',byUser.user_id] } }]">
+        <span class="user-info" [routerLink]="['/home/profile',byUser.user_id]">
             <span class="profile-pic">
                 <img src="http://localhost:3000/{{byUser.profile_pic}}" alt="">
             </span>
@@ -15,7 +15,7 @@
             </div>
         </button> 
 
-        <button [routerLink]="['/home',{ outlets: {navnav: ['editPost',post.post_id] } }]" id="edit-post" mat-raised-button *ngIf="userData.user_id==post.by.user_id">
+        <button [routerLink]="['/home/editPost',post.post_id]" id="edit-post" mat-raised-button *ngIf="userData.user_id==post.by.user_id">
             <div>
                 Edit Post
             </div>
