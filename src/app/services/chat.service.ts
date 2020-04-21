@@ -2,8 +2,7 @@ import { AuthService } from './auth.service';
 import { Injectable } from '@angular/core';
 import * as io from 'socket.io-client';
 import { Observable } from 'rxjs';
-import { Http,Headers,Response } from '@angular/http';
-import { map } from 'rxjs/operators';
+import { Http } from '@angular/http';
 
 @Injectable({
   providedIn: 'root'
