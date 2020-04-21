@@ -6,7 +6,7 @@ describe('PostViewComponent', () => {
   let component: PostViewComponent;
   let fixture: ComponentFixture<PostViewComponent>;
 
-  beforeEach(async(() => {
+  /* beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [ PostViewComponent ]
     })
@@ -21,5 +21,5 @@ describe('PostViewComponent', () => {
 
   it('should create', () => {
     expect(component).toBeTruthy();
-  });
+  }); */
 });

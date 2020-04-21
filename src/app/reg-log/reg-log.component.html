@@ -12,6 +12,9 @@
         <mat-error *ngIf="name.hasError('required')">
           Name is <strong>required</strong>
         </mat-error>
+        <mat-error *ngIf="name.hasError('maxlength')">
+          Name should be less than 30 characters
+        </mat-error>
       </mat-form-field>
 
       <mat-form-field appearance="outline" class="input-full-width">
@@ -19,7 +22,13 @@
         <input type="string" name="user_name" matInput [formControl]="user_name" [errorStateMatcher]="matcher"
             [value]="user_name.value" placeholder="Full Name">
         <mat-error *ngIf="user_name.hasError('required')">
-          User Name is <strong>required</strong>
+          Username is <strong>required</strong>
+        </mat-error>
+        <mat-error *ngIf="user_name.hasError('minlength')">
+          Username should be at least 3 characters
+        </mat-error>
+        <mat-error *ngIf="user_name.hasError('maxlength')">
+          Username should be less than 30 characters
         </mat-error>
       </mat-form-field>
     
@@ -27,7 +36,6 @@
         <mat-label>Email</mat-label>
         <input type="email" name="email" matInput [formControl]="email" [errorStateMatcher]="matcher"
             [value]="email.value" placeholder="Ex. pat@example.com">
-        <mat-hint>Errors appear instantly!</mat-hint>
         <mat-error *ngIf="email.hasError('email') && !email.hasError('required')">
           Please enter a valid email address
         </mat-error>
@@ -42,8 +50,8 @@
         <mat-error *ngIf="password.hasError('required')">
           Password is <strong>required</strong>
         </mat-error>
-        <mat-error *ngIf="password.hasError('minLength')">
-          Password is <strong>too short</strong>
+        <mat-error *ngIf="password.hasError('minlength')">
+          Password <strong>should contain atleast 7 characters</strong>
         </mat-error>
       </mat-form-field>
 
@@ -52,6 +60,9 @@
         <input type="password" name="password2" matInput [formControl]="password2" [errorStateMatcher]="matcher">
         <mat-error *ngIf="password2.hasError('required')">
           Password2 is <strong>required</strong>
+        </mat-error>
+        <mat-error *ngIf="password2.hasError('passNotMatch')">
+          Password does not match
         </mat-error>
       </mat-form-field>
 
@@ -68,7 +79,6 @@
         <mat-label>Email</mat-label>
         <input type="email" name="email" matInput [formControl]="logEmail" [errorStateMatcher]="matcher"
         [value]="logEmail.value" placeholder="Ex. pat@example.com">
-        <mat-hint>Errors appear instantly!</mat-hint>
         <mat-error *ngIf="logEmail.hasError('email') && !logEmail.hasError('required')">
           Please enter a valid email address
         </mat-error>

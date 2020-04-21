@@ -23,6 +23,8 @@
     height: 80px;
     width:80px;
     padding: 25px 10px 0px 18px;
+    outline: none;
+    cursor: pointer;
 }
 
 .user_name > span{

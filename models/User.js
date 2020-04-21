@@ -1,7 +1,5 @@
 var mongoose = require('mongoose');
-var uniqid = require('uniqid');
 var Schema = mongoose.Schema;
-var mongooseUniqueValidator = require('mongoose-unique-validator');
 var userProfileSchema = new Schema({
     bio:{type:String,default:''},
     profile_pic:{type:String, default:"assets/profile_pic/default_profile_pic.jpg"},

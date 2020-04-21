@@ -23,6 +23,7 @@ export class EditProfileComponent implements OnInit,OnDestroy {
   profile_pic;
   sub;
   user;
+  isPosting:boolean = false;
   constructor(private auth:AuthService,private userService:UserService,private router:Router) {
     this.user = this.auth.userData.user;
 
@@ -60,6 +61,9 @@ export class EditProfileComponent implements OnInit,OnDestroy {
   }
 
   onProfileSubmit(){
+    var button = <HTMLInputElement>document.getElementById("post-button");
+    button.disabled = true;
+    this.isPosting = true;
     const profile = new Profile(
       this.profileFormData.value.name,
       this.profileFormData.value.user_name,
@@ -68,7 +72,9 @@ export class EditProfileComponent implements OnInit,OnDestroy {
       this.profileFormData.value.bio,
       this.profile_pic
     )
-    this.sub = this.userService.editProfile(this.user,profile).subscribe(data=>{});
+    this.sub = this.userService.editProfile(this.user,profile).subscribe(data=>{
+      this.isPosting = false;
+    });
     this.router.navigate(['/home',{ outlets: {navnav: ['profile',this.user.user_id] } }]);
   }
 

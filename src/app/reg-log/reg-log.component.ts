@@ -35,16 +35,16 @@ export class RegLogComponent implements OnInit,OnDestroy {
   sub;
   sub2;
    constructor(private router:Router, private auth:AuthService,private flash:FlashMessagesService) {
-  this.checkUser();
+      this.checkUser();
   }
 
   ngOnInit() {
     this.checkUser();
     this.email = new FormControl('',[Validators.required,Validators.email]);
-    this.name = new FormControl('',[Validators.required,Validators.minLength(3)]);
-    this.user_name = new FormControl('',[Validators.required,Validators.minLength(3),Validators.maxLength(25)]);
-    this.password = new FormControl('',[Validators.required,Validators.minLength(3)]);
-    this.password2 = new FormControl('',[Validators.required,Validators.minLength(3)]);;
+    this.name = new FormControl('',[Validators.required,Validators.maxLength(30)]);
+    this.user_name = new FormControl('',[Validators.required,Validators.minLength(3),Validators.maxLength(30)]);
+    this.password = new FormControl('',[Validators.required,Validators.minLength(7)]);
+    this.password2 = new FormControl('',[Validators.required,Validators.minLength(7),this.passwordCheck.bind(this)]);;
     this.logEmail = new FormControl('',[Validators.required,Validators.email]);
     this.logPassword = new FormControl('',[Validators.required,Validators.minLength(3)]);
     
@@ -53,33 +53,34 @@ export class RegLogComponent implements OnInit,OnDestroy {
       name: this.name,
       user_name: this.user_name,
       email: this.email,
-      password: this.password
-  });
-  this.logFormData = new FormGroup ({
-    email: this.logEmail,
-    password: this.logPassword
-  })
+      password: this.password,
+      password2:this.password2
+    });
+
+    this.logFormData = new FormGroup ({
+      email: this.logEmail,
+      password: this.logPassword
+    })
   }
 
   passwordCheck(control:FormControl):{[s:string]:boolean}{
+    if(this.password.value == control.value){
+     return null
+    }
 
-if(this.password.value == control.value){
-  return {'passNotMatch':false}
-}
-
-else{
-  return {'passNotMatch':true}
-}
+    else{
+      return {'passNotMatch':true}
+    }
   }
 
   
    async checkUser(){
-  await  this.auth.isLoggedIn().toPromise().then(data => this.user = data.auth).catch(err=>{});
-  if(this.user){
-    this.router.navigate(['/home']);
-  }
-  else{
-    this.router.navigate(['/user']);
+    await  this.auth.isLoggedIn().toPromise().then(data => this.user = data.auth).catch(err=>{});
+    if(this.user){
+      this.router.navigate(['/home']);
+    }
+    else{
+      this.router.navigate(['/user']);
     }
   }
 
@@ -91,34 +92,30 @@ else{
       this.regFormData.value.email,
       this.regFormData.value.password
     );
-    this.sub = this.auth.signup(user).subscribe(data => {}, error => {    
+    this.sub = this.auth.signup(user).subscribe(data => {}, error => { 
+      console.log(error);   
       var obj = JSON.parse(error._body);
       this.flash.show(obj.message,{cssClass:"alert alert-danger",timeout:2500})
     
     });
 
-  this.regFormData.reset();
-  this.password2.reset();
+    this.regFormData.reset();
   }
 
     onLogin(){
-    const user = new RegUser(
-      this.logFormData.value.email,
-      this.logFormData.value.password
-    )
-     this.sub2 = this.auth.login(user)
+      const user = new RegUser(
+        this.logFormData.value.email,
+        this.logFormData.value.password
+      )
+      this.sub2 = this.auth.login(user)
       .subscribe(data => {
         this.auth.auth = true;
       this.router.navigate(['/home']);
 
       }, error => {
-        
         var obj = JSON.parse(error._body);
         this.flash.show(obj.info.message,{cssClass:"alert alert-danger",timeout:2500})
       });
-
-    
-
   }
 
   ngOnDestroy(){

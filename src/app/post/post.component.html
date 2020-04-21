@@ -50,6 +50,9 @@
     <button type="button" mat-raised-button  (click)="addIngredient()">Add Ingredient</button>
     <br>
     <br>
-    <button mat-raised-button color="primary"  type="submit" [disabled]="!postFormData.valid">Post</button>
+    <button mat-raised-button color="primary" id="post-button" type="submit" [disabled]="!postFormData.valid">
+      <mat-spinner *ngIf="isPosting" diameter=25 color="primary"></mat-spinner>
+      Post
+    </button>
   </form>
 </div>

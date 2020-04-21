@@ -51,7 +51,9 @@ export class NotificationsComponent implements OnInit,OnDestroy {
     this.sub2 = this.userService.readAll(this.auth.userData.user).subscribe(data=>{});
   }
   ngOnDestroy(){
-    this.sub.unsubscribe();
-    this.sub2.unsubscribe();
+    if(this.sub || this.sub2){
+      this.sub.unsubscribe();
+      this.sub2.unsubscribe();
+    }
   }
 }

@@ -4,16 +4,16 @@ import { ChatService } from './services/chat.service';
 import { AuthService } from './services/auth.service';
 import { LoggedInGuard } from './services/logged-in-guard.guard';
 import { BrowserModule } from '@angular/platform-browser';
-import { NgModule } from '@angular/core';
-import {MatExpansionModule} from '@angular/material/expansion';
-import {MatInputModule} from '@angular/material/input';
-import {MatButtonModule} from '@angular/material/button';
-import {MatBadgeModule} from '@angular/material/badge';
-import {MatIconModule} from '@angular/material/icon';
-import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
-import {MatSidenavModule} from '@angular/material/sidenav';
-import {MatTabsModule} from '@angular/material/tabs';
-import {MatToolbarModule} from '@angular/material/toolbar';
+import { NgModule, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
+import { MatExpansionModule } from '@angular/material/expansion';
+import { MatInputModule } from '@angular/material/input';
+import { MatButtonModule } from '@angular/material/button';
+import { MatBadgeModule } from '@angular/material/badge';
+import { MatIconModule } from '@angular/material/icon';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { MatSidenavModule } from '@angular/material/sidenav';
+import { MatTabsModule } from '@angular/material/tabs';
+import { MatToolbarModule } from '@angular/material/toolbar';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { Routes, RouterModule } from '@angular/router';
 import { AppComponent } from './app.component';
@@ -28,7 +28,7 @@ import { PostComponent } from './post/post.component';
 import { InfiniteScrollComponent } from './infinite-scroll/infinite-scroll.component';
 import { SinglePostComponent } from './single-post/single-post.component';
 import { SearchComponent } from './search/search.component';
-import {MatCardModule} from '@angular/material/card';
+import { MatCardModule } from '@angular/material/card';
 import { UserSearchComponent } from './user-search/user-search.component';
 import { NotificationsComponent } from './notifications/notifications.component';
 import { HomeFeedPostsComponent } from './home-feed-posts/home-feed-posts.component';
@@ -40,103 +40,96 @@ import { MessagesComponent } from './messages/messages.component';
 import { MessagesViewComponent } from './messages-view/messages-view.component';
 import { FollowersViewComponent } from './followers-view/followers-view.component';
 import { FollowingViewComponent } from './following-view/following-view.component';
-import {NgxImageCompressService} from 'ngx-image-compress';
 import { UsersToFollowComponent } from './users-to-follow/users-to-follow.component';
 
 const routes: Routes = [
   {
-    path:'',
-    redirectTo:'/home',
-    pathMatch:'full',
+    path: '',
+    redirectTo: '/home',
+    pathMatch: 'full',
   },
   {
-  path: 'user',
-  component: RegLogComponent,
+    path: 'user',
+    component: RegLogComponent,
   },
   {
-    path:'home',
-    component:HomeComponent,
-    canActivate:[LoggedInGuard],
-    children:[
+    path: 'home',
+    component: HomeComponent,
+    canActivate: [LoggedInGuard],
+    children: [
       {
-        path:'explore',
-        component:ExploreComponent,
-        outlet:'navnav',
+        path: 'explore',
+        component: ExploreComponent,
+        outlet: 'navnav',
       },
-      
+
       {
-        path:'profile/:user_id',
-        component:ProfileComponent,
-        outlet:'navnav',
-      },
-      {
-        path:'editProfile',
-        component:EditProfileComponent,
-        outlet:'navnav'
+        path: 'profile/:user_id',
+        component: ProfileComponent,
+        outlet: 'navnav',
       },
       {
-        path:'post',
-        component:PostComponent,
-        outlet:'navnav',
+        path: 'editProfile',
+        component: EditProfileComponent,
+        outlet: 'navnav'
+      },
+      {
+        path: 'post',
+        component: PostComponent,
+        outlet: 'navnav',
 
       },
       {
-        path:'search/:searchTerm',
-        component:SearchComponent,
-        outlet:'navnav'
+        path: 'search/:searchTerm',
+        component: SearchComponent,
+        outlet: 'navnav'
       },
       {
-        path:'notifications',
-        component:NotificationsComponent,
-        outlet:'navnav'
+        path: 'notifications',
+        component: NotificationsComponent,
+        outlet: 'navnav'
       },
       {
-        path:'homeFeed',
-        component:HomeFeedPostsComponent,
-        outlet:'navnav'
+        path: 'homeFeed',
+        component: HomeFeedPostsComponent,
+        outlet: 'navnav'
       },
       {
-        path:'messages',
-        component:MessagesComponent,
-        outlet:'navnav'
+        path: 'messages',
+        component: MessagesComponent,
+        outlet: 'navnav'
       },
       {
-        path:'m/:user_id',
-        component:MessagesViewComponent,
-        outlet:'navnav'
+        path: 'm/:user_id',
+        component: MessagesViewComponent,
+        outlet: 'navnav'
       },
       {
-        path:'p/:post_id',
-        component:PostViewComponent,
-        outlet:'navnav'
+        path: 'p/:post_id',
+        component: PostViewComponent,
+        outlet: 'navnav'
       },
       {
-        path:'editPost/:post_id',
-        component:EditPostComponent,
-        outlet:'navnav'
+        path: 'editPost/:post_id',
+        component: EditPostComponent,
+        outlet: 'navnav'
       },
-      {   
-        path:'following/:user_id',
-        component:FollowingViewComponent,
-        outlet:'navnav'
+      {
+        path: 'following/:user_id',
+        component: FollowingViewComponent,
+        outlet: 'navnav'
       },
-      {   
-        path:'followers/:user_id',
-        component:FollowersViewComponent,
-        outlet:'navnav'
+      {
+        path: 'followers/:user_id',
+        component: FollowersViewComponent,
+        outlet: 'navnav'
       }
-     
-      
-      
-    ]}
-    
-  
-  
-   ];
-  
+    ]
+  }
+];
+
 @NgModule({
   declarations: [
-   
     AppComponent,
     RegLogComponent,
     HomeComponent,
@@ -179,7 +172,8 @@ const routes: Routes = [
     FlashMessagesModule.forRoot()
   ],
   exports: [RouterModule],
-  providers: [AuthService,PostService,UserService,NgxImageCompressService],
-  bootstrap: [AppComponent]
+  providers: [AuthService, PostService, UserService,ChatService],
+  bootstrap: [AppComponent],
+  schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
 export class AppModule { }

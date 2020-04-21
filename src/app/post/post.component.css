@@ -22,3 +22,8 @@ font-size: 20px;
 mat-form-field{
     width:100%;
   }
+
+mat-spinner{
+    top: -5px;
+    display: inline;
+}

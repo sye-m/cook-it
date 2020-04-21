@@ -16,13 +16,12 @@ export class MessagesComponent implements OnInit {
   users = [];
   sample=[];
   all_users = [];
+
   constructor(private auth:AuthService,private userService:UserService,private router:Router) { 
     this.user_id = this.auth.userData.user.user_id;
-   
   }
 
  async ngOnInit() {
-
   await  this.userService.getMessages(this.user_id).toPromise().then(data=>{
       this.usersData = data.users;
       //get all users with whom this user has interacted with
@@ -36,15 +35,19 @@ export class MessagesComponent implements OnInit {
           return true;
         }
       })
+      //remove duplicate copies of user id's with Set Object
       this.all_ids = Array.from(new Set(this.all_ids))
     });
+
    await this.userService.getUsers(this.all_ids).toPromise().then(data=>{
       this.users = data.users;      
     })
  
     var exists=false;
+    //go through all user id's 
     this.all_ids.forEach(elem=>{
-       this.usersData.forEach(element=>{
+      //go through the current users data
+      this.usersData.forEach(element=>{
         if(element.from== elem){
           exists = false;
           this.sample.forEach(el =>{
@@ -57,8 +60,10 @@ export class MessagesComponent implements OnInit {
             }
             
           })
-           if(exists == false)
+           if(exists == false){
+             //if the user is interacted with for the first time
             this.sample.push({element:element.from,messages:element.messages});
+           }
         }
         if(element.to==elem){
           exists = false
@@ -104,10 +109,12 @@ export class MessagesComponent implements OnInit {
   }
 
   
-    async establishChat(toUserId){
-     await this.userService.establishChat(this.auth.userData.user.user_id,toUserId).toPromise().then(data=>{
-       this.router.navigate(['/home',{ outlets: {navnav: ['m',toUserId] } }]);
-     })
-    }
+  async establishChat(toUserId){
+    //open up socket connection with the person user is trying to communicate.
+    await this.userService.establishChat(this.auth.userData.user.user_id,toUserId).toPromise().
+    then(data=>{
+      this.router.navigate(['/home',{ outlets: {navnav: ['m',toUserId] } }]);
+    })
+  }
 
 }

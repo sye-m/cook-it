@@ -25,6 +25,8 @@ export class EditPostComponent implements OnInit,OnDestroy {
   reader = new FileReader();
   noOfIngredients:Array<Number>=[];
   sub;
+  isPosting:boolean = false;
+
   constructor(private auth:AuthService,private postService:PostService,private route:ActivatedRoute,private router:Router) { 
     this.post_id = this.route.snapshot.paramMap.get('post_id');
     this.title = new FormControl();
@@ -103,6 +105,9 @@ export class EditPostComponent implements OnInit,OnDestroy {
 
 
   async editPost(){
+    var button = (<HTMLInputElement>document.getElementById("post-button"));
+    button.disabled = true;
+    this.isPosting = true;
     this.ingredients=[];
     this.postFormData = new FormGroup({
       title:this.title,
@@ -134,8 +139,9 @@ export class EditPostComponent implements OnInit,OnDestroy {
       this.auth.userData.user.user_id
     )
     await this.postService.editPost(this.post_id,this.editedPost,this.auth.userData.user).toPromise().then((data)=>{
-    this.router.navigate(['/home',{ outlets: {navnav: ['p',this.post_id] } }]);
-
+      this.isPosting = false;
+      button.disabled = false;
+      this.router.navigate(['/home',{ outlets: {navnav: ['p',this.post_id] } }]);
     });
    
   }

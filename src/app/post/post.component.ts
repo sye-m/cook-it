@@ -4,29 +4,26 @@ import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { Post } from './post.model';
 import { Router } from '@angular/router';
-import { NgxImageCompressService } from 'ngx-image-compress';
 @Component({
   selector: 'app-post',
   templateUrl: './post.component.html',
   styleUrls: ['./post.component.css']
 })
 export class PostComponent implements OnInit {
-postFormData:FormGroup;
-title:FormControl;
-story:FormControl;
-recipe:Array<String>=[];
-ingredients:Array<String>=[];
-post_pic;
-upload_pic;
-post_id;
-recipeSteps:Array<Number>=[0];
-reader = new FileReader();
-noOfIngredients:Array<Number>=[0];
-imgResultBeforeCompress:string;
+  postFormData:FormGroup;
+  title:FormControl;
+  story:FormControl;
+  recipe:Array<String>=[];
+  ingredients:Array<String>=[];
+  post_pic;
+  upload_pic;
+  post_id;
+  recipeSteps:Array<Number>=[0];
+  reader = new FileReader();
+  noOfIngredients:Array<Number>=[0];
+  isPosting:boolean = false;
 
-imgResultAfterCompress:string;
-
-  constructor(private imageCompress: NgxImageCompressService,private post:PostService, private auth:AuthService, private router:Router ) { }
+  constructor(private post:PostService, private auth:AuthService, private router:Router ) { }
 
   ngOnInit() {
     this.title = new FormControl('',[Validators.required,Validators.minLength(3)]);
@@ -70,6 +67,9 @@ imgResultAfterCompress:string;
   }
   
   async onPost(event){
+    var button = (<HTMLInputElement>document.getElementById("post-button"));
+    button.disabled = true;
+    this.isPosting = true;
     for(var i =0;i<this.noOfIngredients.length;i++){
       var ingredientInput = (<HTMLInputElement>document.getElementById("ingredient#"+i));
 
@@ -94,6 +94,8 @@ imgResultAfterCompress:string;
       this.auth.userData.user.user_id
     )
  await this.post.post(post).toPromise().then(data=>{
+   this.isPosting = false;
+   button.disabled = false;
    this.post_id = data.message.post_id;
  });
  this.router.navigate(['/home',{ outlets: {navnav: ['p',this.post_id] } }]);

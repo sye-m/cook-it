@@ -6,7 +6,7 @@ describe('RegLogComponent', () => {
   let component: RegLogComponent;
   let fixture: ComponentFixture<RegLogComponent>;
 
-  beforeEach(async(() => {
+  /* beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [ RegLogComponent ]
     })
@@ -21,5 +21,6 @@ describe('RegLogComponent', () => {
 
   it('should create', () => {
     expect(component).toBeTruthy();
-  });
+  });*/
 });
+ 
