@@ -1,6 +1,3 @@
   <app-infinite-scroll class="flex-container">
   <app-single-post *ngFor="let post of posts" [post]="post"> </app-single-post>
 </app-infinite-scroll>
-<div *ngIf="isLoading$ | async">
-  Fetching posts..
-</div>

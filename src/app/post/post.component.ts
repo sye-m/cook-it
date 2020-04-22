@@ -66,7 +66,7 @@ export class PostComponent implements OnInit {
     }
   }
   
-  async onPost(event){
+  async onPost(){
     var button = (<HTMLInputElement>document.getElementById("post-button"));
     button.disabled = true;
     this.isPosting = true;
