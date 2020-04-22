@@ -16,6 +16,7 @@ var io = require('socket.io')(server)
 var Chat = require('./models/Chat');
 mongoose.connect("mongodb+srv://izuku:<Naruto80>@cluster0-heqzk.mongodb.net/test?retryWrites=true&w=majority");
 
+app.set('view engine', 'html');
 app.use(cors({
   origin: ['https://murmuring-sands-28803.herokuapp.com/', 'https://murmuring-sands-28803.herokuapp.com/'],
   credentials: true
@@ -90,7 +91,7 @@ io.on('connection', function (socket) {
 })
 
 
-var port = process.env.PORT || 8080;
+var port = process.env.PORT || 3000;
 app.use('/user', userRoutes);
 app.use('/post', postRoutes);
 app.use('/', appRoutes);
