@@ -42,7 +42,7 @@ export class UsersToFollowComponent implements OnInit {
   followOrUnfollow(){
     if(this.buttonValue == "Follow" || this.buttonValue == "Follow Back"){
       this.buttonValue = "Following";
-      this.sub = this.userService.follow(this.user,this.userData).subscribe(data=>{});
+      this.sub = this.userService.follow(this.user,this.userData).subscribe((data:any)=>{});
       var followUser = {
         user_id:this.user.user_id,
       }
@@ -51,7 +51,7 @@ export class UsersToFollowComponent implements OnInit {
     }
     else if(this.buttonValue == "Following"){
       this.buttonValue = "Follow";
-      this.sub2 = this.userService.unfollow(this.user,this.userData).subscribe(data=>{});
+      this.sub2 = this.userService.unfollow(this.user,this.userData).subscribe((data:any)=>{});
     this.auth.userData.user.following = this.auth.userData.user.following.filter((val)=>{
       if(val.user_id!=this.user.user_id){
         return true

@@ -7,10 +7,8 @@ var User = require('../models/User');
 var Post = require('../models/Post');
 var Chat = require('../models/Chat');
 const fs = require('fs');
-const imagemin = require('imagemin');
-const imageminJpegtran = require('imagemin-jpegtran');
-const imageminPngquant = require('imagemin-pngquant');
 
+var Jimp = require('jimp');
 router.post('/', function (req, res, next) {
   User.findOne({ 'email': req.body.email }, function (err, userExists) {
     if (userExists) {
@@ -248,8 +246,8 @@ router.post('/editProfile', function (req, res, next) {
     if (err.code !== 'EEXIST') throw err
   }
 
-  var profile_pic = "user_" + req.body.userData.user_id + "." + req.body.newUserData.profile_pic.image_type;
-  fs.unlink("public/assets/profile_pics" + req.body.userData.user_id + "/" + req.body.userData.userProfile[0].profile_pic, function (err) { });
+  var profile_pic = "user_" + req.body.userData.user_id + ".jpg" ;
+  fs.unlink("public/assets/profile_pics/" + req.body.userData.user_id + "/" + req.body.userData.userProfile[0].profile_pic, function (err) { });
   fs.writeFile("public/assets/profile_pics/" + profile_pic, new Buffer(req.body.newUserData.profile_pic.image_data, "base64"), function (err) {
     compressImage(profile_pic, req.body.userData.user_id).then(() => { });
   })
@@ -347,17 +345,20 @@ function isValidUser(req, res, next) {
 }
 
 async function compressImage(post_image, by) {
-  const files = await imagemin(["public/assets/profile_pics/" + post_image], {
-    destination: "public/assets/profile_pics/" + by,
-    plugins: [
-      imageminJpegtran(),
-      imageminPngquant({
-        quality: [0.3, 0.4]
-      })
-    ]
-  });
+  
 
-  fs.unlink("public/assets/profile_pics/" + post_image, function (err) { });
+  await Jimp.read("public/assets/profile_pics/" + post_image)
+  .then(img => {
+    
+    fs.unlink("public/assets/profile_pics/" + post_image, function (err) {console.log("error"+err) });
+    return img
+      .resize(650, 365) // resize
+      .quality(95) // set JPEG quality
+      .write("public/assets/profile_pics/" + by+"/"+post_image); // save
+  })
+  .catch(err => {
+    console.error(err);
+  });
   //=> [{data: <Buffer 89 50 4e …>, destinationPath: 'build/images/foo.jpg'}, …]
 }
 

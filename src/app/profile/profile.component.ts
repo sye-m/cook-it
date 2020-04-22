@@ -36,7 +36,7 @@ export class ProfileComponent implements OnInit,OnDestroy {
       this.user = this.auth.userData.user;
       this.isUsersProfile = true;
     }
-   await this.postService.getUsersPost(this.user_id).toPromise().then((data)=>{
+   await this.postService.getUsersPost(this.user_id).toPromise().then((data:any)=>{
       this.posts = data.userPosts;
       if(this.isUsersProfile==false){
         this.user = data.userData;
@@ -73,7 +73,7 @@ export class ProfileComponent implements OnInit,OnDestroy {
     if(this.followValue == "Follow" || this.followValue == "Follow Back"){
     
       this.followValue = "Following";
-      this.sub = this.userService.follow(user,this.auth.userData).subscribe(data=>{this.isLoading = false;});
+      this.sub = this.userService.follow(user,this.auth.userData).subscribe((data:any)=>{this.isLoading = false;});
      this.auth.userData.user.following.push({user_id:user.user_id});
     button.removeAttribute("disabled");
     
@@ -81,7 +81,7 @@ export class ProfileComponent implements OnInit,OnDestroy {
     else if(this.followValue == "Following"){
 
       this.followValue = "Follow";
-      this.sub2 = this.userService.unfollow(user,this.auth.userData).subscribe(data=>{this.isLoading = false;});
+      this.sub2 = this.userService.unfollow(user,this.auth.userData).subscribe((data:any)=>{this.isLoading = false;});
     this.auth.userData.user.following =  this.auth.userData.user.following.filter((val)=>{
       if(val.user_id!=user.user_id){
         return true
@@ -99,7 +99,7 @@ export class ProfileComponent implements OnInit,OnDestroy {
     }
 
     async establishChat(){
-     await this.userService.establishChat(this.auth.userData.user.user_id,this.user_id).toPromise().then(data=>{
+     await this.userService.establishChat(this.auth.userData.user.user_id,this.user_id).toPromise().then((data:any)=>{
        this.router.navigate(['/home/m',this.user_id]);
      })
     }

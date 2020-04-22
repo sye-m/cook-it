@@ -26,14 +26,14 @@ export class FollowersViewComponent implements OnInit {
       });
     }
     else{
-      await this.userService.getUsers(this.user_id).toPromise().then(data=>{
+      await this.userService.getUsers(this.user_id).toPromise().then((data:any)=>{
         this.followers = data.users[0].followers;
       })
       this.followers.forEach(element =>{
         this.user_ids.push(element.user_id);
       })
     }
-    this.sub = this.userService.getUsers(this.user_ids).subscribe(data=>this.users = data.users);
+    this.sub = this.userService.getUsers(this.user_ids).subscribe((data:any)=>this.users = data.users);
   }
 
 }

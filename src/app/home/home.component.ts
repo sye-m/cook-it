@@ -41,7 +41,7 @@ export class HomeComponent implements OnInit {
   }
 
    async logout(){
-     await this.auth.logout().toPromise().then(data=>{});
+     await this.auth.logout().toPromise().then((data:any)=>{});
     this.router.navigate(['/user']);
   }
   

@@ -72,7 +72,7 @@ export class EditProfileComponent implements OnInit,OnDestroy {
       this.profileFormData.value.bio,
       this.profile_pic
     )
-    this.sub = this.userService.editProfile(this.user,profile).subscribe(data=>{
+    this.sub = this.userService.editProfile(this.user,profile).subscribe((data:any)=>{
       this.isPosting = false;
     });
     this.router.navigate(['/home/profile',this.user.user_id]);

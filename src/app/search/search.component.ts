@@ -22,7 +22,7 @@ export class SearchComponent implements OnInit,OnDestroy {
 
   search(){
     this.searchTerm = this.route.snapshot.paramMap.get('searchTerm')
-    this.sub2 = this.user.getUsersandPosts(this.searchTerm).subscribe(data=>{
+    this.sub2 = this.user.getUsersandPosts(this.searchTerm).subscribe((data:any)=>{
       this.posts = data.posts;
       this.users = data.users});
   }

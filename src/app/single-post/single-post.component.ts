@@ -19,7 +19,7 @@ export class SinglePostComponent implements OnInit {
   constructor(private userService:UserService) {}   
 
   ngOnInit() {
-    this.userService.getUsers(this.post.by.user_id).toPromise().then(data=>{this.byUser = data.users[0];});
+    this.userService.getUsers(this.post.by.user_id).toPromise().then((data:any)=>{this.byUser = data.users[0];});
   }
 
   

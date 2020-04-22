@@ -75,7 +75,7 @@ export class RegLogComponent implements OnInit,OnDestroy {
 
   
    async checkUser(){
-    await  this.auth.isLoggedIn().toPromise().then(data => this.user = data.auth).catch(err=>{});
+    await  this.auth.isLoggedIn().toPromise().then((data:any) => this.user = data.auth).catch(err=>{});
     if(this.user){
       this.router.navigate(['/home']);
     }
@@ -92,7 +92,7 @@ export class RegLogComponent implements OnInit,OnDestroy {
       this.regFormData.value.email,
       this.regFormData.value.password
     );
-    this.sub = this.auth.signup(user).subscribe(data => {}, error => { 
+    this.sub = this.auth.signup(user).subscribe((data:any) => {}, error => { 
       console.log(error);   
       var obj = JSON.parse(error._body);
       this.flash.show(obj.message,{cssClass:"alert alert-danger",timeout:2500})
@@ -108,7 +108,7 @@ export class RegLogComponent implements OnInit,OnDestroy {
         this.logFormData.value.password
       )
       this.sub2 = this.auth.login(user)
-      .subscribe(data => {
+      .subscribe((data:any) => {
         this.auth.auth = true;
       this.router.navigate(['/home']);
 

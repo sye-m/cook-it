@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Http, Headers, Response } from "@angular/http";
+import { HttpClient, HttpHeaders, HttpResponse } from "@angular/common/http";
 import { map } from 'rxjs/operators';
 
 import { Observable } from "rxjs/";
@@ -8,36 +8,35 @@ import { Observable } from "rxjs/";
 })
 export class AuthService {
 
-  constructor(private http:Http) { }
+  constructor(private http:HttpClient) { }
   auth:boolean=false;
   userData;
   signup(user) {
     const body = JSON.stringify(user);
-    const headers = new Headers({'Content-Type': 'application/json'});
-    return this.http.post('http://localhost:3000/user', body, {headers: headers})
-        .pipe(map((response: Response) => response.json())); 
+    const headers = new HttpHeaders({'Content-Type': 'application/json'});
+    return this.http.post('user', body, {headers: headers})
+        .pipe(map((response: HttpResponse<Object>) => response)); 
 }
 
 login(user) {
   const body = JSON.stringify(user);
-  const headers = new Headers({'Content-Type': 'application/json'});
-  return this.http.post('http://localhost:3000/user/login', body, {withCredentials:true,headers: headers})
-      .pipe(map((response: Response) => response.json()));
+  const headers = new HttpHeaders({'Content-Type': 'application/json'});
+  return this.http.post('user/login', body, {withCredentials:true,headers: headers})
+      .pipe(map((response: HttpResponse<Object>) => response));
       
 }
 
 isLoggedIn(){
-  const headers = new Headers({'Content-Type': 'application/json'});
-  return this.http.get('http://localhost:3000/user/isLoggedIn', {withCredentials:true,headers: headers})
-      .pipe(map((response: Response) => {
-        this.userData = response.json();
-        
-       return response.json()}));
+  const headers = new HttpHeaders({'Content-Type': 'application/json'});
+  return this.http.get('user/isLoggedIn', {withCredentials:true,headers: headers})
+      .pipe(map((response: HttpResponse<Object>) => {
+        this.userData = response;
+       return response}));
 }
 
 logout(){
-  const headers = new Headers({'Content-Type': 'application/json'});
-  return this.http.get('http://localhost:3000/user/logout', {withCredentials:true,headers: headers})
-      .pipe(map((response: Response) => response.json()));
+  const headers = new HttpHeaders({'Content-Type': 'application/json'});
+  return this.http.get('user/logout', {withCredentials:true,headers: headers})
+      .pipe(map((response: HttpResponse<Object>) => response));
 }
 }

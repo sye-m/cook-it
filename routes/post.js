@@ -7,6 +7,7 @@ const imageminJpegtran = require('imagemin-jpegtran');
 const imageminPngquant = require('imagemin-pngquant');
 const fs = require('fs');
 var Post = require('../models/Post');
+var Jimp = require('jimp');
 
 router.post('/', function (req, res, next) {
     var post_id = uniqid(Date.now());
@@ -16,7 +17,7 @@ router.post('/', function (req, res, next) {
     } catch (err) {
         if (err.code !== 'EEXIST') throw err
     }
-    var post_image = "user_" + by + "_" + post_id + "." + post_pic.image_type;
+    var post_image = "user_" + by + "_" + post_id + ".jpg" ;
     var post = new Post({
         title: title.toLowerCase(),
         post_id: post_id,
@@ -269,7 +270,7 @@ router.post('/getUsersPost', function (req, res, next) {
 
 router.post('/editPost', function (req, res, next) {
     var by = req.body.userData.user_id;
-    var post_image = "user_" + by + "_" + req.body.postId + "." + req.body.editedPost.post_pic.image_type;
+    var post_image = "user_" + by + "_" + req.body.postId + ".jpg";
 
     Post.find({ 'post_id': req.body.postId }, function (err, post) {
         fs.unlink("public/" + post[0].image, function (err) { });
@@ -329,7 +330,7 @@ router.post('/deletePost', function (req, res, next) {
     })
 })
 async function compressImage(post_image, by) {
-    const files = await imagemin(["public/assets/post_uploads/" + post_image], {
+     /* await imagemin(["public/assets/post_uploads/" + post_image], {
         destination: "public/assets/post_uploads/" + by,
         plugins: [
             imageminJpegtran({
@@ -341,8 +342,18 @@ async function compressImage(post_image, by) {
                 quality: [0.1, 0.1]
             })
         ]
-    });
+    }); */
+    await Jimp.read("public/assets/post_uploads/" + post_image)
+  .then(img => {
     fs.unlink("public/assets/post_uploads/" + post_image, function (err) { });
+    return img
+      .resize(650, 365) // resize
+      .quality(95) // set JPEG quality
+      .write("public/assets/post_uploads/" + by+"/"+post_image); // save
+  })
+  .catch(err => {
+    console.error(err);
+  });
     //=> [{data: <Buffer 89 50 4e …>, destinationPath: 'build/images/foo.jpg'}, …]
 
 }

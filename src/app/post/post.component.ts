@@ -93,7 +93,7 @@ export class PostComponent implements OnInit {
       this.ingredients,
       this.auth.userData.user.user_id
     )
- await this.post.post(post).toPromise().then(data=>{
+ await this.post.post(post).toPromise().then((data:any)=>{
    this.isPosting = false;
    button.disabled = false;
    this.post_id = data.message.post_id;

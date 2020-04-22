@@ -13,7 +13,7 @@ export class ExploreComponent implements OnInit,OnDestroy {
   constructor(private post:PostService,private auth:AuthService) { }
 
   ngOnInit() {
-    this.sub = this.post.explore(this.auth.userData.user).subscribe(data=>{this.posts = data.result});
+    this.sub = this.post.explore(this.auth.userData.user).subscribe((data:any)=>{this.posts = data.result});
   }
 
   ngOnDestroy(){

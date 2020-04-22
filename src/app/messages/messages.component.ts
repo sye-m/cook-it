@@ -22,7 +22,7 @@ export class MessagesComponent implements OnInit {
   }
 
  async ngOnInit() {
-  await  this.userService.getMessages(this.user_id).toPromise().then(data=>{
+  await  this.userService.getMessages(this.user_id).toPromise().then((data:any)=>{
       this.usersData = data.users;
       //get all users with whom this user has interacted with
       this.usersData.forEach(elem=>{
@@ -39,7 +39,7 @@ export class MessagesComponent implements OnInit {
       this.all_ids = Array.from(new Set(this.all_ids))
     });
 
-   await this.userService.getUsers(this.all_ids).toPromise().then(data=>{
+   await this.userService.getUsers(this.all_ids).toPromise().then((data:any)=>{
       this.users = data.users;      
     })
  
@@ -112,7 +112,7 @@ export class MessagesComponent implements OnInit {
   async establishChat(toUserId){
     //open up socket connection with the person user is trying to communicate.
     await this.userService.establishChat(this.auth.userData.user.user_id,toUserId).toPromise().
-    then(data=>{
+    then((data:any)=>{
       this.router.navigate(['/home/m',toUserId]);
     })
   }

@@ -13,7 +13,7 @@ export class LoggedInGuard implements CanActivate {
    async canActivate(
     next: ActivatedRouteSnapshot,
     state: RouterStateSnapshot){
-    await this.auth.isLoggedIn().toPromise().then(data=> this.isUser = data.auth).catch(err=>{});
+    await this.auth.isLoggedIn().toPromise().then((data:any)=> this.isUser = data.auth).catch(err=>{});
     if(!this.isUser){
           this.router.navigate(['/user']);
          return  this.isUser;

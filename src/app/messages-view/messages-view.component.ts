@@ -31,14 +31,14 @@ export class MessagesViewComponent implements OnInit,OnDestroy {
    
    ngOnInit() {
      //get the users data with whom the current user is chatting
-    this.userService.getUsers(this.to_user_id).toPromise().then(data=>this.user = data.users[0]);
+    this.userService.getUsers(this.to_user_id).toPromise().then((data:any)=>this.user = data.users[0]);
     //establish a socket with the server
     this.chatService.initiateConnection();
     //get all the messages from and for this user
     this.chatService.getAllMessages(this.to_user_id);
     //the messages received will be sorted into one big array
     //this will help is displaying them properly
-    this.sub = this.chatService.getMessages(this.to_user_id).subscribe(data=>{
+    this.sub = this.chatService.getMessages(this.to_user_id).subscribe((data:any)=>{
       if(data.sent_messages.length>0){
       data.sent_messages[0].messages.forEach(elem=>{
         
@@ -65,7 +65,7 @@ export class MessagesViewComponent implements OnInit,OnDestroy {
     })
 
     //if a new messages is either received or sent subscribe to the change and update the array
-    this.sub2 = this.chatService.newMessage().subscribe(data=>{
+    this.sub2 = this.chatService.newMessage().subscribe((data:any)=>{
       
       //@ts-ignore
       if(data.sent_messages){

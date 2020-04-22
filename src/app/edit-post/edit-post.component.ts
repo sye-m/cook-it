@@ -39,7 +39,7 @@ export class EditPostComponent implements OnInit,OnDestroy {
 
   async ngOnInit() {
     
-    await this.postService.singlePost(this.post_id).toPromise().then(data=>{this.post =data.post[0];
+    await this.postService.singlePost(this.post_id).toPromise().then((data:any)=>{this.post =data.post[0];
     this.title = new FormControl(this.post.title,[Validators.required,Validators.minLength(3)]);
     this.story = new FormControl(this.post.content.story,[Validators.required,Validators.minLength(3)]);
     this.upload_pic = "http://localhost:3000/"+this.post.image;
@@ -138,7 +138,7 @@ export class EditPostComponent implements OnInit,OnDestroy {
       this.ingredients,
       this.auth.userData.user.user_id
     )
-    await this.postService.editPost(this.post_id,this.editedPost,this.auth.userData.user).toPromise().then((data)=>{
+    await this.postService.editPost(this.post_id,this.editedPost,this.auth.userData.user).toPromise().then((data:any)=>{
       this.isPosting = false;
       button.disabled = false;
       this.router.navigate(['/home/p',this.post_id]);

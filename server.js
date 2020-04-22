@@ -14,10 +14,10 @@ var app = express();
 var server = require('http').Server(app)
 var io = require('socket.io')(server)
 var Chat = require('./models/Chat');
-mongoose.connect('mongodb://localhost:27017/cook-it');
+mongoose.connect("mongodb+srv://izuku:<Naruto80>@cluster0-heqzk.mongodb.net/test?retryWrites=true&w=majority");
 
 app.use(cors({
-  origin: ['http://localhost:4200', 'http://127.0.0.1:4200'],
+  origin: ['https://murmuring-sands-28803.herokuapp.com/', 'https://murmuring-sands-28803.herokuapp.com/'],
   credentials: true
 
 }));
@@ -90,7 +90,7 @@ io.on('connection', function (socket) {
 })
 
 
-
+var port = process.env.PORT || 8080;
 app.use('/user', userRoutes);
 app.use('/post', postRoutes);
 app.use('/', appRoutes);
@@ -99,7 +99,7 @@ app.use('/', appRoutes);
 app.use(function (req, res, next) {
   return res.render('index');
 });
-app.listen('3000', function () {
+app.listen(port, function () {
   console.log("Listening for Local Host 3000");
 });
 module.exports = app;

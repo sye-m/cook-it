@@ -35,7 +35,7 @@ export class HomeFeedPostsViewComponent implements OnInit,OnDestroy {
 
    async ngOnInit() {
      //get followed users information
-    await this.userService.getUsers(this.post.by.user_id).toPromise().then(data => {this.byUser = data.users[0];})
+    await this.userService.getUsers(this.post.by.user_id).toPromise().then((data:any) => {this.byUser = data.users[0];})
 
      this.likes = this.post.likes_by.length;
      //if post is already liked by current user set button to unlike
@@ -115,12 +115,12 @@ export class HomeFeedPostsViewComponent implements OnInit,OnDestroy {
      followOrUnfollow(postObj){
       if(this.followValue == "Follow" || this.followValue == "Follow Back"){
         this.followValue = "Following";
-        this.sub = this.userService.follow(this.post.by,this.auth.userData).subscribe(data=>{});
+        this.sub = this.userService.follow(this.post.by,this.auth.userData).subscribe((data:any)=>{});
         this.auth.userData.user.following.push(postObj);
       }
       else if(this.followValue == "Following"){
         this.followValue = "Follow";
-        this.sub2 = this.userService.unfollow(this.post.by,this.auth.userData).subscribe(data=>{});
+        this.sub2 = this.userService.unfollow(this.post.by,this.auth.userData).subscribe((data:any)=>{});
       //updating the static user data 
       this.auth.userData.user.following = this.auth.userData.user.following.filter((val)=>{
         if(val.user_id!=postObj.user_id){

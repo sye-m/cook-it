@@ -44,11 +44,11 @@ export class NotificationsComponent implements OnInit,OnDestroy {
       this.post_notif.push(element)
       this.post_notif_user_ids.push(element.by_user_id)
       this.post_notif_post_ids.push(element.acvtId)
-      this.postService.getNotifPosts({'user_id':element.by_user_id,'post_id':element.acvtId}).toPromise().then(data=>{this.post_notif_users.push(data)});
+      this.postService.getNotifPosts({'user_id':element.by_user_id,'post_id':element.acvtId}).toPromise().then((data:any)=>{this.post_notif_users.push(data)});
       }
     });
-    this.sub = this.userService.getUsers(this.user_ids).subscribe(data=> this.users = data.users);
-    this.sub2 = this.userService.readAll(this.auth.userData.user).subscribe(data=>{});
+    this.sub = this.userService.getUsers(this.user_ids).subscribe((data:any)=> this.users = data.users);
+    this.sub2 = this.userService.readAll(this.auth.userData.user).subscribe((data:any)=>{});
   }
   ngOnDestroy(){
     if(this.sub || this.sub2){

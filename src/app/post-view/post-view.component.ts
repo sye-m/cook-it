@@ -1,4 +1,4 @@
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { PostService } from './../services/post.service';
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { AuthService } from '../services/auth.service';
@@ -11,7 +11,7 @@ import { UserService } from '../services/user.service';
 })
 export class PostViewComponent implements OnInit,OnDestroy {
   post_id:String;
-  post;
+  post:any;
   followValue:String = "Follow";
   colorValue="primary";
   buttonValue:String = "Like";
@@ -27,14 +27,14 @@ export class PostViewComponent implements OnInit,OnDestroy {
   sub2;
   sub0;
 
-  constructor(private auth:AuthService, private postService:PostService,private userService:UserService,private route:ActivatedRoute) { 
+  constructor(private auth:AuthService, private postService:PostService,private userService:UserService,private route:ActivatedRoute,private router:Router) { 
     this.post_id = this.route.snapshot.paramMap.get('post_id');
     this.userData = this.auth.userData.user;
   }
 
   async ngOnInit() {
-    await this.postService.singlePost(this.post_id).toPromise().then(data=>this.post =data.post[0]);
-    await this.userService.getUsers(this.post.by.user_id).toPromise().then(data=>this.byUser = data.users[0]);
+    await this.postService.singlePost(this.post_id).toPromise().then((data:any)=>this.post =data.post[0]);
+    await this.userService.getUsers(this.post.by.user_id).toPromise().then((data:any)=>this.byUser = data.users[0]);
 
     this.post.likes_by.forEach(elem=>{
       if(elem.user_id == this.userData.user_id){
@@ -125,6 +125,7 @@ export class PostViewComponent implements OnInit,OnDestroy {
 
   deletePost(postId){
     this.sub2 = this.postService.deletePost(postId,this.userData).subscribe((data)=>{});
+    this.router.navigate(['/home/profile/'+this.userData.user_id])
   }
 
   ngOnDestroy(){

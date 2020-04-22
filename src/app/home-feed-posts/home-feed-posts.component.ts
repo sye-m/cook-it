@@ -21,8 +21,8 @@ export class HomeFeedPostsComponent implements OnInit {
    }
 
   async ngOnInit() {
-  await this.post.homeFeed(this.auth.userData.user).toPromise().then(data=>{this.posts = data.result;});
-  await this.userService.recommendedUsers(this.userData.user_id,this.userData.following).toPromise().then((data)=>this.users = data.users);
+  await this.post.homeFeed(this.auth.userData.user).toPromise().then((data:any)=>{this.posts = data.result;});
+  await this.userService.recommendedUsers(this.userData.user_id,this.userData.following).toPromise().then((data:any)=>this.users = data.users);
 
   }
   
