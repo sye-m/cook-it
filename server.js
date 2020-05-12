@@ -14,14 +14,9 @@ var app = express();
 var server = require('http').Server(app)
 var io = require('socket.io')(server)
 var Chat = require('./models/Chat');
-mongoose.connect("mongodb+srv://izuku:<Naruto80>@cluster0-heqzk.mongodb.net/test?retryWrites=true&w=majority");
-app.set('view engine', 'pug')
+mongoose.connect('mongodb://localhost:27017/cook-it');
 
-app.use(cors({
-  origin: ['https://murmuring-sands-28803.herokuapp.com/', 'https://murmuring-sands-28803.herokuapp.com/'],
-  credentials: true
 
-}));
 app.use(cookieParser('secret'));
 
 app.use(
@@ -48,6 +43,7 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(express.static('public'));
 
+
 app.use(function (req, res, next) {
   res.setHeader('Access-Control-Allow-Credentials', true);
   res.setHeader('Access-Control-Allow-Origin', 'http://localhost:4200');
@@ -60,6 +56,7 @@ app.use(function (req, res, next) {
 var sent_messages;
 var received_messages;
 var from;
+//var port = process.env.PORT || '4000';
 server.listen(4000);
 io.on('connection', function (socket) {
   socket.on('connected user id', function (data) {
@@ -91,7 +88,7 @@ io.on('connection', function (socket) {
 })
 
 
-var port = process.env.PORT || 3000;
+
 app.use('/user', userRoutes);
 app.use('/post', postRoutes);
 app.use('/', appRoutes);
@@ -100,7 +97,8 @@ app.use('/', appRoutes);
 app.use(function (req, res, next) {
   return res.render('index');
 });
-app.listen(port, function () {
+//var port = process.env.PORT || '3000'
+app.listen('3000', function () {
   console.log("Listening for Local Host 3000");
 });
 module.exports = app;

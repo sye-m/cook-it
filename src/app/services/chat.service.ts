@@ -9,7 +9,7 @@ import { HttpClient } from '@angular/common/http';
 })
 export class ChatService {
   from_user_id;
-  socket = io.connect('https://murmuring-sands-28803.herokuapp.com:4000/');
+  socket = io.connect('http://localhost:4000/');
   userSocket;
   constructor(private auth:AuthService,private http:HttpClient) {
     this.from_user_id=this.auth.userData.user.user_id
@@ -18,7 +18,7 @@ export class ChatService {
   
    initiateConnection(){
     this.socket.emit('connected user id', {from_user_id:this.from_user_id});
-    this.userSocket = io.connect('https://murmuring-sands-28803.herokuapp.com:4000/'+this.from_user_id);
+    this.userSocket = io.connect('http://localhost:4000/'+this.from_user_id);
     this.userSocket.on('connect',function(){
     })
    }

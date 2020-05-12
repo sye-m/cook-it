@@ -7,8 +7,8 @@ var User = require('../models/User');
 var Post = require('../models/Post');
 var Chat = require('../models/Chat');
 const fs = require('fs');
-
 var Jimp = require('jimp');
+
 router.post('/', function (req, res, next) {
   User.findOne({ 'email': req.body.email }, function (err, userExists) {
     if (userExists) {
@@ -359,7 +359,6 @@ async function compressImage(post_image, by) {
   .catch(err => {
     console.error(err);
   });
-  //=> [{data: <Buffer 89 50 4e …>, destinationPath: 'build/images/foo.jpg'}, …]
 }
 
 module.exports = router;

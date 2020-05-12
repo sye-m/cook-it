@@ -2,24 +2,22 @@ var express = require('express');
 var router = express.Router();
 var uniqid = require('uniqid');
 var User = require('../models/User');
-const imagemin = require('imagemin');
-const imageminJpegtran = require('imagemin-jpegtran');
-const imageminPngquant = require('imagemin-pngquant');
 const fs = require('fs');
 var Post = require('../models/Post');
 var Jimp = require('jimp');
 
 router.post('/', function (req, res, next) {
     var post_id = uniqid(Date.now());
-    const { post_pic, title, story, recipe, ingredients, by } = req.body.post;
+    var { post_pic, title, story, recipe, ingredients, by } = req.body.post;
     try {
         fs.mkdirSync('public/assets/post_uploads/' + by);
     } catch (err) {
         if (err.code !== 'EEXIST') throw err
     }
     var post_image = "user_" + by + "_" + post_id + ".jpg" ;
+    title =  title.replace(/\w\S*/g, function(txt){return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();});
     var post = new Post({
-        title: title.toLowerCase(),
+        title: title,
         post_id: post_id,
         by: { 'user_id': by },
         content: { "story": story, "recipe": recipe, "ingredients": ingredients },
@@ -330,19 +328,7 @@ router.post('/deletePost', function (req, res, next) {
     })
 })
 async function compressImage(post_image, by) {
-     /* await imagemin(["public/assets/post_uploads/" + post_image], {
-        destination: "public/assets/post_uploads/" + by,
-        plugins: [
-            imageminJpegtran({
-                speed:11,
-                quality:[0.1,0.1]
-            }),
-            imageminPngquant({
-                speed:11,
-                quality: [0.1, 0.1]
-            })
-        ]
-    }); */
+     
     await Jimp.read("public/assets/post_uploads/" + post_image)
   .then(img => {
     fs.unlink("public/assets/post_uploads/" + post_image, function (err) { });
@@ -354,7 +340,6 @@ async function compressImage(post_image, by) {
   .catch(err => {
     console.error(err);
   });
-    //=> [{data: <Buffer 89 50 4e …>, destinationPath: 'build/images/foo.jpg'}, …]
 
 }
 
