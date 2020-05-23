@@ -3,7 +3,7 @@ var Schema = mongoose.Schema;
 
 var post = new Schema({
     title: {type: String, required: true},
-    post_id:{type:String},
+    post_id:{type:String,required:true},
     by:{"user_id":String},
     content:{"story":String,"recipe":[{type:String}],"ingredients":[{type:String}]},
     date:{type:Number,required:true},
