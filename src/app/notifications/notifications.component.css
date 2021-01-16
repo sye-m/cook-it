@@ -18,8 +18,8 @@
 
 .profile-pic > img{
     height: 100%;
-    width: auto;
-    margin-left: -12px;
+    object-fit: cover;
+    width: 100%;
 }
 
 .profile-pic{

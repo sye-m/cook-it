@@ -1,5 +1,6 @@
 .post-card{
     max-width: 350px;
+    width:315px;
     margin:15px;
     outline: none;
     cursor: pointer;

@@ -1,58 +1,58 @@
 <div class="post-container">
-  <div id="post-title">Post</div>
-  <hr>
-  <form enctype="multipart/form-data"[formGroup]="postFormData" (ngSubmit)="onPost()">
-    <input id="post_pic" #post_pic type="file" (change)="getImage()" style="display: none;">  
-    <div class="post-pic">
-    <img src="{{upload_pic}}" class="post-pic" alt="">
-    </div>
-    <label for="post_pic" id="upload-button">
+    <div id="post-title">Post</div>
+    <hr>
+    <form enctype="multipart/form-data" [formGroup]="postFormData" (ngSubmit)="onPost()">
+        <input id="post_pic" #post_pic type="file" (change)="getImage()" style="display: none;">
+        <div class="post-pic">
+            <img src="{{upload_pic}}" id="post-image"alt="">
+        </div>
+        <label for="post_pic" id="upload-button">
       <button type="button" (click)="post_pic.click()" mat-raised-button color="primary">
-      <mat-icon>image</mat-icon>
+        <mat-icon>image</mat-icon>
       </button>
     </label>
-    <br>
+        <br>
 
-    <mat-form-field appearance="outline">
-      <mat-label>Title</mat-label>
-      <input type="text" class="input-field" matInput name="title" [formControl]="title">
-    </mat-form-field>
-    <br>
+        <mat-form-field appearance="outline">
+            <mat-label>Title</mat-label>
+            <input type="text" class="input-field" matInput name="title" [formControl]="title">
+        </mat-form-field>
+        <br>
 
-    <mat-form-field appearance="outline">
-      <mat-label>Story</mat-label>
-      <textarea  name="story" class="input-field" matInput [formControl]="story"></textarea>
-    </mat-form-field>
-    <br>
-    
-    <span>Recipe</span>
-    <div *ngFor="let rs of recipeSteps; let indexValue=index;">
-      <mat-form-field appearance="outline">
-        <mat-label>Step {{indexValue+1}}</mat-label>
-        <input matInput type="text" class="input-field" name="recipe"  #recipeStep{{indexValue}} id="recipeStep#{{indexValue}}">
-        <button *ngIf="indexValue!=0" type="button" color="warn" mat-button  matSuffix mat-icon-button aria-label="Clear" (click)="deleteRecipeSteps(indexValue)">
+        <mat-form-field appearance="outline">
+            <mat-label>Story</mat-label>
+            <textarea name="story" class="input-field" matInput [formControl]="story"></textarea>
+        </mat-form-field>
+        <br>
+
+        <span>Recipe</span>
+        <div *ngFor="let rs of recipeSteps; let indexValue=index;">
+            <mat-form-field appearance="outline">
+                <mat-label>Step {{indexValue+1}}</mat-label>
+                <input matInput type="text" class="input-field" name="recipe" #recipeStep{{indexValue}} id="recipeStep#{{indexValue}}">
+                <button *ngIf="indexValue!=0" type="button" color="warn" mat-button matSuffix mat-icon-button aria-label="Clear" (click)="deleteRecipeSteps(indexValue)">
           <mat-icon>remove_circle</mat-icon>
         </button>
-      </mat-form-field>
-    </div>
-    <button type="button" mat-raised-button (click)="addRecipeSteps()">Add Step</button>
-    <br><br>
-    <span>Ingredients</span>
-    <div *ngFor="let nOI of noOfIngredients; let indexValue=index;">
-      <mat-form-field appearance="outline">
-      <mat-label>Ingredient No {{indexValue+1}}</mat-label>
-      <input class="input-field" matInput type="text" #ingredient{{indexValue}} id="ingredient#{{indexValue}}">
-      <button *ngIf="indexValue!=0" type="button" color="warn" mat-button  matSuffix mat-icon-button aria-label="Clear" (click)="deleteIngredients(indexValue)">
+            </mat-form-field>
+        </div>
+        <button type="button" mat-raised-button (click)="addRecipeSteps()">Add Step</button>
+        <br><br>
+        <span>Ingredients</span>
+        <div *ngFor="let nOI of noOfIngredients; let indexValue=index;">
+            <mat-form-field appearance="outline">
+                <mat-label>Ingredient No {{indexValue+1}}</mat-label>
+                <input class="input-field" matInput type="text" #ingredient{{indexValue}} id="ingredient#{{indexValue}}">
+                <button *ngIf="indexValue!=0" type="button" color="warn" mat-button matSuffix mat-icon-button aria-label="Clear" (click)="deleteIngredients(indexValue)">
           <mat-icon>remove_circle</mat-icon>
-      </button> 
-      </mat-form-field>
-    </div>
-    <button type="button" mat-raised-button  (click)="addIngredient()">Add Ingredient</button>
-    <br>
-    <br>
-    <button mat-raised-button color="primary" id="post-button" type="submit" [disabled]="!postFormData.valid">
+        </button>
+            </mat-form-field>
+        </div>
+        <button type="button" mat-raised-button (click)="addIngredient()">Add Ingredient</button>
+        <br>
+        <br>
+        <button mat-raised-button color="primary" id="post-button" type="submit" [disabled]="!postFormData.valid">
       <mat-spinner *ngIf="isPosting" diameter=25 color="primary"></mat-spinner>
       Post
     </button>
-  </form>
+    </form>
 </div>

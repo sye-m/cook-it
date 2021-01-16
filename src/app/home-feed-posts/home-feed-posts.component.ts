@@ -11,22 +11,17 @@ import { UserService } from '../services/user.service';
   styleUrls: ['./home-feed-posts.component.css']
 })
 export class HomeFeedPostsComponent implements OnInit {
-  posts; 
+  posts;
   postSub;
   users = [];
   userData;
 
-  constructor(private userService:UserService,private post:PostService,private auth:AuthService,private ref:ChangeDetectorRef,private router:Router) {
+  constructor(private userService: UserService, private post: PostService, private auth: AuthService, private ref: ChangeDetectorRef, private router: Router) {
     this.userData = this.auth.userData.user;
-   }
+  }
 
   async ngOnInit() {
-  await this.post.homeFeed(this.auth.userData.user).toPromise().then((data:any)=>{this.posts = data.result;});
-  await this.userService.recommendedUsers(this.userData.user_id,this.userData.following).toPromise().then((data:any)=>this.users = data.users);
-
+    await this.post.homeFeed(this.auth.userData.user).toPromise().then((data: any) => { this.posts = data.result; });
+    await this.userService.recommendedUsers(this.userData.user_id, this.userData.following).toPromise().then((data: any) => this.users = data.users);
   }
-  
-  
-
-
 }

@@ -16,7 +16,7 @@ export class PostComponent implements OnInit {
   recipe:Array<String>=[];
   ingredients:Array<String>=[];
   post_pic;
-  upload_pic;
+  upload_pic:string | ArrayBuffer = "";
   post_id;
   recipeSteps:Array<Number>=[0];
   reader = new FileReader();
@@ -41,9 +41,12 @@ export class PostComponent implements OnInit {
    getImage(){
      //@ts-ignore
     var image = document.getElementById('post_pic').files[0];
-
     this.reader.readAsDataURL(image);
-    this.reader.addEventListener('load',(event) =>{ this.upload_pic = this.reader.result;this.getImageData(event, image)});
+    this.reader.addEventListener('load',(event) =>{ 
+      this.upload_pic = this.reader.result;
+      let post_image = document.getElementById('post-image');
+      post_image.style.visibility = "visible";
+      this.getImageData(event, image)});
   }
 
   addIngredient(){

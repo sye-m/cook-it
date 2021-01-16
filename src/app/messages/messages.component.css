@@ -5,6 +5,9 @@
 }
 .messages{
     width:200px;
+    -webkit-box-orient: vertical;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
     text-overflow: ellipsis;
     overflow: hidden;
     font-size: 16px;

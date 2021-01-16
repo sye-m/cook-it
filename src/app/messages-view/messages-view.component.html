@@ -1,31 +1,31 @@
 <div id="user">
-  <div class="user-info" [routerLink]="['/home/profile',to_user_id]">
-    <div class="profile-pic" >
-      <img src = "http://localhost:3000/{{user.profile_pic}}" >
+    <div class="user-info" [routerLink]="['/home/profile',to_user_id]">
+        <div class="profile-pic">
+            <img src="http://localhost:3000/{{user.profile_pic}}">
+        </div>
+        <div class="user-name">
+            {{user.user_name}}
+        </div>
     </div>
-    <div class="user-name">
-      {{user.user_name}}
-    </div>
-  </div>
 </div>
 <div id="message-container">
-  <div id="messages">
-<div *ngFor="let message of all_messages">
-  <div [ngClass]="whichClass(message.id)">
-  <p>
-{{message.msg}}
-  </p>
-</div>
-</div>
-</div>
+    <div id="messages">
+        <div *ngFor="let message of all_messages">
+            <div [ngClass]="whichClass(message.id)">
+                <p>
+                    {{message.msg}}
+                </p>
+            </div>
+        </div>
+    </div>
 </div>
 <div id="send-container">
-<mat-form-field appearance="outline">
-  <textarea  maxRows=5 placeholder="Type Something"name="message" class="input-field" id="message" matInput #message></textarea>
-</mat-form-field>
-<button type="submit"  id="message-send-button" (click)="sendMessage(message)" mat-icon-button>
-  <mat-icon>
-    send
-  </mat-icon>
-</button>
+    <mat-form-field appearance="outline">
+        <textarea maxRows=5 placeholder="Type Something" name="message" class="input-field" id="message" matInput #message></textarea>
+    </mat-form-field>
+    <button type="submit" id="message-send-button" (click)="sendMessage(message)" mat-icon-button>
+    <mat-icon>
+      send
+    </mat-icon>
+  </button>
 </div>

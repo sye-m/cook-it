@@ -7,9 +7,9 @@
     display: inline-block;
 }
 #profile-pic > img{
-    width:auto;
+    width:100%;
     height:100%;
-    margin-left:-24px;
+    object-fit: cover;
 }
 #profile-pic {
     width:200px;

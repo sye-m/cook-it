@@ -9,8 +9,8 @@
         *ngIf="userData.user_id!=post.by.user_id">{{followValue}}</button>
     </mat-card-header>
 
-    <div [routerLink]="['/home/p',post.post_id]">
-      <img class="post-image" mat-card-image src="http://localhost:3000/{{post.image}}">
+    <div [routerLink]="['/home/p',post.post_id]" class="post-image">
+      <img mat-card-image src="http://localhost:3000/{{post.image}}">
     </div>
     <div class="flex-container">
       <button type="button" mat-icon-button color="accent" (click)="likeOrUnlike()" *ngIf="buttonValue=='Unlike'">

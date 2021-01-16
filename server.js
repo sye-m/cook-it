@@ -14,9 +14,10 @@ var app = express();
 var server = require('http').Server(app)
 var io = require('socket.io')(server)
 var Chat = require('./models/Chat');
+//MongoDB connection
 mongoose.connect('mongodb://localhost:27017/cook-it');
 
-
+//Passport JS authentication requires cookies
 app.use(cookieParser('secret'));
 
 app.use(
@@ -52,11 +53,10 @@ app.use(function (req, res, next) {
   next();
 });
 
-
+//Handle real time chats with Socket.IO
 var sent_messages;
 var received_messages;
 var from;
-//var port = process.env.PORT || '4000';
 server.listen(4000);
 io.on('connection', function (socket) {
   socket.on('connected user id', function (data) {
@@ -70,15 +70,18 @@ io.on('connection', function (socket) {
         })
         Chat.find({ $and: [{ to: data.from_user_id }, { from: data.to_user_id }] }, function (err, res) {
           received_messages = res
+          //emit a event to send the user all their messages
           socket.emit('all messages', { sent_messages: sent_messages, received_messages: received_messages })
         })
       })
       socket.on('send message', function (data) {
         Chat.find({ $and: [{ to: data.to_user_id }, { from: data.from_user_id }] }, function (err, result) {
           var c;
-          if (result) {
+          if (result.length > 0) {
             c = result[0].update({ $push: { messages: { msg: data.message, date: Date.now() } } }, function (err, res) { }).getUpdate()
           }
+          //emit a new event when message is sent
+          //event will be emitted for both the sender and receiver
           io.of('/' + data.from_user_id).emit('new messages', { sent_messages: c, date: Date.now() });
           io.of('/' + data.to_user_id).emit('new messages', { received_messages: c, date: Date.now() });
         })
@@ -88,7 +91,7 @@ io.on('connection', function (socket) {
 })
 
 
-
+//routing with express 
 app.use('/user', userRoutes);
 app.use('/post', postRoutes);
 app.use('/', appRoutes);
@@ -97,7 +100,7 @@ app.use('/', appRoutes);
 app.use(function (req, res, next) {
   return res.render('index');
 });
-//var port = process.env.PORT || '3000'
+
 app.listen('3000', function () {
   console.log("Listening for Local Host 3000");
 });

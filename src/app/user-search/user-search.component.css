@@ -15,11 +15,11 @@
 }
 .profile-pic > img{
     height: 100%;
-    width: auto;
-    margin-left: -12px;
+    width: 100%;
+    object-fit: cover;
 }
 .profile-pic{
-    display:inline-block;
+    display:flex;
     border:1px solid rgb(199, 194, 194);
     overflow: hidden;
     width: 100px;

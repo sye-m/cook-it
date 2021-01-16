@@ -1,11 +1,11 @@
 <app-infinite-scroll *ngFor="let post of posts">
-  <app-home-feed-posts-view (changed)="changed($e)"[post]="post"></app-home-feed-posts-view>
+    <app-home-feed-posts-view (changed)="changed($e)" [post]="post"></app-home-feed-posts-view>
 </app-infinite-scroll>
 
 <div id="recommended-users">
-  <div id="title">Users to Follow</div>
-  <hr>
-  <app-infinite-scroll *ngFor="let user of users">
-    <app-users-to-follow [user]="user"></app-users-to-follow>
-  </app-infinite-scroll>
+    <div id="title">Users to Follow</div>
+    <hr>
+    <app-infinite-scroll *ngFor="let user of users">
+        <app-users-to-follow [user]="user"></app-users-to-follow>
+    </app-infinite-scroll>
 </div>

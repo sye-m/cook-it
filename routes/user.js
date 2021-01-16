@@ -66,6 +66,7 @@ router.post('/', function (req, res, next) {
 });
 
 router.post('/login', (req, res, next) => {
+  console.log('in login')
   passport.authenticate('local', function (err, user, info) {
     if (err) { return res.status(501).json(err); }
     if (!user) { return res.status(501).json({ info }); }
@@ -247,10 +248,12 @@ router.post('/editProfile', function (req, res, next) {
   }
 
   var profile_pic = "user_" + req.body.userData.user_id + ".jpg" ;
+  if(req.body.newUserData.profile_pic ){
   fs.unlink("public/assets/profile_pics/" + req.body.userData.user_id + "/" + req.body.userData.userProfile[0].profile_pic, function (err) { });
   fs.writeFile("public/assets/profile_pics/" + profile_pic, new Buffer(req.body.newUserData.profile_pic.image_data, "base64"), function (err) {
     compressImage(profile_pic, req.body.userData.user_id).then(() => { });
   })
+}
 
   if (req.body.newUserData.password != '') {
     User.updateOne({ 'user_id': req.body.userData.user_id }, {
